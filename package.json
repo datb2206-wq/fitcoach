@@ -1,0 +1,9 @@
+{
+  "name": "fitcoach-landing",
+  "private": true,
+  "type": "module",
+  "description": "Landing page (index.html) + trang admin (admin.html) + API trên Vercel: /api/lead (nhận đăng ký) và /api/admin (dữ liệu trang admin)",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0"
+  }
+}

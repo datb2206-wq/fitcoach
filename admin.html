@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>FitCoach Admin | Khách đăng ký</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23131719'/%3E%3Cpath d='M6 18c0-7 4-11 12-12-.5 8-4.5 12-12 12Zm0 0 6-6' fill='%23a3cb4c' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Be Vietnam Pro"', '"Noto Sans SC"', '"Microsoft YaHei"', "ui-sans-serif", "system-ui", "sans-serif"] },
+          colors: {
+            primary: { DEFAULT: "#1089ff", dark: "#006fdc", light: "#e7f2ff" },
+            leaf: { DEFAULT: "#a3cb4c", dark: "#7fa52e", light: "#f1f7e3" },
+            dark: "#131719",
+            light: "#f8f9fd",
+            heading: "#333333",
+          },
+        },
+      },
+    };
+  </script>
+  <style type="text/tailwindcss">
+    body { @apply bg-light font-sans text-sm text-gray-600 antialiased; }
+    @layer components {
+      .card { @apply rounded-lg bg-white p-5 shadow-sm ring-1 ring-black/5; }
+      .btn { @apply inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md px-3.5 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50; }
+      .btn-primary { @apply btn bg-primary text-white hover:bg-primary-dark; }
+      .btn-leaf { @apply btn bg-leaf text-white hover:bg-leaf-dark; }
+      .btn-ghost { @apply btn border border-gray-200 bg-white text-heading hover:border-primary hover:text-primary; }
+      .field { @apply w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-heading outline-none focus:border-primary focus:ring-2 focus:ring-primary/20; }
+      .label { @apply text-[11px] font-semibold uppercase tracking-wider text-gray-400; }
+      .badge { @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===================== ĐĂNG NHẬP ===================== -->
+  <section id="loginView" class="grid min-h-screen place-items-center p-4">
+    <form id="loginForm" class="card w-full max-w-sm space-y-4 p-8">
+      <div>
+        <p class="text-2xl font-bold text-heading">Fit<span class="text-leaf">Coach</span> <span class="text-base font-medium text-gray-400">Admin</span></p>
+        <p class="mt-1">Trang quản lý khách đăng ký, chỉ dành cho admin.</p>
+      </div>
+      <div>
+        <label for="email" class="mb-1 block font-medium text-heading">Email</label>
+        <input id="email" type="email" autocomplete="username" class="field" placeholder="admin@email.com" required />
+      </div>
+      <div>
+        <label for="password" class="mb-1 block font-medium text-heading">Mật khẩu</label>
+        <input id="password" type="password" autocomplete="current-password" class="field" required />
+      </div>
+      <p id="loginError" class="hidden rounded-md bg-red-50 px-3 py-2 text-red-600"></p>
+      <button id="loginBtn" type="submit" class="btn-primary w-full py-2.5">Đăng nhập</button>
+      <p id="demoNote" class="hidden rounded-md bg-primary-light px-3 py-2 text-xs text-primary-dark">
+        Đang mở file trực tiếp: chế độ DEMO với dữ liệu mẫu, nhập email và mật khẩu bất kỳ để xem.
+      </p>
+    </form>
+  </section>
+
+  <!-- ===================== TRANG ADMIN ===================== -->
+  <div id="appView" class="hidden min-h-screen">
+    <header class="sticky top-0 z-20 bg-dark text-white">
+      <div class="mx-auto flex min-h-14 max-w-7xl flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2">
+        <p class="text-lg font-bold">Fit<span class="text-leaf">Coach</span> <span class="text-sm font-medium text-white/50">Admin</span></p>
+        <span id="demoBadge" class="badge hidden bg-leaf text-dark">DEMO</span>
+        <nav class="order-last flex w-full gap-1 md:order-none md:ml-2 md:w-auto" aria-label="Mục quản lý">
+          <button type="button" data-tab="leads" class="tab btn px-3 py-1.5 text-white/70 hover:text-white">👥 Khách đăng ký</button>
+          <button type="button" data-tab="posts" class="tab btn px-3 py-1.5 text-white/70 hover:text-white">📝 Bài đăng</button>
+        </nav>
+        <div class="ml-auto flex items-center gap-2">
+          <a id="viewSiteBtn" href="index.html" target="_blank" rel="noopener" class="btn bg-leaf text-dark hover:bg-leaf-dark hover:text-white">🌐 Xem web</a>
+          <button id="refreshBtn" type="button" class="btn border border-white/20 text-white hover:bg-white/10">⟳ Làm mới</button>
+          <button id="logoutBtn" type="button" class="btn text-white/70 hover:text-white">Đăng xuất</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Cảnh báo chế độ DEMO: mọi thao tác chỉ lưu tạm trong trình duyệt -->
+    <div id="demoBanner" class="hidden border-b border-amber-200 bg-amber-50 px-4 py-2.5 text-center text-amber-800">
+      ⚠️ <b>Đang ở chế độ DEMO</b> (mở file trên máy): khách và bài đăng ở đây là dữ liệu thử, <b>không lưu và không lên web thật</b>.
+      Muốn đăng thật, hãy mở trang admin trên Vercel: <span class="font-semibold">https://tên-trang-của-bạn.vercel.app/admin.html</span>
+    </div>
+
+    <main id="leadsView" class="mx-auto grid max-w-7xl gap-4 p-4 lg:grid-cols-[320px_1fr]">
+      <!-- Danh sách khách -->
+      <aside class="card flex max-h-[calc(100vh-6rem)] flex-col p-0 lg:sticky lg:top-[4.5rem]">
+        <div class="space-y-2 border-b border-gray-100 p-4">
+          <div class="flex items-center justify-between">
+            <p class="font-semibold text-heading">Khách đăng ký</p>
+            <span id="countBadge" class="badge bg-primary-light text-primary-dark">0</span>
+          </div>
+          <input id="search" type="search" placeholder="Tìm tên, email, Facebook…" class="field" />
+          <div id="filters" class="flex gap-1">
+            <button type="button" data-filter="all" class="filter btn flex-1 px-2 py-1 text-xs">Tất cả</button>
+            <button type="button" data-filter="new" class="filter btn flex-1 px-2 py-1 text-xs">Chưa gửi</button>
+            <button type="button" data-filter="sent" class="filter btn flex-1 px-2 py-1 text-xs">Đã gửi</button>
+          </div>
+        </div>
+        <ul id="leadList" class="flex-1 divide-y divide-gray-100 overflow-y-auto"></ul>
+      </aside>
+
+      <!-- Chi tiết khách -->
+      <section id="detail" class="min-w-0 space-y-4">
+        <div id="emptyState" class="card grid min-h-[300px] place-items-center text-center">
+          <div>
+            <p class="text-lg font-semibold text-heading">Chọn một khách ở danh sách bên trái</p>
+            <p class="mt-1">Thông tin, chỉ số và lời khuyên gợi ý sẽ hiện ở đây.</p>
+          </div>
+        </div>
+        <div id="detailBody" class="hidden space-y-4"></div>
+      </section>
+    </main>
+
+    <!-- ===================== BÀI ĐĂNG (BLOG) ===================== -->
+    <main id="postsView" class="mx-auto max-w-7xl gap-4 p-4 lg:grid lg:grid-cols-[320px_1fr]" style="display: none">
+      <aside class="card mb-4 flex max-h-[calc(100vh-6rem)] flex-col p-0 lg:sticky lg:top-[4.5rem] lg:mb-0">
+        <div class="flex items-center justify-between gap-2 border-b border-gray-100 p-4">
+          <p class="font-semibold text-heading">Bài đăng</p>
+          <button id="newPostBtn" type="button" class="btn-primary px-3 py-1.5 text-xs">＋ Bài mới</button>
+        </div>
+        <ul id="postList" class="flex-1 divide-y divide-gray-100 overflow-y-auto"></ul>
+        <p class="border-t border-gray-100 p-3 text-xs">Trang chủ hiện <b>3 bài đã đăng</b> mới nhất ở mục Blog (bài ghim 📌 luôn đứng trước).</p>
+      </aside>
+
+      <section class="card min-w-0 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <p id="postEditorTitle" class="text-lg font-semibold text-heading">Bài mới</p>
+          <span id="postStatus" class="badge bg-gray-100 text-gray-500">Chưa lưu</span>
+        </div>
+
+        <!-- Ảnh bìa -->
+        <div class="grid gap-4 md:grid-cols-[260px_1fr]">
+          <div class="grid aspect-[7/5] place-items-center overflow-hidden rounded-md bg-light ring-1 ring-black/5">
+            <img id="postImgPreview" alt="" class="hidden h-full w-full object-cover" />
+            <span id="postImgEmpty" class="text-xs text-gray-400">Chưa có ảnh bìa</span>
+          </div>
+          <div class="space-y-2">
+            <p class="label">Ảnh bìa</p>
+            <div class="flex flex-wrap gap-2">
+              <label class="btn-ghost cursor-pointer">📷 Tải ảnh lên<input id="postImgFile" type="file" accept="image/*" class="hidden" /></label>
+              <button id="postImgClear" type="button" class="btn-ghost text-red-500">Xoá ảnh</button>
+            </div>
+            <input id="postImgUrl" type="url" placeholder="…hoặc dán link ảnh (https://…)" class="field" />
+            <p class="text-xs text-gray-400">Ảnh tải lên được tự thu nhỏ để trang tải nhanh. Nên dùng ảnh ngang.</p>
+          </div>
+        </div>
+
+        <!-- Nội dung theo ngôn ngữ -->
+        <div>
+          <div class="flex flex-wrap items-end justify-between gap-2 border-b border-gray-100">
+            <div id="postLangTabs" class="flex gap-1"></div>
+            <button id="translateBtn" type="button" class="btn-ghost mb-1.5 px-2.5 py-1 text-xs">🌐 Dịch tiếng Việt → English &amp; 中文</button>
+          </div>
+          <div class="space-y-3 pt-4">
+            <div>
+              <label for="postTitle" class="mb-1 block font-medium text-heading">Tiêu đề</label>
+              <input id="postTitle" maxlength="200" class="field" placeholder="VD: 5 bài tập đốt mỡ bụng tại nhà" />
+            </div>
+            <div>
+              <label for="postExcerpt" class="mb-1 block font-medium text-heading">Tóm tắt <span class="font-normal text-gray-400">(hiện trên thẻ bài ở trang chủ, 1–2 câu)</span></label>
+              <textarea id="postExcerpt" rows="2" maxlength="400" class="field"></textarea>
+            </div>
+            <div>
+              <label for="postContent" class="mb-1 block font-medium text-heading">Nội dung đầy đủ <span class="font-normal text-gray-400">(hiện khi khách bấm “Đọc tiếp”; cách 1 dòng trống để xuống đoạn)</span></label>
+              <textarea id="postContent" rows="12" class="field leading-relaxed"></textarea>
+            </div>
+            <p class="text-xs text-gray-400">Chỉ cần viết <b>tiếng Việt</b>. Khi bấm “Đăng lên web”, bài tự dịch sang English và 中文 (nếu 2 tab đó còn trống). Muốn xem và sửa bản dịch trước khi đăng: bấm “🌐 Dịch…” rồi mở tab English / 中文.</p>
+          </div>
+        </div>
+
+        <label class="flex items-center gap-2 text-heading"><input id="postPinned" type="checkbox" class="h-4 w-4 accent-primary" /> 📌 Ghim lên đầu mục Blog</label>
+
+        <div class="flex flex-wrap justify-end gap-2 border-t border-gray-100 pt-4">
+          <button id="postDeleteBtn" type="button" class="btn-ghost mr-auto hidden text-red-500">Xoá bài</button>
+          <a id="postViewLink" href="index.html#blog" target="_blank" rel="noopener" class="btn-ghost hidden">🌐 Xem bài trên web ↗</a>
+          <button id="postDraftBtn" type="button" class="btn-ghost">💾 Lưu nháp</button>
+          <button id="postPublishBtn" type="button" class="btn-leaf">🚀 Đăng lên web</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Thông báo nhỏ góc màn hình -->
+  <div id="toast" class="pointer-events-none fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-md bg-dark px-4 py-2 text-white opacity-0 shadow-lg transition"></div>
+
+  <script>
+    /* =====================================================================
+     * TRANG ADMIN FITCOACH
+     * - Đăng nhập bằng ADMIN_EMAIL + ADMIN_PASSWORD (khai báo trên Vercel, không nằm trong file này).
+     * - Mỗi khách: thông tin đầy đủ + chỉ số tính sẵn + lời khuyên gợi ý tự động (miễn phí, tính bằng công thức).
+     * - Nút "Viết lại bằng AI" (tuỳ chọn) chỉ chạy khi có ANTHROPIC_API_KEY và chỉ tốn phí khi bấm.
+     * - Admin so sánh, sửa thoải mái ở ô "Bản gửi khách", bấm Copy rồi tự gửi qua Messenger/Telegram/email.
+     * Mở file trực tiếp (bấm đúp) hoặc thêm ?demo => chế độ DEMO với dữ liệu mẫu.
+     * ===================================================================== */
+    const API = "/api/admin";
+    const IS_DEMO = location.protocol === "file:" || new URLSearchParams(location.search).has("demo");
+
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => document.querySelectorAll(s);
+    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+    const state = { email: "", password: "", leads: [], selectedId: null, filter: "new", query: "", aiEnabled: false, adviceLang: null };
+
+    const LANG_LABEL = { vi: "🇻🇳 Tiếng Việt", en: "🇬🇧 English", zh: "🇨🇳 中文" };
+    const ACTIVITY_LABEL = { 1.2: "Ít vận động (ngồi nhiều)", 1.375: "Nhẹ (1–3 buổi/tuần)", 1.55: "Vừa (3–5 buổi/tuần)", 1.725: "Nhiều (6–7 buổi/tuần)" };
+    const GOAL_LABEL = ["Giảm mỡ bụng", "Siết cân, giảm cân toàn thân", "Tăng cơ, săn chắc", "Giảm mỡ sau sinh", "Cải thiện sức khoẻ, vóc dáng"];
+
+    /* ============================ TÍNH CHỈ SỐ ============================ */
+    // BMI, BMR (Mifflin-St Jeor), TDEE, calo mục tiêu, đạm/béo/tinh bột, nước, thời gian dự kiến
+    function metrics(l) {
+      const h = l.height / 100;
+      const bmi = l.weight / (h * h);
+      const bmr = 10 * l.weight + 6.25 * l.height - 5 * l.age + (l.sex === "male" ? 5 : -161);
+      const tdee = bmr * (l.activity || 1.375);
+      const floor = l.sex === "male" ? 1500 : 1200;
+      const round50 = (n) => Math.round(n / 50) * 50;
+      const lossGoal = [0, 1, 3].includes(l.goalIdx);
+      const underweight = bmi < 18.5;
+
+      let kcal;
+      let mode; // "loss" | "gentle" | "maintain" | "gain" | "recomp"
+      if (l.goalIdx === 2) {
+        mode = bmi < 25 ? "gain" : "recomp";
+        kcal = mode === "gain" ? tdee + 250 : tdee - 250;
+      } else if (underweight) {
+        mode = "maintain";
+        kcal = tdee;
+      } else if (l.goalIdx === 3) {
+        mode = "gentle"; // sau sinh: thâm hụt nhẹ, có thể đang cho con bú
+        kcal = tdee * 0.85;
+      } else if (l.goalIdx === 4) {
+        mode = bmi >= 25 ? "gentle" : "maintain";
+        kcal = bmi >= 25 ? tdee * 0.85 : tdee;
+      } else {
+        mode = "loss";
+        kcal = tdee * 0.8;
+      }
+      kcal = Math.max(floor, round50(kcal));
+
+      // Đạm theo cân nặng tham chiếu (béo phì thì dùng cân nặng ứng với BMI 25)
+      const refWeight = bmi > 30 ? 25 * h * h : l.weight;
+      const proteinPerKg = l.goalIdx === 2 ? 2.0 : mode === "maintain" ? 1.4 : 1.8;
+      const protein = Math.round(refWeight * proteinPerKg);
+      const fat = Math.round((kcal * 0.27) / 9);
+      const carbs = Math.max(50, Math.round((kcal - protein * 4 - fat * 9) / 4));
+
+      const weeklyLoss = mode === "loss" ? l.weight * 0.0075 : mode === "gentle" ? l.weight * 0.005 : 0;
+      const toLose = l.target && l.target < l.weight ? l.weight - l.target : 0;
+      const weeks = weeklyLoss && toLose ? Math.ceil(toLose / weeklyLoss) : null;
+      const targetBmi = l.target ? l.target / (h * h) : null;
+      const water = Math.round(l.weight * 0.035 * 10) / 10;
+
+      // Cảnh báo chỉ admin thấy
+      const warnings = [];
+      if (l.age < 18) warnings.push("Khách dưới 18 tuổi: không áp dụng thâm hụt calo, nên có sự đồng ý của phụ huynh.");
+      if (underweight && lossGoal) warnings.push("BMI dưới 18.5 nhưng muốn giảm cân: gợi ý đã chuyển sang duy trì cân + tập săn chắc.");
+      if (targetBmi && targetBmi < 18.5) warnings.push(`Cân nặng mong muốn ứng với BMI ${targetBmi.toFixed(1)} (thiếu cân): nên trao đổi lại mục tiêu.`);
+      if (kcal === floor && (mode === "loss" || mode === "gentle")) warnings.push(`Calo đã chạm mức sàn an toàn ${floor} kcal.`);
+      if (/tiểu đường|đái tháo đường|huyết áp|tim|thận|gan|mang thai|có bầu|bầu|cho con bú|rối loạn ăn|chấn thương|thoát vị|diabet|blood pressure|heart|kidney|pregnan|breastfeed|eating disorder|injur|糖尿病|血压|心脏|怀孕|哺乳|进食障碍|受伤/i.test(l.note || "")) {
+        warnings.push("Ghi chú có nhắc vấn đề sức khoẻ: nên khuyên khách hỏi ý kiến bác sĩ và điều chỉnh lộ trình nhẹ nhàng.");
+      }
+      if (l.goalIdx === 3) warnings.push("Sau sinh: cần bác sĩ đồng ý trước khi tập; nếu đang cho con bú, không nên thâm hụt nhiều.");
+
+      return { bmi, bmr, tdee, kcal, mode, protein, fat, carbs, weeklyLoss, toLose, weeks, targetBmi, water, warnings };
+    }
+
+    const bmiCategory = (bmi, lang) => {
+      const i = bmi < 18.5 ? 0 : bmi < 25 ? 1 : bmi < 30 ? 2 : 3;
+      return { vi: ["thiếu cân", "bình thường", "thừa cân", "béo phì"], en: ["underweight", "healthy range", "overweight", "obesity"], zh: ["偏瘦", "正常", "超重", "肥胖"] }[lang][i];
+    };
+
+    /* ============================ LỜI KHUYÊN TỰ ĐỘNG ============================ */
+    // Viết bằng công thức, theo ngôn ngữ khách. Admin sửa tự do trước khi gửi.
+    function buildAdvice(l, lang) {
+      const m = metrics(l);
+      const loc = { vi: "vi-VN", en: "en-US", zh: "zh-CN" }[lang];
+      const n = (x) => Math.round(x).toLocaleString(loc);
+      const d1 = (x) => (Math.round(x * 10) / 10).toLocaleString(loc);
+      const first = String(l.name).trim().split(/\s+/)[0];
+      return ADVICE[lang](l, m, { n, d1, first, cat: bmiCategory(m.bmi, lang) });
+    }
+
+    const ADVICE = {
+      vi(l, m, f) {
+        const lines = [`Chào ${f.first}! Cảm ơn bạn đã đăng ký FitCoach. Dựa trên thông tin bạn gửi, mình gợi ý lộ trình khởi đầu như sau:`, ""];
+        lines.push("📊 Chỉ số hiện tại", `- BMI: ${f.d1(m.bmi)} (${f.cat})`, `- Năng lượng cơ thể tiêu hao mỗi ngày (TDEE): khoảng ${f.n(m.tdee)} kcal`, "");
+        lines.push("🎯 Mục tiêu");
+        if (m.mode === "loss" || m.mode === "gentle") {
+          lines.push(`- Ăn khoảng ${f.n(m.kcal)} kcal/ngày, giảm khoảng ${f.d1(m.weeklyLoss)} kg/tuần một cách an toàn`);
+          if (m.weeks) lines.push(`- Từ ${l.weight} kg về ${l.target} kg: khoảng ${m.weeks} tuần nếu duy trì đều đặn`);
+        } else if (m.mode === "gain") {
+          lines.push(`- Ăn khoảng ${f.n(m.kcal)} kcal/ngày (dư nhẹ) để tăng cơ, hạn chế tăng mỡ`);
+        } else if (m.mode === "recomp") {
+          lines.push(`- Ăn khoảng ${f.n(m.kcal)} kcal/ngày (thâm hụt nhẹ) để giảm mỡ và tăng cơ cùng lúc`);
+        } else {
+          lines.push(`- Ăn khoảng ${f.n(m.kcal)} kcal/ngày để giữ cân, tập trung săn chắc và khoẻ hơn`);
+        }
+        lines.push("");
+        lines.push("🍽 Ăn uống",
+          `- Đạm: khoảng ${m.protein} g/ngày (ức gà, cá, trứng, sữa chua Hy Lạp, đậu phụ)`,
+          `- Chất béo: khoảng ${m.fat} g, tinh bột: khoảng ${m.carbs} g/ngày (ưu tiên yến mạch, gạo lứt, khoai, bánh mì nguyên cám)`,
+          "- Mỗi bữa: 1/2 đĩa rau, 1/4 đạm, 1/4 tinh bột",
+          `- Uống khoảng ${f.d1(m.water)} lít nước/ngày, hạn chế đồ uống có đường và rượu bia`, "");
+        lines.push("🏋️ Tập luyện", ...TRAINING.vi[l.goalIdx], "- Đi bộ 8.000–10.000 bước mỗi ngày", "");
+        lines.push("😴 Thói quen", "- Ngủ 7–8 tiếng mỗi đêm", "- Cân vào buổi sáng 1–2 lần/tuần, đo vòng eo mỗi 2 tuần", "");
+        lines.push("Đây là gợi ý khởi đầu, Coach sẽ điều chỉnh chi tiết theo lịch sinh hoạt và cơ địa của bạn. Có câu hỏi gì bạn cứ nhắn mình nhé! 💪", "— Coach Sarah Johnson");
+        return lines.join("\n");
+      },
+      en(l, m, f) {
+        const lines = [`Hi ${f.first}! Thanks for signing up with FitCoach. Based on the details you shared, here is a suggested starting plan:`, ""];
+        lines.push("📊 Where you are now", `- BMI: ${f.d1(m.bmi)} (${f.cat})`, `- Daily energy expenditure (TDEE): about ${f.n(m.tdee)} kcal`, "");
+        lines.push("🎯 Your target");
+        if (m.mode === "loss" || m.mode === "gentle") {
+          lines.push(`- Eat about ${f.n(m.kcal)} kcal a day to lose about ${f.d1(m.weeklyLoss)} kg per week safely`);
+          if (m.weeks) lines.push(`- From ${l.weight} kg to ${l.target} kg: about ${m.weeks} weeks if you stay consistent`);
+        } else if (m.mode === "gain") {
+          lines.push(`- Eat about ${f.n(m.kcal)} kcal a day (a small surplus) to build muscle with minimal fat gain`);
+        } else if (m.mode === "recomp") {
+          lines.push(`- Eat about ${f.n(m.kcal)} kcal a day (a small deficit) to lose fat and build muscle at the same time`);
+        } else {
+          lines.push(`- Eat about ${f.n(m.kcal)} kcal a day to maintain your weight while getting fitter and more toned`);
+        }
+        lines.push("");
+        lines.push("🍽 Nutrition",
+          `- Protein: about ${m.protein} g a day (chicken breast, fish, eggs, Greek yogurt, tofu)`,
+          `- Fat: about ${m.fat} g, carbs: about ${m.carbs} g a day (oats, brown rice, potatoes, whole-grain bread)`,
+          "- Each meal: 1/2 plate vegetables, 1/4 protein, 1/4 carbs",
+          `- Drink about ${f.d1(m.water)} liters of water a day; limit sugary drinks and alcohol`, "");
+        lines.push("🏋️ Training", ...TRAINING.en[l.goalIdx], "- Walk 8,000–10,000 steps a day", "");
+        lines.push("😴 Habits", "- Sleep 7–8 hours a night", "- Weigh yourself in the morning 1–2 times a week and measure your waist every 2 weeks", "");
+        lines.push("This is a starting point. Coach will fine-tune the details to your schedule and body. Message me anytime with questions! 💪", "— Coach Sarah Johnson");
+        return lines.join("\n");
+      },
+      zh(l, m, f) {
+        const lines = [`${f.first}你好！感谢你报名FitCoach。根据你提供的信息，我为你准备了一份入门建议：`, ""];
+        lines.push("📊 目前情况", `- BMI：${f.d1(m.bmi)}（${f.cat}）`, `- 每日总能量消耗（TDEE）：约${f.n(m.tdee)}千卡`, "");
+        lines.push("🎯 目标");
+        if (m.mode === "loss" || m.mode === "gentle") {
+          lines.push(`- 每天摄入约${f.n(m.kcal)}千卡，每周安全减重约${f.d1(m.weeklyLoss)}公斤`);
+          if (m.weeks) lines.push(`- 从${l.weight}公斤减到${l.target}公斤：坚持下来约需${m.weeks}周`);
+        } else if (m.mode === "gain") {
+          lines.push(`- 每天摄入约${f.n(m.kcal)}千卡（小幅盈余），增肌同时尽量少长脂肪`);
+        } else if (m.mode === "recomp") {
+          lines.push(`- 每天摄入约${f.n(m.kcal)}千卡（小幅缺口），同时减脂增肌`);
+        } else {
+          lines.push(`- 每天摄入约${f.n(m.kcal)}千卡保持体重，重点提升体能和线条`);
+        }
+        lines.push("");
+        lines.push("🍽 饮食",
+          `- 蛋白质：每天约${m.protein}克（鸡胸肉、鱼、鸡蛋、希腊酸奶、豆腐）`,
+          `- 脂肪：约${m.fat}克，碳水：每天约${m.carbs}克（燕麦、糙米、土豆、全麦面包）`,
+          "- 每餐：1/2盘蔬菜、1/4蛋白质、1/4主食",
+          `- 每天喝约${f.d1(m.water)}升水，少喝含糖饮料和酒`, "");
+        lines.push("🏋️ 训练", ...TRAINING.zh[l.goalIdx], "- 每天步行8,000–10,000步", "");
+        lines.push("😴 习惯", "- 每晚睡7–8小时", "- 每周早晨称重1–2次，每2周量一次腰围", "");
+        lines.push("这是入门建议，教练会根据你的作息和体质进一步调整细节。有任何问题随时联系我！💪", "— Sarah Johnson教练");
+        return lines.join("\n");
+      },
+    };
+
+    // Gợi ý tập theo mục tiêu (thứ tự giống danh sách mục tiêu trên form)
+    const TRAINING = {
+      vi: [
+        ["- 3 buổi tập sức mạnh toàn thân/tuần (squat, đẩy, kéo, plank), mỗi buổi 40–45 phút", "- 1–2 buổi cardio hoặc HIIT 20 phút", "- Lưu ý: không thể giảm mỡ riêng ở bụng, mỡ bụng giảm khi tổng lượng mỡ cơ thể giảm"],
+        ["- 3 buổi tập sức mạnh toàn thân/tuần, mỗi buổi 40–45 phút", "- 2 buổi cardio vừa sức 30–40 phút (đi nhanh, đạp xe, bơi)"],
+        ["- 4 buổi tập sức mạnh/tuần (chia thân trên/thân dưới)", "- Tăng dần mức tạ hoặc số lần mỗi tuần", "- 1–2 buổi cardio nhẹ để hỗ trợ tim mạch"],
+        ["- Bắt đầu bằng bài thở, cơ sàn chậu và phục hồi tách cơ bụng; tránh gập bụng (crunch) giai đoạn đầu", "- 3 buổi tập nhẹ toàn thân 20–30 phút/tuần, tăng dần", "- Nên được bác sĩ đồng ý trước khi tập (thường sau 6–8 tuần sau sinh)"],
+        ["- 2–3 buổi tập sức mạnh toàn thân/tuần", "- Khoảng 150 phút cardio vừa sức mỗi tuần", "- Thêm 10 phút giãn cơ hoặc yoga sau mỗi buổi"],
+      ],
+      en: [
+        ["- 3 full-body strength sessions a week (squats, pushes, pulls, planks), 40–45 minutes each", "- 1–2 cardio or 20-minute HIIT sessions", "- Note: you can't spot-reduce belly fat; it shrinks as your overall body fat drops"],
+        ["- 3 full-body strength sessions a week, 40–45 minutes each", "- 2 moderate cardio sessions of 30–40 minutes (brisk walking, cycling, swimming)"],
+        ["- 4 strength sessions a week (upper/lower body split)", "- Gradually increase weight or reps every week", "- 1–2 light cardio sessions for heart health"],
+        ["- Start with breathing, pelvic floor and ab-separation recovery exercises; avoid crunches early on", "- 3 gentle full-body sessions of 20–30 minutes a week, building up gradually", "- Get your doctor's clearance before training (usually 6–8 weeks after birth)"],
+        ["- 2–3 full-body strength sessions a week", "- About 150 minutes of moderate cardio a week", "- Add 10 minutes of stretching or yoga after each session"],
+      ],
+      zh: [
+        ["- 每周3次全身力量训练（深蹲、推、拉、平板支撑），每次40–45分钟", "- 1–2次有氧或20分钟HIIT", "- 注意：无法只减腹部脂肪，全身脂肪下降时腹部自然会变小"],
+        ["- 每周3次全身力量训练，每次40–45分钟", "- 2次30–40分钟中等强度有氧（快走、骑车、游泳）"],
+        ["- 每周4次力量训练（上下肢分化）", "- 每周逐步增加重量或次数", "- 1–2次轻度有氧，保持心肺健康"],
+        ["- 从呼吸、盆底肌和腹直肌分离修复训练开始，初期避免卷腹", "- 每周3次20–30分钟的轻度全身训练，逐步加量", "- 训练前需医生同意（通常在产后6–8周）"],
+        ["- 每周2–3次全身力量训练", "- 每周约150分钟中等强度有氧", "- 每次训练后做10分钟拉伸或瑜伽"],
+      ],
+    };
+
+    /* ============================ GỌI API ============================ */
+    async function api(method, body) {
+      const res = await fetch(API, {
+        method,
+        headers: { "Content-Type": "application/json", "x-admin-email": state.email, "x-admin-password": state.password },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const err = new Error(data.error || "HTTP " + res.status);
+        err.status = res.status;
+        throw err;
+      }
+      return data;
+    }
+
+    function toast(msg) {
+      const t = $("#toast");
+      t.textContent = msg;
+      t.classList.remove("opacity-0");
+      clearTimeout(toast.timer);
+      toast.timer = setTimeout(() => t.classList.add("opacity-0"), 2200);
+    }
+
+    /* ============================ ĐĂNG NHẬP ============================ */
+    async function login(email, password) {
+      state.email = email.trim();
+      state.password = password;
+      if (IS_DEMO) {
+        state.leads = demoLeads();
+        state.posts = demoPosts();
+        state.aiEnabled = false;
+      } else {
+        const data = await api("GET");
+        state.leads = data.leads;
+        state.posts = data.posts || [];
+        state.aiEnabled = data.aiEnabled;
+      }
+      try { sessionStorage.setItem("fitcoach-admin", JSON.stringify({ email: state.email, password })); } catch (e) {}
+      $("#loginView").classList.add("hidden");
+      $("#appView").classList.remove("hidden");
+      $("#demoBadge").classList.toggle("hidden", !IS_DEMO);
+      $("#demoBanner").classList.toggle("hidden", !IS_DEMO);
+      renderList();
+      openPost(null);
+      showTab("leads");
+      // Mở thẳng khách từ link Telegram (admin.html#<id>)
+      const fromHash = location.hash.slice(1);
+      if (fromHash && state.leads.some((l) => l.id === fromHash)) {
+        state.filter = "all";
+        renderList();
+        select(fromHash);
+      }
+    }
+
+    $("#loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = $("#loginBtn");
+      btn.disabled = true;
+      $("#loginError").classList.add("hidden");
+      try {
+        await login($("#email").value, $("#password").value);
+      } catch (err) {
+        const msg = err.status === 401 ? "Sai email hoặc mật khẩu." : err.status === 503 ? "Server chưa cấu hình ADMIN_EMAIL, ADMIN_PASSWORD hoặc Upstash Redis." : "Không kết nối được server.";
+        $("#loginError").textContent = msg;
+        $("#loginError").classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    $("#logoutBtn").addEventListener("click", () => {
+      try { sessionStorage.removeItem("fitcoach-admin"); } catch (e) {}
+      location.hash = "";
+      location.reload();
+    });
+
+    $("#refreshBtn").addEventListener("click", async () => {
+      if (IS_DEMO) return toast("Chế độ demo: không có dữ liệu mới");
+      try {
+        const data = await api("GET");
+        state.leads = data.leads;
+        state.posts = data.posts || [];
+        renderList();
+        renderPostList();
+        if (state.selectedId) select(state.selectedId, { keepEditor: true });
+        toast("Đã cập nhật danh sách");
+      } catch (err) {
+        toast("Không tải được danh sách");
+      }
+    });
+
+    /* ============================ DANH SÁCH ============================ */
+    function timeAgo(iso) {
+      const s = (Date.now() - new Date(iso)) / 1000;
+      if (s < 60) return "vừa xong";
+      if (s < 3600) return `${Math.floor(s / 60)} phút trước`;
+      if (s < 86400) return `${Math.floor(s / 3600)} giờ trước`;
+      return new Date(iso).toLocaleDateString("vi-VN");
+    }
+
+    function renderList() {
+      const q = state.query.toLowerCase();
+      const list = state.leads.filter(
+        (l) =>
+          (state.filter === "all" || l.status === state.filter) &&
+          (!q || `${l.name} ${l.contact}`.toLowerCase().includes(q)),
+      );
+      $("#countBadge").textContent = state.leads.filter((l) => l.status === "new").length + " chưa gửi";
+      $$(".filter").forEach((b) => {
+        const on = b.dataset.filter === state.filter;
+        b.classList.toggle("bg-primary", on);
+        b.classList.toggle("text-white", on);
+        b.classList.toggle("bg-light", !on);
+      });
+      $("#leadList").innerHTML = list.length
+        ? list
+            .map(
+              (l) => `
+          <li>
+            <button type="button" data-id="${l.id}" class="lead-item block w-full px-4 py-3 text-left transition hover:bg-light ${l.id === state.selectedId ? "bg-primary-light" : ""}">
+              <div class="flex items-center justify-between gap-2">
+                <span class="truncate font-semibold text-heading">${esc(l.name)}</span>
+                ${l.status === "sent" ? '<span class="badge bg-leaf-light text-leaf-dark">Đã gửi</span>' : '<span class="badge bg-red-50 text-red-500">Mới</span>'}
+              </div>
+              <div class="mt-0.5 truncate text-xs">${esc(GOAL_LABEL[l.goalIdx] || l.goal)} · ${l.weight} kg${l.target ? " → " + l.target + " kg" : ""}</div>
+              <div class="mt-0.5 flex justify-between text-[11px] text-gray-400"><span>${LANG_LABEL[l.lang] || ""}</span><span>${timeAgo(l.createdAt)}</span></div>
+            </button>
+          </li>`,
+            )
+            .join("")
+        : '<li class="p-6 text-center text-gray-400">Không có khách nào</li>';
+    }
+
+    $("#leadList").addEventListener("click", (e) => {
+      const item = e.target.closest(".lead-item");
+      if (item) select(item.dataset.id);
+    });
+    $("#search").addEventListener("input", (e) => {
+      state.query = e.target.value.trim();
+      renderList();
+    });
+    $("#filters").addEventListener("click", (e) => {
+      const b = e.target.closest(".filter");
+      if (!b) return;
+      state.filter = b.dataset.filter;
+      renderList();
+    });
+
+    /* ============================ CHI TIẾT KHÁCH ============================ */
+    const contactLink = (c) => {
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c)) return `mailto:${c}`;
+      if (/^@[A-Za-z0-9_]{5,}$/.test(c)) return `https://t.me/${c.slice(1)}`;
+      if (/^(https?:\/\/)?(www\.)?(facebook\.com|fb\.com|fb\.me|m\.me|t\.me)\//i.test(c)) return c.startsWith("http") ? c : `https://${c}`;
+      return null;
+    };
+
+    const row = (label, value) => `<div><p class="label">${label}</p><p class="mt-0.5 text-heading">${value}</p></div>`;
+    const stat = (label, value, sub = "") => `<div class="rounded-md bg-light p-3"><p class="label">${label}</p><p class="mt-1 text-lg font-semibold text-heading">${value}</p>${sub ? `<p class="text-xs">${sub}</p>` : ""}</div>`;
+
+    function select(id, { keepEditor = false } = {}) {
+      const l = state.leads.find((x) => x.id === id);
+      if (!l) return;
+      const editorWas = keepEditor && $("#finalText") ? $("#finalText").value : null;
+      state.selectedId = id;
+      if (!keepEditor) state.adviceLang = l.lang;
+      history.replaceState(null, "", `${location.pathname}${location.search}#${id}`);
+      renderList();
+
+      const m = metrics(l);
+      const link = contactLink(l.contact);
+      const suggestion = buildAdvice(l, state.adviceLang);
+
+      $("#emptyState").classList.add("hidden");
+      const body = $("#detailBody");
+      body.classList.remove("hidden");
+      body.innerHTML = `
+        <div class="card">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p class="text-xl font-semibold text-heading">${esc(l.name)}</p>
+              <p class="mt-0.5 text-xs">Đăng ký ${new Date(l.createdAt).toLocaleString("vi-VN")} · ${LANG_LABEL[l.lang] || ""}</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              ${l.status === "sent"
+                ? `<span class="badge bg-leaf-light px-3 py-1.5 text-leaf-dark">✅ Đã gửi${l.sentAt ? " " + new Date(l.sentAt).toLocaleDateString("vi-VN") : ""}</span>`
+                : '<span class="badge bg-red-50 px-3 py-1.5 text-red-500">Chưa gửi lời khuyên</span>'}
+              <button id="deleteBtn" type="button" class="btn-ghost px-2.5 py-1 text-xs text-red-500 hover:border-red-400 hover:text-red-600">Xoá</button>
+            </div>
+          </div>
+          <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            ${row("Liên hệ", `${esc(l.contact)} <button type="button" data-copy="${esc(l.contact)}" class="ml-1 text-xs text-primary">copy</button>${link ? ` <a href="${esc(link)}" target="_blank" rel="noopener noreferrer" class="text-xs text-primary">mở ↗</a>` : ""}`)}
+            ${row("Giới tính / tuổi", `${l.sex === "male" ? "Nam" : "Nữ"}, ${l.age} tuổi`)}
+            ${row("Chiều cao / cân nặng", `${l.height} cm · ${l.weight} kg`)}
+            ${row("Cân nặng mong muốn", l.target ? `${l.target} kg (${l.target < l.weight ? "-" + (Math.round((l.weight - l.target) * 10) / 10) + " kg" : "giữ / tăng"})` : "—")}
+            ${row("Mục tiêu", esc(GOAL_LABEL[l.goalIdx] || l.goal))}
+            ${row("Gói quan tâm", esc(l.plan || "Chưa chọn"))}
+            ${row("Mức vận động", ACTIVITY_LABEL[l.activity] || "—")}
+            ${row("Ghi chú", esc(l.note || "—"))}
+          </div>
+        </div>
+
+        <div class="card">
+          <p class="font-semibold text-heading">📊 Chỉ số tính sẵn</p>
+          <div class="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
+            ${stat("BMI", (Math.round(m.bmi * 10) / 10).toString(), bmiCategory(m.bmi, "vi"))}
+            ${stat("BMR", Math.round(m.bmr) + " kcal", "chuyển hoá cơ bản")}
+            ${stat("TDEE", Math.round(m.tdee) + " kcal", "tiêu hao mỗi ngày")}
+            ${stat("Calo mục tiêu", m.kcal + " kcal", { loss: "thâm hụt ~20%", gentle: "thâm hụt nhẹ ~15%", maintain: "giữ cân", gain: "dư ~250 kcal", recomp: "thâm hụt ~250 kcal" }[m.mode])}
+            ${stat("Đạm", m.protein + " g", "mỗi ngày")}
+            ${stat("Béo / Tinh bột", `${m.fat} g / ${m.carbs} g`, "mỗi ngày")}
+            ${stat("Nước", m.water + " lít", "mỗi ngày")}
+            ${stat("Thời gian dự kiến", m.weeks ? m.weeks + " tuần" : "—", m.weeklyLoss ? `~${Math.round(m.weeklyLoss * 10) / 10} kg/tuần` : "")}
+          </div>
+          ${m.warnings.length ? `<ul class="mt-3 space-y-1.5 rounded-md bg-amber-50 p-3 text-amber-800">${m.warnings.map((w) => `<li>⚠️ ${esc(w)}</li>`).join("")}</ul>` : ""}
+        </div>
+
+        <div class="card">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <p class="font-semibold text-heading">💬 Lời khuyên gửi khách</p>
+            <div class="flex items-center gap-2 text-xs">
+              <span>Ngôn ngữ gợi ý:</span>
+              <select id="adviceLang" class="field w-auto py-1 text-xs">
+                ${Object.keys(LANG_LABEL).map((k) => `<option value="${k}" ${k === state.adviceLang ? "selected" : ""}>${LANG_LABEL[k]}</option>`).join("")}
+              </select>
+            </div>
+          </div>
+          <div class="mt-3 grid gap-4 xl:grid-cols-2">
+            <div class="flex flex-col">
+              <div class="mb-1.5 flex items-center justify-between">
+                <p class="label">Gợi ý <span id="suggestSource">tự động (công thức)</span></p>
+                <div class="flex gap-1.5">
+                  <button id="aiBtn" type="button" class="btn-ghost px-2.5 py-1 text-xs" ${state.aiEnabled || IS_DEMO ? "" : 'disabled title="Chưa cấu hình ANTHROPIC_API_KEY trên Vercel"'}>✨ Viết lại bằng AI</button>
+                  <button id="useSuggestBtn" type="button" class="btn-ghost px-2.5 py-1 text-xs">Dùng bản này →</button>
+                </div>
+              </div>
+              <textarea id="suggestText" readonly rows="18" class="field flex-1 resize-y bg-light font-sans leading-relaxed"></textarea>
+            </div>
+            <div class="flex flex-col">
+              <div class="mb-1.5 flex items-center justify-between">
+                <p class="label">Bản gửi khách (sửa tự do)</p>
+                <span id="saveState" class="text-[11px] text-gray-400"></span>
+              </div>
+              <textarea id="finalText" rows="18" class="field flex-1 resize-y leading-relaxed" placeholder="Bấm “Dùng bản này →” hoặc tự viết lời khuyên ở đây…"></textarea>
+            </div>
+          </div>
+          <div class="mt-4 flex flex-wrap justify-end gap-2">
+            <button id="saveBtn" type="button" class="btn-ghost">💾 Lưu nháp</button>
+            <button id="copyBtn" type="button" class="btn-primary">📋 Copy để gửi khách</button>
+            <button id="sentBtn" type="button" class="${l.status === "sent" ? "btn-ghost" : "btn-leaf"}">${l.status === "sent" ? "↺ Đánh dấu chưa gửi" : "✅ Đánh dấu đã gửi"}</button>
+          </div>
+        </div>`;
+
+      $("#suggestText").value = suggestion;
+      $("#finalText").value = editorWas ?? l.advice ?? "";
+      $("#saveState").textContent = l.adviceUpdatedAt ? "Đã lưu " + timeAgo(l.adviceUpdatedAt) : "";
+      bindDetail(l);
+      if (window.innerWidth < 1024) $("#detail").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function bindDetail(l) {
+      $("#adviceLang").addEventListener("change", (e) => {
+        state.adviceLang = e.target.value;
+        $("#suggestText").value = buildAdvice(l, state.adviceLang);
+        $("#suggestSource").textContent = "tự động (công thức)";
+      });
+
+      $("#useSuggestBtn").addEventListener("click", () => {
+        const fin = $("#finalText");
+        if (fin.value.trim() && !confirm("Thay nội dung đang soạn bằng bản gợi ý?")) return;
+        fin.value = $("#suggestText").value;
+        $("#saveState").textContent = "Chưa lưu";
+      });
+
+      $("#finalText").addEventListener("input", () => ($("#saveState").textContent = "Chưa lưu"));
+
+      $("#aiBtn").addEventListener("click", async () => {
+        const btn = $("#aiBtn");
+        btn.disabled = true;
+        btn.textContent = "Đang viết…";
+        try {
+          let text;
+          if (IS_DEMO) {
+            await new Promise((r) => setTimeout(r, 900));
+            text = "(Demo) Khi chạy trên Vercel có ANTHROPIC_API_KEY, AI sẽ viết lại bản gợi ý thành một tin nhắn tự nhiên, cá nhân hoá theo ghi chú của khách.\n\n" + $("#suggestText").value;
+          } else {
+            text = (await api("POST", { action: "ai", id: l.id, lang: state.adviceLang, draft: buildAdvice(l, state.adviceLang) })).text;
+          }
+          $("#suggestText").value = text;
+          $("#suggestSource").textContent = "do AI viết lại";
+          toast("AI đã viết xong, so sánh rồi bấm “Dùng bản này →”");
+        } catch (err) {
+          toast(err.status === 501 ? "Chưa cấu hình ANTHROPIC_API_KEY" : "AI chưa viết được, thử lại sau");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "✨ Viết lại bằng AI";
+        }
+      });
+
+      $("#saveBtn").addEventListener("click", () => saveLead(l, { advice: $("#finalText").value }, "Đã lưu nháp"));
+
+      $("#copyBtn").addEventListener("click", async () => {
+        const text = $("#finalText").value.trim();
+        if (!text) return toast("Ô “Bản gửi khách” đang trống");
+        await copy(text);
+        toast("Đã copy, dán vào Messenger / Telegram / email để gửi khách");
+        if (text !== (l.advice || "")) saveLead(l, { advice: text }, null);
+      });
+
+      $("#sentBtn").addEventListener("click", () =>
+        saveLead(l, { advice: $("#finalText").value, status: l.status === "sent" ? "new" : "sent" }, l.status === "sent" ? "Đã chuyển về Chưa gửi" : "Đã đánh dấu đã gửi"),
+      );
+
+      $("#deleteBtn").addEventListener("click", async () => {
+        if (!confirm(`Xoá khách ${l.name}? Không khôi phục được.`)) return;
+        try {
+          if (!IS_DEMO) await api("POST", { action: "delete", id: l.id });
+          state.leads = state.leads.filter((x) => x.id !== l.id);
+          state.selectedId = null;
+          $("#detailBody").classList.add("hidden");
+          $("#emptyState").classList.remove("hidden");
+          renderList();
+          toast("Đã xoá");
+        } catch (err) {
+          toast("Xoá thất bại");
+        }
+      });
+
+      $$("[data-copy]").forEach((b) => b.addEventListener("click", async () => {
+        await copy(b.dataset.copy);
+        toast("Đã copy thông tin liên hệ");
+      }));
+    }
+
+    async function saveLead(l, changes, okMessage) {
+      try {
+        let updated;
+        if (IS_DEMO) {
+          updated = { ...l, ...changes, adviceUpdatedAt: new Date().toISOString() };
+          if (changes.status) updated.sentAt = changes.status === "sent" ? new Date().toISOString() : null;
+        } else {
+          updated = (await api("POST", { action: "save", id: l.id, ...changes })).lead;
+        }
+        state.leads = state.leads.map((x) => (x.id === l.id ? updated : x));
+        if (changes.status) select(l.id, { keepEditor: true });
+        else {
+          Object.assign(l, updated);
+          $("#saveState").textContent = "Đã lưu vừa xong";
+          renderList();
+        }
+        if (okMessage) toast(okMessage);
+      } catch (err) {
+        toast("Lưu thất bại, thử lại nhé");
+      }
+    }
+
+    async function copy(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        // Trình duyệt chặn clipboard -> cách dự phòng
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+    }
+
+    /* ============================ TAB: KHÁCH / BÀI ĐĂNG ============================ */
+    function showTab(tab) {
+      state.tab = tab;
+      $("#leadsView").style.display = tab === "leads" ? "" : "none";
+      $("#postsView").style.display = tab === "posts" ? "" : "none";
+      $$(".tab").forEach((b) => {
+        const on = b.dataset.tab === tab;
+        b.classList.toggle("bg-white/15", on);
+        b.classList.toggle("text-white", on);
+      });
+      if (tab === "posts") renderPostList();
+    }
+    $$(".tab").forEach((b) => b.addEventListener("click", () => showTab(b.dataset.tab)));
+
+    /* ============================ BÀI ĐĂNG (BLOG) ============================ */
+    // Admin viết bài -> "Đăng lên web" -> trang chủ tự hiện ở mục Blog (qua /api/posts)
+    const POST_LANGS = { vi: "🇻🇳 Tiếng Việt", en: "🇬🇧 English", zh: "🇨🇳 中文" };
+    const emptyPost = () => ({ id: null, status: "draft", pinned: false, image: "", i18n: { vi: {}, en: {}, zh: {} } });
+    state.posts = [];
+    state.editing = emptyPost();
+    state.postLang = "vi";
+
+    const postTitle = (p) => p.i18n?.vi?.title || p.i18n?.en?.title || p.i18n?.zh?.title || "(Chưa có tiêu đề)";
+
+    function renderPostList() {
+      $("#postList").innerHTML = state.posts.length
+        ? state.posts
+            .map(
+              (p) => `
+          <li>
+            <button type="button" data-post="${p.id}" class="post-item block w-full px-4 py-3 text-left transition hover:bg-light ${p.id === state.editing.id ? "bg-primary-light" : ""}">
+              <div class="flex items-start justify-between gap-2">
+                <span class="line-clamp-2 font-semibold text-heading">${p.pinned ? "📌 " : ""}${esc(postTitle(p))}</span>
+                ${p.status === "published" ? '<span class="badge shrink-0 bg-leaf-light text-leaf-dark">Đã đăng</span>' : '<span class="badge shrink-0 bg-gray-100 text-gray-500">Nháp</span>'}
+              </div>
+              <div class="mt-0.5 text-[11px] text-gray-400">${new Date(p.publishedAt || p.updatedAt || p.createdAt).toLocaleString("vi-VN")} · ${Object.keys(p.i18n || {}).map((k) => k.toUpperCase()).join(" / ")}</div>
+            </button>
+          </li>`,
+            )
+            .join("")
+        : '<li class="p-6 text-center text-gray-400">Chưa có bài nào. Bấm “＋ Bài mới”.</li>';
+    }
+
+    // Lưu nội dung ô đang gõ vào bài đang soạn
+    function captureLangFields() {
+      state.editing.i18n[state.postLang] = {
+        title: $("#postTitle").value.trim(),
+        excerpt: $("#postExcerpt").value.trim(),
+        content: $("#postContent").value.trim(),
+      };
+    }
+
+    function renderLangTabs() {
+      $("#postLangTabs").innerHTML = Object.entries(POST_LANGS)
+        .map(([k, label]) => {
+          const filled = state.editing.i18n[k]?.title;
+          const on = k === state.postLang;
+          return `<button type="button" data-lang="${k}" class="post-lang -mb-px border-b-2 px-3 py-2 text-sm ${on ? "border-primary font-semibold text-primary" : "border-transparent text-gray-500 hover:text-heading"}">${label}${filled ? ' <span class="text-leaf">●</span>' : ""}</button>`;
+        })
+        .join("");
+    }
+
+    function fillLangFields() {
+      const f = state.editing.i18n[state.postLang] || {};
+      $("#postTitle").value = f.title || "";
+      $("#postExcerpt").value = f.excerpt || "";
+      $("#postContent").value = f.content || "";
+      renderLangTabs();
+    }
+
+    function setImage(src) {
+      state.editing.image = src || "";
+      $("#postImgPreview").src = src || "";
+      $("#postImgPreview").classList.toggle("hidden", !src);
+      $("#postImgEmpty").classList.toggle("hidden", !!src);
+      $("#postImgUrl").value = src && !src.startsWith("data:") ? src : "";
+    }
+
+    function openPost(p) {
+      state.editing = p ? JSON.parse(JSON.stringify(p)) : emptyPost();
+      state.editing.i18n = { vi: {}, en: {}, zh: {}, ...state.editing.i18n };
+      state.postLang = "vi";
+      fillLangFields();
+      setImage(state.editing.image);
+      $("#postPinned").checked = !!state.editing.pinned;
+      const published = state.editing.status === "published";
+      $("#postEditorTitle").textContent = p ? "Sửa bài" : "Bài mới";
+      $("#postStatus").textContent = !p ? "Chưa lưu" : published ? "Đang hiển thị trên web" : "Bản nháp (chưa hiện trên web)";
+      $("#postStatus").className = `badge ${published ? "bg-leaf-light text-leaf-dark" : "bg-gray-100 text-gray-500"}`;
+      $("#postPublishBtn").textContent = published ? "🚀 Cập nhật bài trên web" : "🚀 Đăng lên web";
+      $("#postDraftBtn").textContent = published ? "⬇ Gỡ xuống (chuyển nháp)" : "💾 Lưu nháp";
+      $("#postDeleteBtn").classList.toggle("hidden", !p);
+      $("#postViewLink").classList.toggle("hidden", !published);
+      // Mở thẳng bài này trên trang chủ (bản demo không có bài thật nên chỉ mở mục Blog)
+      $("#postViewLink").href = published && !IS_DEMO ? `index.html#post-${state.editing.id}` : "index.html#blog";
+      renderPostList();
+    }
+
+    $("#postLangTabs").addEventListener("click", (e) => {
+      const b = e.target.closest(".post-lang");
+      if (!b) return;
+      captureLangFields();
+      state.postLang = b.dataset.lang;
+      fillLangFields();
+    });
+    $("#postTitle").addEventListener("input", () => {
+      captureLangFields();
+      renderLangTabs();
+    });
+    $("#postList").addEventListener("click", (e) => {
+      const b = e.target.closest(".post-item");
+      if (b) openPost(state.posts.find((p) => p.id === b.dataset.post));
+    });
+    $("#newPostBtn").addEventListener("click", () => openPost(null));
+    $("#postImgClear").addEventListener("click", () => setImage(""));
+    $("#postImgUrl").addEventListener("change", (e) => {
+      const url = e.target.value.trim();
+      if (url && !/^https:\/\//.test(url)) return toast("Link ảnh phải bắt đầu bằng https://");
+      setImage(url);
+    });
+
+    // Thu nhỏ ảnh trong trình duyệt (rộng tối đa 1200px, JPEG) để lưu nhẹ và trang chủ tải nhanh
+    $("#postImgFile").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      e.target.value = "";
+      if (!file) return;
+      try {
+        setImage(await compressImage(file));
+      } catch (err) {
+        toast("Không đọc được ảnh này");
+      }
+    });
+
+    function compressImage(file) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = Math.min(1200, img.width);
+          let quality = 0.82;
+          const canvas = document.createElement("canvas");
+          let data;
+          for (let i = 0; i < 6; i++) {
+            canvas.width = width;
+            canvas.height = Math.round((img.height / img.width) * width);
+            canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+            data = canvas.toDataURL("image/jpeg", quality);
+            if (data.length <= 650000) break;
+            quality -= 0.1;
+            width = Math.round(width * 0.85);
+          }
+          URL.revokeObjectURL(img.src);
+          resolve(data);
+        };
+        img.onerror = reject;
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    /* ----- Tự dịch tiếng Việt -> English / 中文 (dịch vụ miễn phí, không cần API key) ----- */
+    const TRANSLATE_TARGETS = { en: "en", zh: "zh-CN" };
+
+    // Chia văn bản dài thành nhiều phần theo đoạn văn
+    function chunkText(text, max) {
+      const parts = [];
+      let cur = "";
+      for (const para of text.split(/(\n\s*\n)/)) {
+        if ((cur + para).length > max && cur) {
+          parts.push(cur);
+          cur = "";
+        }
+        cur += para;
+      }
+      if (cur) parts.push(cur);
+      return parts;
+    }
+
+    async function translateText(text, target) {
+      if (!text) return "";
+      let out = "";
+      for (const part of chunkText(text, 1500)) {
+        try {
+          // Google Translate (bản miễn phí)
+          const res = await fetch("https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=vi&tl=" + target, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+            body: "q=" + encodeURIComponent(part),
+          });
+          if (!res.ok) throw new Error("google " + res.status);
+          const data = await res.json();
+          out += data[0].map((s) => s[0]).join("");
+        } catch (err) {
+          // Dự phòng: MyMemory (giới hạn ~450 ký tự mỗi lần)
+          for (const small of chunkText(part, 450)) {
+            const res = await fetch(`https://api.mymemory.translated.net/get?langpair=vi|${target}&q=${encodeURIComponent(small)}`);
+            const data = await res.json();
+            if (data.responseStatus !== 200) throw new Error("mymemory " + data.responseStatus);
+            out += data.responseData.translatedText;
+          }
+        }
+      }
+      return out;
+    }
+
+    // Dịch bản tiếng Việt sang các ngôn ngữ trong `langs`, ghi vào bài đang soạn
+    async function translatePost(langs) {
+      const vi = state.editing.i18n.vi;
+      if (!vi || !vi.title) throw new Error("no_vi");
+      for (const lang of langs) {
+        const target = TRANSLATE_TARGETS[lang];
+        state.editing.i18n[lang] = {
+          title: await translateText(vi.title, target),
+          excerpt: await translateText(vi.excerpt || "", target),
+          content: await translateText(vi.content || "", target),
+        };
+      }
+      fillLangFields(); // cập nhật cả ô đang mở nếu là tab English / 中文
+    }
+
+    $("#translateBtn").addEventListener("click", async () => {
+      captureLangFields();
+      if (!state.editing.i18n.vi?.title) return toast("Viết tiêu đề tiếng Việt trước rồi mới dịch");
+      const filled = Object.keys(TRANSLATE_TARGETS).filter((k) => state.editing.i18n[k]?.title);
+      if (filled.length && !confirm("Tab English / 中文 đã có nội dung. Dịch lại và ghi đè?")) return;
+      const btn = $("#translateBtn");
+      btn.disabled = true;
+      btn.textContent = "Đang dịch…";
+      try {
+        await translatePost(Object.keys(TRANSLATE_TARGETS));
+        toast("Đã dịch xong, mở tab English / 中文 để xem và sửa");
+      } catch (err) {
+        console.error(err);
+        toast("Chưa dịch được, thử lại sau hoặc tự viết bản dịch");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "🌐 Dịch tiếng Việt → English & 中文";
+      }
+    });
+
+    async function submitPost(status) {
+      captureLangFields();
+      state.editing.pinned = $("#postPinned").checked;
+
+      // Đăng bài: tự dịch các ngôn ngữ còn trống từ bản tiếng Việt
+      if (status === "published" && state.editing.i18n.vi?.title) {
+        const missing = Object.keys(TRANSLATE_TARGETS).filter((k) => !state.editing.i18n[k]?.title);
+        if (missing.length) {
+          $("#postPublishBtn").textContent = "Đang dịch…";
+          try {
+            await translatePost(missing);
+          } catch (err) {
+            console.error(err);
+            if (!confirm("Chưa tự dịch được sang English / 中文. Vẫn đăng bài chỉ có tiếng Việt?")) {
+              $("#postPublishBtn").textContent = "🚀 Đăng lên web";
+              return;
+            }
+          }
+          $("#postPublishBtn").textContent = state.editing.status === "published" ? "🚀 Cập nhật bài trên web" : "🚀 Đăng lên web";
+        }
+      }
+      const hasTitle = Object.values(state.editing.i18n).some((f) => f && f.title);
+      if (!hasTitle) return toast("Bài cần có tiêu đề ở ít nhất 1 ngôn ngữ");
+      // Bỏ các ngôn ngữ để trống
+      const i18n = {};
+      Object.entries(state.editing.i18n).forEach(([k, f]) => f && f.title && (i18n[k] = f));
+      const payload = { ...state.editing, i18n, status };
+
+      const btns = [$("#postPublishBtn"), $("#postDraftBtn")];
+      btns.forEach((b) => (b.disabled = true));
+      try {
+        let saved;
+        if (IS_DEMO) {
+          const now = new Date().toISOString();
+          saved = { ...payload, id: payload.id || crypto.randomUUID(), createdAt: payload.createdAt || now, updatedAt: now, publishedAt: status === "published" ? payload.publishedAt || now : payload.publishedAt || null };
+        } else {
+          saved = (await api("POST", { action: "post-save", post: payload })).post;
+        }
+        const exists = state.posts.some((p) => p.id === saved.id);
+        state.posts = exists ? state.posts.map((p) => (p.id === saved.id ? saved : p)) : [saved, ...state.posts];
+        state.posts.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || new Date(b.publishedAt || b.createdAt) - new Date(a.publishedAt || a.createdAt));
+        openPost(saved);
+        if (IS_DEMO) toast("DEMO: bài chỉ lưu tạm trong trình duyệt, KHÔNG lên web thật");
+        else toast(status === "published" ? "Đã đăng! Bài sẽ hiện trên trang chủ sau khoảng 30 giây" : "Đã lưu nháp (chưa hiện trên web)");
+      } catch (err) {
+        toast(err.message === "invalid_image" ? "Ảnh quá lớn hoặc link ảnh không hợp lệ" : "Lưu bài thất bại, thử lại nhé");
+      } finally {
+        btns.forEach((b) => (b.disabled = false));
+      }
+    }
+
+    $("#postPublishBtn").addEventListener("click", () => submitPost("published"));
+    $("#postDraftBtn").addEventListener("click", () => submitPost("draft"));
+    $("#postDeleteBtn").addEventListener("click", async () => {
+      const p = state.editing;
+      if (!p.id || !confirm("Xoá bài này? Bài sẽ biến mất khỏi trang chủ và không khôi phục được.")) return;
+      try {
+        if (!IS_DEMO) await api("POST", { action: "post-delete", id: p.id });
+        state.posts = state.posts.filter((x) => x.id !== p.id);
+        openPost(null);
+        toast("Đã xoá bài");
+      } catch (err) {
+        toast("Xoá thất bại");
+      }
+    });
+
+    /* ============================ DỮ LIỆU MẪU (DEMO) ============================ */
+    function demoPosts() {
+      const ago = (h) => new Date(Date.now() - h * 3600e3).toISOString();
+      return [
+        {
+          id: "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", status: "published", pinned: true, createdAt: ago(48), updatedAt: ago(48), publishedAt: ago(48),
+          image: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=75",
+          i18n: {
+            vi: { title: "5 bài tập đốt mỡ bụng tại nhà chỉ trong 20 phút", excerpt: "Không cần dụng cụ, không cần phòng gym: chuỗi bài HIIT ngắn giúp tăng nhịp tim và siết vòng eo.", content: "Bài mẫu (demo). Nội dung đầy đủ sẽ hiện khi khách bấm Đọc tiếp." },
+            en: { title: "5 at-home workouts to burn belly fat in 20 minutes", excerpt: "No equipment, no gym: a short HIIT circuit that gets your heart rate up.", content: "Sample post (demo)." },
+          },
+        },
+        {
+          id: "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", status: "draft", pinned: false, createdAt: ago(5), updatedAt: ago(5), publishedAt: null, image: "",
+          i18n: { vi: { title: "Bản nháp: Thực đơn 7 ngày giảm mỡ", excerpt: "", content: "" } },
+        },
+      ];
+    }
+
+    /* ============================ DỮ LIỆU MẪU (DEMO) – KHÁCH ============================ */
+    function demoLeads() {
+      const ago = (h) => new Date(Date.now() - h * 3600e3).toISOString();
+      return [
+        { id: "11111111-1111-1111-1111-111111111111", createdAt: ago(0.3), status: "new", lang: "vi", name: "Emily Carter", contact: "emily.carter@gmail.com", sex: "female", age: 32, height: 162, weight: 68, target: 58, activity: 1.375, goalIdx: 0, goal: GOAL_LABEL[0], plan: "Gói Lột Xác 90 Ngày", note: "Hay ăn khuya, ngồi văn phòng cả ngày", advice: "" },
+        { id: "22222222-2222-2222-2222-222222222222", createdAt: ago(3), status: "new", lang: "en", name: "James Wilson", contact: "facebook.com/james.wilson", sex: "male", age: 28, height: 178, weight: 88, target: 78, activity: 1.2, goalIdx: 1, goal: GOAL_LABEL[1], plan: "", note: "Lower back pain sometimes", advice: "" },
+        { id: "33333333-3333-3333-3333-333333333333", createdAt: ago(26), status: "sent", sentAt: ago(20), lang: "zh", name: "Sophie Martin", contact: "@sophie_martin", sex: "female", age: 36, height: 158, weight: 63, target: 55, activity: 1.375, goalIdx: 3, goal: GOAL_LABEL[3], plan: "Gói VIP 1-1", note: "产后8个月，还在哺乳", advice: "(Đã gửi trước đó)" },
+      ];
+    }
+
+    /* ============================ KHỞI ĐỘNG ============================ */
+    $("#demoNote").classList.toggle("hidden", !IS_DEMO);
+    let saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem("fitcoach-admin") || "null"); } catch (e) {}
+    if (saved && saved.email) login(saved.email, saved.password).catch(() => {});
+  </script>
+</body>
+</html>
