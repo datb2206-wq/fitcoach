@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitCoach Online | PT 1-1 giảm cân khoa học tại nhà</title>
+  <meta name="description" content="Huấn luyện viên cá nhân online: lộ trình tập 1-1, thực đơn giảm cân không nhịn đói, check-in vóc dáng hằng tuần. Đăng ký tư vấn miễn phí." />
+  <meta name="theme-color" content="#006fdc" />
+
+  <!-- Chia sẻ Facebook/Messenger: đổi og:image thành ảnh thật khi đưa lên hosting -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="vi_VN" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="zh_CN" />
+  <meta property="og:title" content="FitCoach Online | PT 1-1 giảm cân khoa học tại nhà" />
+  <meta property="og:description" content="Giảm mỡ, siết dáng, tăng cơ cùng PT riêng. Tập tại nhà chỉ 45 phút/ngày, không nhịn đói." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1200&h=630&q=80" />
+
+  <!-- Favicon nhúng sẵn (chiếc lá xanh) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231089ff'/%3E%3Cpath d='M6 18c0-7 4-11 12-12-.5 8-4.5 12-12 12Zm0 0 6-6' fill='%23a3cb4c' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+
+  <!-- Font: Be Vietnam Pro (gần giống Poppins, đủ dấu tiếng Việt) + Noto Sans SC (tiếng Trung) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Bảng màu theo phong cách Healthcoach: đổi ở đây là cả trang đổi theo
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Be Vietnam Pro"', '"Noto Sans SC"', '"PingFang SC"', '"Microsoft YaHei"', "ui-sans-serif", "system-ui", "sans-serif"],
+          },
+          colors: {
+            primary: { DEFAULT: "#1089ff", dark: "#006fdc", light: "#e7f2ff" },
+            leaf: { DEFAULT: "#a3cb4c", dark: "#7fa52e", light: "#f1f7e3" },
+            dark: "#131719",
+            light: "#f8f9fd",
+            body: "#808080",
+            heading: "#333333",
+          },
+          boxShadow: {
+            card: "0 24px 48px -13px rgba(0, 0, 0, 0.12)",
+          },
+        },
+      },
+    };
+  </script>
+  <style type="text/tailwindcss">
+    html { scroll-padding-top: 5rem; }
+    body { @apply bg-white font-sans text-[15px] leading-relaxed text-body antialiased; }
+
+    /* Đặt trong @layer components để class tiện ích (hidden, bg-*, px-*…) ghi đè được */
+    @layer components {
+      .container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+      .section { @apply py-16 md:py-24; }
+      .eyebrow { @apply mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-primary; }
+      .heading { @apply text-2xl font-semibold leading-snug text-heading md:text-4xl; text-wrap: balance; }
+
+      .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded px-6 py-3.5 text-xs font-medium uppercase tracking-[0.15em] transition duration-300; }
+      .btn-primary { @apply btn bg-primary text-white hover:bg-primary-dark; }
+      .btn-outline-primary { @apply btn border border-primary text-primary hover:bg-primary hover:text-white; }
+      .btn-outline-white { @apply btn border border-white text-white hover:bg-white hover:text-heading; }
+
+      .card { @apply rounded bg-white shadow-card; }
+      .field { @apply h-12 w-full rounded border border-gray-200 bg-white px-4 text-sm text-heading outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20; }
+      textarea.field { @apply h-auto py-3; }
+      .field.invalid { @apply border-red-400; }
+
+      .nav-link { @apply relative py-7 text-sm text-gray-600 transition hover:text-primary; }
+      .nav-link.active { @apply text-primary; }
+      .nav-link.active::after { content: ""; @apply absolute inset-x-0 bottom-0 h-0.5 bg-primary; }
+      .mobile-link { @apply border-b border-gray-100 py-3 text-sm text-gray-700 hover:text-primary; }
+
+      .lang-btn { @apply whitespace-nowrap rounded px-2 py-0.5 text-[11px] font-semibold text-white/80 transition hover:text-white; }
+      .lang-btn.active { @apply bg-white text-primary-dark; }
+      .social { @apply grid h-7 w-7 place-items-center text-white/90 transition hover:text-white; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===================== TOP BAR ===================== -->
+  <div class="bg-primary-dark text-xs text-white/90">
+    <div class="container-x flex h-11 items-center justify-between gap-3">
+      <p class="truncate">
+        <span data-i18n="lead.online"></span>
+        <span class="hidden sm:inline">&nbsp;·&nbsp; Email: <a href="mailto:hello@fitcoach.vn" class="font-semibold text-white">hello@fitcoach.vn</a></span>
+      </p>
+      <div class="flex shrink-0 items-center gap-1">
+        <a href="https://facebook.com/fitcoach" data-link="facebook" target="_blank" rel="noopener noreferrer" class="social hidden sm:grid" aria-label="Facebook">
+          <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M14 8V6.5c0-.8.5-1 1-1h2V2h-3c-3 0-4 2-4 4.5V8H7.5v3.5H10V22h4V11.5h2.8L17.5 8Z"/></svg>
+        </a>
+        <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" class="social hidden sm:grid" aria-label="TikTok">
+          <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 2h-3.3v13.2a2.8 2.8 0 1 1-2-2.7V9.1a6.1 6.1 0 1 0 5.3 6.1V8.6a7.6 7.6 0 0 0 4.5 1.4V6.7a4.5 4.5 0 0 1-4.5-4.7Z"/></svg>
+        </a>
+        <a href="https://m.me/fitcoach" data-link="messenger" target="_blank" rel="noopener noreferrer" class="social hidden sm:grid" aria-label="Messenger">
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.1 2 11.2c0 2.9 1.4 5.5 3.7 7.2V22l3.4-1.9c.9.3 1.9.4 2.9.4 5.5 0 10-4.1 10-9.2S17.5 2 12 2Zm1 12.4-2.6-2.7-5 2.7 5.5-5.8 2.6 2.7 4.9-2.7-5.4 5.8Z"/></svg>
+        </a>
+        <a href="https://t.me/fitcoach" data-link="telegram" target="_blank" rel="noopener noreferrer" class="social hidden sm:grid" aria-label="Telegram">
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.3-2.3 4.9 3.6c.9.5 1.5.2 1.8-.8l3.2-15.2c.4-1.3-.4-1.9-1.8-1.6ZM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4-1.6-5Z"/></svg>
+        </a>
+        <!-- Chọn ngôn ngữ -->
+        <div class="ml-2 flex items-center gap-0.5 rounded border border-white/30 p-0.5" role="group" aria-label="Language">
+          <button type="button" class="lang-btn" data-lang="vi" lang="vi">VI</button>
+          <button type="button" class="lang-btn" data-lang="en" lang="en">EN</button>
+          <button type="button" class="lang-btn" data-lang="zh" lang="zh-CN">中文</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header id="navbar" class="sticky top-0 z-50 bg-white transition-shadow">
+    <div class="container-x flex h-16 items-center justify-between lg:h-20">
+      <a href="#top" class="flex items-end text-[26px] font-bold leading-none tracking-tight text-heading" aria-label="FitCoach">
+        Fit<span class="relative text-leaf">Coach
+          <svg class="absolute -top-3 left-1 h-4 w-4 text-leaf" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20C4 10 10 4 21 3c-1 11-7 17-17 17Zm0 0 8-8" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </span>
+      </a>
+
+      <nav class="hidden items-center gap-8 lg:flex" aria-label="Menu">
+        <a href="#top" class="nav-link" data-spy="top" data-i18n="nav.home"></a>
+        <a href="#ve-toi" class="nav-link" data-spy="ve-toi" data-i18n="nav.about"></a>
+        <a href="#dich-vu" class="nav-link" data-spy="dich-vu" data-i18n="nav.services"></a>
+        <a href="#ket-qua" class="nav-link" data-spy="ket-qua" data-i18n="nav.results"></a>
+        <a href="#bang-gia" class="nav-link" data-spy="bang-gia" data-i18n="nav.pricing"></a>
+        <a href="#blog" class="nav-link" data-spy="blog">Blog</a>
+        <a href="#dang-ky" class="nav-link" data-spy="dang-ky" data-i18n="nav.contact"></a>
+      </nav>
+
+      <a href="#dang-ky" class="btn-primary hidden lg:inline-flex" data-i18n="nav.cta"></a>
+
+      <button id="menuBtn" type="button" class="flex items-center gap-2 text-sm uppercase tracking-[0.15em] text-gray-600 lg:hidden" aria-expanded="false" aria-controls="mobileMenu">
+        <svg id="iconMenu" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg id="iconClose" class="hidden h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        <span>Menu</span>
+      </button>
+    </div>
+
+    <!-- Menu mobile -->
+    <div id="mobileMenu" class="max-h-0 overflow-hidden border-t border-transparent bg-white transition-[max-height] duration-300 lg:hidden">
+      <nav class="container-x flex flex-col pb-5" aria-label="Menu">
+        <a href="#top" class="mobile-link" data-i18n="nav.home"></a>
+        <a href="#ve-toi" class="mobile-link" data-i18n="nav.about"></a>
+        <a href="#dich-vu" class="mobile-link" data-i18n="nav.services"></a>
+        <a href="#ket-qua" class="mobile-link" data-i18n="nav.results"></a>
+        <a href="#bang-gia" class="mobile-link" data-i18n="nav.pricing"></a>
+        <a href="#blog" class="mobile-link">Blog</a>
+        <a href="#dang-ky" class="mobile-link" data-i18n="nav.contact"></a>
+        <a href="#dang-ky" class="close-menu btn-primary mt-4" data-i18n="nav.cta"></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <!-- Slider 3 ảnh, tự chuyển mỗi 6 giây. Slide 1 viết sẵn ở đây, slide 2-3 lấy từ hero.slides -->
+    <section id="top" class="relative overflow-hidden bg-dark">
+      <!-- Các slide chồng lên nhau trong cùng 1 ô grid: chiều cao = slide cao nhất, không bị cắt chữ -->
+      <div id="heroSlides" class="grid min-h-[640px] md:min-h-[760px]">
+       <div class="slide relative isolate col-start-1 row-start-1 flex items-center transition-opacity duration-1000">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1920&q=80" alt="" data-i18n-alt="hero.imgAlt" class="absolute inset-0 -z-20 h-full w-full object-cover" />
+        <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/75 via-black/45 to-black/10"></div>
+        <div class="container-x pb-44 pt-12 md:pb-52">
+        <div class="max-w-2xl">
+          <span class="eyebrow text-[13px] text-primary" data-i18n="hero.badge"></span>
+          <h1 class="mt-3 text-4xl font-light leading-tight text-white sm:text-5xl lg:text-6xl">
+            <span data-i18n="hero.line1"></span>
+            <span data-i18n="hero.line2"></span>
+            <span class="mt-2 block text-2xl font-normal text-leaf sm:text-3xl" data-i18n="hero.highlight"></span>
+          </h1>
+          <p class="mt-6 max-w-xl text-base text-white/80 sm:text-lg" data-i18n="hero.sub"></p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="#dang-ky" class="btn-primary px-8 py-4" data-i18n="hero.ctaPrimary"></a>
+            <a href="#ket-qua" class="btn-outline-white px-8 py-4" data-i18n="hero.ctaSecondary"></a>
+          </div>
+          <ul id="heroChecks" class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/85"></ul>
+        </div>
+        </div>
+       </div>
+       <div id="heroExtra" class="contents"></div>
+      </div>
+      <!-- Chấm chuyển slide -->
+      <div id="heroDots" class="absolute bottom-40 left-1/2 z-10 flex -translate-x-1/2 gap-2 md:bottom-48"></div>
+    </section>
+
+    <!-- ===================== SERVICES (thẻ nổi đè lên đáy hero) ===================== -->
+    <section id="dich-vu" class="relative z-10 -mt-32 pb-16 md:-mt-40 md:pb-24">
+      <div class="container-x">
+        <div id="servicesGrid" class="mx-auto grid max-w-5xl gap-6 md:grid-cols-3"></div>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section id="ve-toi" class="bg-light">
+      <div class="grid lg:grid-cols-2">
+        <div class="relative min-h-[360px] lg:min-h-full">
+          <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=1100&q=80" alt="" data-i18n-alt="about.imgAlt" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
+        </div>
+        <div class="px-4 py-16 sm:px-10 md:py-24 lg:px-16">
+          <div class="max-w-xl">
+            <span class="eyebrow" data-i18n="about.eyebrow"></span>
+            <h2 class="heading" data-i18n-html="about.title"></h2>
+            <p class="mt-2 font-medium text-heading/70" data-i18n="about.role"></p>
+            <p class="mt-5" data-i18n="about.intro"></p>
+            <ul id="credentials" class="mt-6 space-y-2.5"></ul>
+            <div id="counters" class="mt-10 grid grid-cols-3 gap-4 border-t border-gray-200 pt-8"></div>
+            <div id="method" class="mt-8 grid gap-4 sm:grid-cols-3"></div>
+            <a href="#dang-ky" class="btn-primary mt-10" data-i18n="about.cta"></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== HOW IT WORKS ===================== -->
+    <section class="section">
+      <div class="container-x">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="eyebrow" data-i18n="how.eyebrow"></span>
+          <h2 class="heading" data-i18n="how.title"></h2>
+        </div>
+        <div id="stepsGrid" class="mx-auto mt-14 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4"></div>
+      </div>
+    </section>
+
+    <!-- ===================== SUCCESS STORIES ===================== -->
+    <section id="ket-qua" class="section bg-light">
+      <div class="container-x">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="eyebrow" data-i18n="results.eyebrow"></span>
+          <h2 class="heading" data-i18n-html="results.title"></h2>
+          <p class="mt-4" data-i18n="results.sub"></p>
+        </div>
+        <div id="resultsGrid" class="mt-12 grid gap-8 md:grid-cols-3"></div>
+      </div>
+    </section>
+
+    <!-- ===================== SUCCESS STORIES (slider ảnh + câu chuyện) ===================== -->
+    <section class="section">
+      <div class="container-x">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="eyebrow" data-i18n="stories.eyebrow"></span>
+          <h2 class="heading" data-i18n="stories.title"></h2>
+        </div>
+        <div class="relative mx-auto mt-12 max-w-5xl">
+          <!-- Các câu chuyện chồng trong 1 ô grid: chiều cao = câu chuyện dài nhất -->
+          <div id="storySlides" class="grid"></div>
+          <button id="storyPrev" type="button" class="absolute -left-3 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white text-gray-500 shadow-md transition hover:text-primary lg:-left-16 lg:bg-transparent lg:shadow-none">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg>
+          </button>
+          <button id="storyNext" type="button" class="absolute -right-3 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white text-gray-500 shadow-md transition hover:text-primary lg:-right-16 lg:bg-transparent lg:shadow-none">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+          <div id="storyDots" class="mt-8 flex justify-center gap-2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA BAND ===================== -->
+    <section class="relative isolate overflow-hidden py-20 md:py-28">
+      <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1920&q=70" alt="" loading="lazy" class="absolute inset-0 -z-20 h-full w-full object-cover" />
+      <div class="absolute inset-0 -z-10 bg-dark/75"></div>
+      <div class="container-x flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+        <div class="max-w-2xl">
+          <h2 class="text-3xl font-light leading-tight text-white md:text-5xl" data-i18n="band.title"></h2>
+          <p class="mt-4 text-white/75" data-i18n="band.sub"></p>
+        </div>
+        <a href="#dang-ky" class="btn-primary shrink-0 px-8 py-4" data-i18n="hero.ctaPrimary"></a>
+      </div>
+    </section>
+
+    <!-- ===================== PRICING ===================== -->
+    <section id="bang-gia" class="section bg-light">
+      <div class="container-x">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="eyebrow" data-i18n="pricing.eyebrow"></span>
+          <h2 class="heading" data-i18n-html="pricing.title"></h2>
+          <p class="mt-4" data-i18n-html="pricing.sub"></p>
+        </div>
+        <div id="pricingGrid" class="mt-14 grid items-stretch gap-8 lg:grid-cols-3"></div>
+        <p class="mt-10 text-center text-sm" data-i18n="pricing.note"></p>
+      </div>
+    </section>
+
+    <!-- ===================== BLOG ===================== -->
+    <section id="blog" class="section">
+      <div class="container-x">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="heading" data-i18n="blog.title"></h2>
+          <span class="eyebrow mt-3" data-i18n="blog.eyebrow"></span>
+        </div>
+        <div id="blogGrid" class="mt-12 grid gap-8 md:grid-cols-3"></div>
+      </div>
+    </section>
+
+    <!-- ===================== LEAD FORM / CONTACT ===================== -->
+    <section id="dang-ky" class="section">
+      <div class="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <span class="eyebrow" data-i18n="lead.eyebrow"></span>
+          <h2 class="heading" data-i18n="lead.title"></h2>
+          <p class="mt-4" data-i18n="lead.sub"></p>
+          <ul id="offerList" class="mt-6 space-y-3"></ul>
+
+          <div class="mt-10 grid gap-x-4 gap-y-6 sm:grid-cols-2">
+            <a href="https://facebook.com/fitcoach" data-link="facebook" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 sm:flex-col sm:items-start">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary text-white">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M14 8V6.5c0-.8.5-1 1-1h2V2h-3c-3 0-4 2-4 4.5V8H7.5v3.5H10V22h4V11.5h2.8L17.5 8Z"/></svg>
+              </span>
+              <span><span class="block text-xs uppercase tracking-widest">Facebook</span><span class="font-medium text-heading" data-i18n="contact.follow"></span></span>
+            </a>
+            <a href="https://m.me/fitcoach" data-link="messenger" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 sm:flex-col sm:items-start">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary text-white">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.1 2 11.2c0 2.9 1.4 5.5 3.7 7.2V22l3.4-1.9c.9.3 1.9.4 2.9.4 5.5 0 10-4.1 10-9.2S17.5 2 12 2Zm1 12.4-2.6-2.7-5 2.7 5.5-5.8 2.6 2.7 4.9-2.7-5.4 5.8Z"/></svg>
+              </span>
+              <span><span class="block text-xs uppercase tracking-widest">Messenger</span><span class="font-medium text-heading" data-i18n="contact.chatNow"></span></span>
+            </a>
+            <a href="https://t.me/fitcoach" data-link="telegram" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 sm:flex-col sm:items-start">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary text-white">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.3-2.3 4.9 3.6c.9.5 1.5.2 1.8-.8l3.2-15.2c.4-1.3-.4-1.9-1.8-1.6ZM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4-1.6-5Z"/></svg>
+              </span>
+              <span><span class="block text-xs uppercase tracking-widest">Telegram</span><span class="font-medium text-heading" data-i18n="contact.telegram"></span></span>
+            </a>
+            <a href="mailto:hello@fitcoach.vn" class="flex items-center gap-3 sm:flex-col sm:items-start">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary text-white">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              </span>
+              <span><span class="block text-xs uppercase tracking-widest" data-i18n="contact.email"></span><span class="font-medium text-heading">hello@fitcoach.vn</span></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="card p-6 sm:p-10">
+          <!-- Trạng thái thành công -->
+          <div id="formSuccess" class="hidden py-10 text-center" role="status">
+            <span class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-leaf-light text-leaf-dark">
+              <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+            </span>
+            <p class="mt-4 text-xl font-semibold text-heading" data-i18n="form.successTitle"></p>
+            <p class="mt-2" data-i18n="form.successMsg"></p>
+            <button id="resetForm" type="button" class="mt-6 text-sm font-medium text-primary underline" data-i18n="form.again"></button>
+
+          </div>
+
+          <form id="leadForm" novalidate class="space-y-4">
+            <h3 class="text-xl font-semibold text-heading" data-i18n="form.title"></h3>
+
+            <div>
+              <label for="name" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.name"></label>
+              <input id="name" name="name" autocomplete="name" data-i18n-placeholder="form.namePh" class="field" />
+              <p data-error="name" class="mt-1 hidden text-sm text-red-500"></p>
+            </div>
+
+            <div>
+              <label for="contact" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.contact"></label>
+              <input id="contact" name="contact" type="text" autocomplete="email" data-i18n-placeholder="form.contactPh" class="field" />
+              <p data-error="contact" class="mt-1 hidden text-sm text-red-500"></p>
+            </div>
+
+            <!-- Chỉ số cơ thể: dùng để Coach (và gợi ý tự động trên trang admin) tính lộ trình -->
+            <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+              <div>
+                <label for="sex" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.sex"></label>
+                <select id="sex" name="sex" class="field"></select>
+              </div>
+              <div>
+                <label for="age" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.age"></label>
+                <input id="age" name="age" type="number" inputmode="numeric" min="14" max="90" placeholder="30" class="field body-field" />
+              </div>
+              <div>
+                <label for="height" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.height"></label>
+                <input id="height" name="height" type="number" inputmode="decimal" min="120" max="230" placeholder="165" class="field body-field" />
+              </div>
+              <div>
+                <label for="weight" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.weight"></label>
+                <input id="weight" name="weight" type="number" inputmode="decimal" min="30" max="250" step="0.1" placeholder="68" class="field body-field" />
+              </div>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="target" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.target"></label>
+                <input id="target" name="target" type="number" inputmode="decimal" min="30" max="250" step="0.1" placeholder="58" class="field" />
+              </div>
+              <div>
+                <label for="activity" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.activity"></label>
+                <select id="activity" name="activity" class="field"></select>
+              </div>
+            </div>
+            <p id="bodyError" class="-mt-2 hidden text-sm text-red-500"></p>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="goal" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.goal"></label>
+                <select id="goal" name="goal" class="field"></select>
+              </div>
+              <div>
+                <label for="plan" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.plan"></label>
+                <select id="plan" name="plan" class="field"></select>
+              </div>
+            </div>
+
+            <div>
+              <label for="note" class="mb-1.5 block text-sm font-medium text-heading" data-i18n="form.note"></label>
+              <textarea id="note" name="note" rows="3" data-i18n-placeholder="form.notePh" class="field"></textarea>
+            </div>
+
+            <!-- Honeypot chống spam: người dùng không thấy, bot hay điền vào -->
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+            <p id="formError" role="alert" class="hidden rounded bg-red-50 px-4 py-3 text-sm text-red-600"></p>
+
+            <button id="submitBtn" type="submit" class="btn-primary w-full py-4 disabled:cursor-wait disabled:opacity-70" data-i18n="form.submit"></button>
+            <p class="text-center text-xs" data-i18n="form.privacy"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-dark pb-28 pt-16 text-sm text-white/60 lg:pb-8">
+    <div class="container-x grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <p class="text-2xl font-bold text-white">Fit<span class="text-leaf">Coach</span></p>
+        <p class="mt-4 leading-relaxed" data-i18n="footer.about"></p>
+        <div class="mt-5 flex gap-2">
+          <a href="https://facebook.com/fitcoach" data-link="facebook" target="_blank" rel="noopener noreferrer" class="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white transition hover:bg-primary" aria-label="Facebook">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M14 8V6.5c0-.8.5-1 1-1h2V2h-3c-3 0-4 2-4 4.5V8H7.5v3.5H10V22h4V11.5h2.8L17.5 8Z"/></svg>
+          </a>
+          <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" class="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white transition hover:bg-primary" aria-label="TikTok">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 2h-3.3v13.2a2.8 2.8 0 1 1-2-2.7V9.1a6.1 6.1 0 1 0 5.3 6.1V8.6a7.6 7.6 0 0 0 4.5 1.4V6.7a4.5 4.5 0 0 1-4.5-4.7Z"/></svg>
+          </a>
+          <a href="https://m.me/fitcoach" data-link="messenger" target="_blank" rel="noopener noreferrer" class="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white transition hover:bg-primary" aria-label="Messenger">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.1 2 11.2c0 2.9 1.4 5.5 3.7 7.2V22l3.4-1.9c.9.3 1.9.4 2.9.4 5.5 0 10-4.1 10-9.2S17.5 2 12 2Zm1 12.4-2.6-2.7-5 2.7 5.5-5.8 2.6 2.7 4.9-2.7-5.4 5.8Z"/></svg>
+          </a>
+          <a href="https://t.me/fitcoach" data-link="telegram" target="_blank" rel="noopener noreferrer" class="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white transition hover:bg-primary" aria-label="Telegram">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.3-2.3 4.9 3.6c.9.5 1.5.2 1.8-.8l3.2-15.2c.4-1.3-.4-1.9-1.8-1.6ZM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4-1.6-5Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <nav aria-label="Footer">
+        <p class="mb-4 text-base font-medium text-white" data-i18n="footer.explore"></p>
+        <ul class="space-y-2">
+          <li><a href="#ve-toi" class="hover:text-white" data-i18n="nav.about"></a></li>
+          <li><a href="#dich-vu" class="hover:text-white" data-i18n="nav.services"></a></li>
+          <li><a href="#ket-qua" class="hover:text-white" data-i18n="nav.results"></a></li>
+          <li><a href="#bang-gia" class="hover:text-white" data-i18n="nav.pricing"></a></li>
+          <li><a href="#blog" class="hover:text-white">Blog</a></li>
+          <li><a href="#dang-ky" class="hover:text-white" data-i18n="nav.contact"></a></li>
+        </ul>
+      </nav>
+      <div>
+        <p class="mb-4 text-base font-medium text-white" data-i18n="nav.services"></p>
+        <ul id="footerServices" class="space-y-2"></ul>
+      </div>
+      <div>
+        <p class="mb-4 text-base font-medium text-white" data-i18n="footer.contact"></p>
+        <ul class="space-y-2">
+          <li>Facebook: <a href="https://facebook.com/fitcoach" data-link="facebook" target="_blank" rel="noopener noreferrer" class="text-white hover:text-leaf" data-i18n="contact.follow"></a></li>
+          <li>Messenger: <a href="https://m.me/fitcoach" data-link="messenger" target="_blank" rel="noopener noreferrer" class="text-white hover:text-leaf" data-i18n="contact.chatNow"></a></li>
+          <li>Telegram: <a href="https://t.me/fitcoach" data-link="telegram" target="_blank" rel="noopener noreferrer" class="text-white hover:text-leaf" data-i18n="contact.telegram"></a></li>
+          <li>Email: <a href="mailto:hello@fitcoach.vn" class="text-white hover:text-leaf">hello@fitcoach.vn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container-x mt-12 border-t border-white/10 pt-6 text-center text-xs text-white/40">
+      © <span id="year"></span> FitCoach. <span data-i18n="footer.disclaimer"></span>
+    </div>
+  </footer>
+
+  <!-- Thanh CTA dính đáy màn hình (chỉ mobile) -->
+  <div class="fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-gray-100 bg-white/95 p-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur lg:hidden">
+    <a href="https://m.me/fitcoach" data-link="messenger" target="_blank" rel="noopener noreferrer" class="btn-outline-primary flex-1 px-3">
+      <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.1 2 11.2c0 2.9 1.4 5.5 3.7 7.2V22l3.4-1.9c.9.3 1.9.4 2.9.4 5.5 0 10-4.1 10-9.2S17.5 2 12 2Zm1 12.4-2.6-2.7-5 2.7 5.5-5.8 2.6 2.7 4.9-2.7-5.4 5.8Z"/></svg>
+      <span data-i18n="mobile.chat"></span>
+    </a>
+    <a href="https://t.me/fitcoach" data-link="telegram" target="_blank" rel="noopener noreferrer" class="btn-outline-primary shrink-0 px-3.5" aria-label="Telegram">
+      <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.3-2.3 4.9 3.6c.9.5 1.5.2 1.8-.8l3.2-15.2c.4-1.3-.4-1.9-1.8-1.6ZM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4-1.6-5Z"/></svg>
+    </a>
+    <a href="#dang-ky" class="btn-primary flex-[2] px-3" data-i18n="mobile.cta"></a>
+  </div>
+
+  <!-- ===================== CỬA SỔ ĐỌC BÀI BLOG ===================== -->
+  <div id="postModal" class="fixed inset-0 z-[70] hidden items-end justify-center bg-black/60 sm:items-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="postModalTitle">
+    <article class="relative max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-t-2xl bg-white sm:rounded-lg">
+      <button id="postModalClose" type="button" class="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-heading shadow" aria-label="Close">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <img id="postModalImg" alt="" class="aspect-[16/9] w-full object-cover" />
+      <div class="p-6 sm:p-10">
+        <p id="postModalMeta" class="text-[13px]"></p>
+        <h3 id="postModalTitle" class="mt-2 text-2xl font-semibold leading-snug text-heading"></h3>
+        <div id="postModalBody" class="mt-5 space-y-4 leading-relaxed"></div>
+        <a id="postModalCta" href="#dang-ky" class="btn-primary mt-8" data-i18n="hero.ctaPrimary"></a>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    /* =====================================================================
+     * CẤU HÌNH
+     * ---------------------------------------------------------------------
+     * Khi chạy trên Vercel:
+     *   - Form gửi về /api/lead (file api/lead.js) -> lưu vào trang admin.html + báo Telegram cho Coach.
+     *   Mật khẩu, token Telegram và API key nằm trong biến môi trường Vercel, KHÔNG nằm trong trang này.
+     * Mở file trực tiếp (bấm đúp) hoặc thêm ?demo vào link => chế độ DEMO:
+     *   form báo thành công, dữ liệu in ra Console (F12), không gửi đi đâu.
+     * ===================================================================== */
+    const CONFIG = {
+      LEAD_API: "/api/lead",
+      POSTS_API: "/api/posts", // bài Blog do admin đăng
+      DEFAULT_LANG: "vi", // vi | en | zh
+
+      // Link Facebook Page và Messenger: thay "fitcoach" bằng tên/ID trang Facebook của bạn
+      FACEBOOK_URL: "https://facebook.com/fitcoach",
+      MESSENGER_URL: "https://m.me/fitcoach",
+      TELEGRAM_URL: "https://t.me/fitcoach", // t.me/<username Telegram>
+    };
+
+    const IS_DEMO = location.protocol === "file:" || new URLSearchParams(location.search).has("demo");
+
+    // Gắn link Facebook/Messenger/Telegram cho mọi nút có data-link
+    document.querySelectorAll('[data-link="facebook"]').forEach((a) => (a.href = CONFIG.FACEBOOK_URL));
+    document.querySelectorAll('[data-link="messenger"]').forEach((a) => (a.href = CONFIG.MESSENGER_URL));
+    document.querySelectorAll('[data-link="telegram"]').forEach((a) => (a.href = CONFIG.TELEGRAM_URL));
+
+    /* ===================== DỮ LIỆU KHÔNG PHỤ THUỘC NGÔN NGỮ ===================== */
+    const SERVICE_IMAGES = [
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=700&h=460&q=75",
+      "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=700&h=460&q=75",
+      "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=700&h=460&q=75",
+    ];
+
+    // Ảnh minh hoạ: thay bằng ảnh thật của học viên (có sự đồng ý của họ)
+    const RESULT_IMAGES = [
+      { before: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=700&q=80", after: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=700&q=80" },
+      { before: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=700&q=80", after: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=700&q=80" },
+      { before: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=700&q=80", after: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=700&q=80" },
+    ];
+
+    // Icon trắng trong vòng tròn xanh lá cho 4 bước "Hoạt động như thế nào?"
+    const STEP_ICONS = [
+      // Đăng ký & đánh giá: bảng ghi chú có dấu tick
+      '<path d="M9 4h6v3H9z"/><path d="M15 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+      // Nhận lộ trình: quả táo + tạ
+      '<path d="M12 7c-1.5-1.2-5-1.5-6 1.5-1 3 .5 7 3 9 1.2 1 2 .5 3 0 1 .5 1.8 1 3 0 2.5-2 4-6 3-9-1-3-4.5-2.7-6-1.5Z"/><path d="M12 7c0-2 1-3 2.5-3.5"/>',
+      // Tập & check-in: biểu đồ tiến độ
+      '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-7"/><path d="M16 7h4v4"/>',
+      // Tận hưởng thành quả: huy chương
+      '<circle cx="12" cy="9" r="6"/><path d="m9 14-2 7 5-3 5 3-2-7"/><path d="m10.5 8.5 1.5-1v4"/>',
+    ];
+
+    // Ảnh chân dung cho "Những câu chuyện thành công" (ảnh minh hoạ: thay bằng ảnh học viên thật, có sự đồng ý của họ)
+    const STORY_IMAGES = [
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&h=900&q=75",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&h=900&q=75",
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&h=900&q=75",
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&h=900&q=75",
+    ];
+
+    // Ảnh nền slide 2 và 3 của hero (slide 1 nằm trong HTML)
+    const HERO_IMAGES = [
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1920&q=75",
+      "https://images.unsplash.com/photo-1517963879433-6ad2b056d712?auto=format&fit=crop&w=1920&q=75",
+    ];
+
+    // Bài blog MẪU: chỉ hiện khi admin chưa đăng bài nào (bài thật viết ở admin.html → tab "Bài đăng").
+    // Tiêu đề & tóm tắt bài mẫu nằm trong bản dịch (blog.posts), theo đúng thứ tự này.
+    const BLOG_POSTS = [
+      { image: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=700&h=500&q=75", date: "2026-10-20" },
+      { image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&h=500&q=75", date: "2026-10-12" },
+      { image: "https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=700&h=500&q=75", date: "2026-10-03" },
+    ];
+    const BLOG_FALLBACK_IMAGE = "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=700&h=500&q=75";
+    let remotePosts = null; // bài admin đã đăng, tải từ /api/posts
+
+    // Giá (USD, quy đổi từ VNĐ ~26.000đ/USD rồi làm tròn). Tên/quyền lợi từng gói nằm trong bản dịch bên dưới, theo đúng thứ tự này.
+    const PLANS = [
+      { id: "khoi-dong", price: 59, months: 1 },                                // ~1.490.000đ
+      { id: "lot-xac-90", price: 139, oldPrice: 179, months: 3, featured: true }, // ~3.490.000đ (giá gốc ~4.470.000đ)
+      { id: "vip", price: 269, months: 3 },                                     // ~6.990.000đ
+    ];
+
+    /* ============================ BẢN DỊCH ============================
+     * Mỗi ngôn ngữ có cùng cấu trúc. Sửa chữ ở đây.
+     * Chuỗi có thẻ <span> dùng để tô màu chữ nổi bật.
+     * ================================================================== */
+    const I18N = {
+      /* ---------------------------- TIẾNG VIỆT ---------------------------- */
+      vi: {
+        htmlLang: "vi",
+        meta: {
+          title: "FitCoach Online | PT 1-1 giảm cân khoa học tại nhà",
+          desc: "Huấn luyện viên cá nhân online: lộ trình tập 1-1, thực đơn giảm cân không nhịn đói, check-in vóc dáng hằng tuần. Đăng ký tư vấn miễn phí.",
+        },
+        money: { locale: "en-US", cur: "$", before: true },
+        period: (m) => `/ ${m} tháng`,
+        nav: { home: "Trang chủ", about: "Về tôi", services: "Dịch vụ", results: "Kết quả học viên", pricing: "Bảng giá", contact: "Liên hệ", cta: "Đăng ký ngay", open: "Mở menu", close: "Đóng menu" },
+        hero: {
+          badge: "PT Online 1-1 • Tập tại nhà",
+          line1: "Giảm 5–8kg mỡ thừa",
+          line2: "trong 90 ngày",
+          highlight: "không nhịn ăn, không cần phòng gym",
+          sub: "Lộ trình tập luyện 1-1 thiết kế riêng cho cơ địa của bạn, thực đơn cá nhân hoá từ những món bạn yêu thích và PT kèm sát mỗi ngày qua Messenger. Chỉ 45 phút/ngày, ngay tại phòng khách nhà bạn.",
+          ctaPrimary: "Nhận tư vấn miễn phí",
+          ctaSecondary: "Xem kết quả học viên",
+          checks: ["Tư vấn 1-1 miễn phí", "Không cần dụng cụ đắt tiền", "Bắt đầu ngay tuần này"],
+          imgAlt: "Học viên đang tập luyện tại nhà cùng PT online",
+          slides: [
+            { eyebrow: "Dinh dưỡng khoa học", title: 'Ăn ngon mà vẫn <span class="text-leaf">đốt mỡ</span> mỗi ngày', sub: "Thực đơn từ những món bạn yêu thích, tính đúng calo và macro cho cơ địa của bạn. Không cắt tinh bột, không detox cực đoan." },
+            { eyebrow: "Đồng hành mỗi ngày", title: 'Có PT kèm sát, <span class="text-leaf">không còn bỏ cuộc</span>', sub: "Check-in vóc dáng hằng tuần, nhắc nhở qua Messenger mỗi ngày và điều chỉnh giáo án mỗi 2 tuần để bạn luôn tiến bộ." },
+          ],
+          stats: [["1.200+", "Học viên đã đồng hành"], ["92%", "Đạt mục tiêu sau 3 tháng"]],
+        },
+        services: {
+          eyebrow: "Dịch vụ cốt lõi",
+          title: 'Ba trụ cột giúp bạn <span class="text-primary">giảm cân bền vững</span>',
+          sub: "Tập đúng, ăn đúng và có người kèm sát. Thiếu một trong ba, mọi nỗ lực đều dễ “về vạch xuất phát”.",
+          more: "Đăng ký tư vấn",
+          items: [
+            { title: "Lộ trình tập 1-1 cá nhân hoá", short: "Giáo án riêng theo chỉ số cơ thể và lịch sinh hoạt của bạn, có video hướng dẫn từng động tác.", desc: "Bài tập được thiết kế dựa trên chỉ số cơ thể, tiền sử chấn thương và lịch sinh hoạt của riêng bạn. Có video hướng dẫn chi tiết từng động tác, tập với dây kháng lực hoặc tạ nhẹ là đủ.", points: ["Đánh giá InBody & tư thế ban đầu", "Giáo án điều chỉnh mỗi 2 tuần", "Video sửa form trực tiếp"] },
+            { title: "Thực đơn giảm cân không nhịn đói", short: "Vẫn ăn pasta, bánh mì, yến mạch với khẩu phần đúng calo. Không nhịn đói, không detox cực đoan.", desc: "Không cắt tinh bột, không detox cực đoan. Bạn vẫn ăn pasta, bánh mì, yến mạch… với khẩu phần được tính đúng calo và macro để đốt mỡ mà vẫn đủ năng lượng đi làm.", points: ["Công thức đơn giản, dễ nấu", "Hướng dẫn ăn ngoài, tiệc tùng", "Danh sách đi chợ hằng tuần"] },
+            { title: "Đồng hành & check-in hằng tuần", short: "Check-in số đo và ảnh mỗi tuần, PT nhắc nhở qua Messenger để bạn không bỏ cuộc giữa chừng.", desc: "PT theo dõi cân nặng, số đo và ảnh vóc dáng mỗi tuần, nhắc nhở và động viên qua Messenger để bạn không bỏ cuộc giữa chừng, điều mà 80% người tự tập gặp phải.", points: ["Check-in số đo & ảnh mỗi Chủ nhật", "Hỗ trợ Messenger 7:00–22:00", "Báo cáo tiến độ trực quan"] },
+          ],
+        },
+        about: {
+          eyebrow: "Về tôi",
+          title: 'Xin chào, mình là <span class="text-primary">Coach Sarah Johnson</span>',
+          role: "Huấn luyện viên cá nhân, chuyên gia dinh dưỡng thể thao",
+          intro: "Mình từng nặng 72kg sau sinh và thử đủ mọi cách giảm cân cấp tốc: nhịn ăn, uống trà giảm cân, tập cardio 2 tiếng mỗi ngày… Kết quả là tăng cân trở lại và mệt mỏi kéo dài. Chính hành trình đó khiến mình theo học bài bản về huấn luyện và dinh dưỡng, để giúp bạn đi đường tắt đúng cách.",
+          credentials: ["Chứng chỉ PT quốc tế ACE-CPT (Hoa Kỳ)", "Chứng chỉ Dinh dưỡng thể thao ISSA", "8 năm kinh nghiệm huấn luyện, 3 năm PT Online", "Từng là HLV trưởng tại một chuỗi phòng tập quốc tế"],
+          method: [["Khoa học", "Dựa trên chỉ số cơ thể thực tế, không theo trend."], ["Bền vững", "Thay đổi thói quen để không tăng cân trở lại."], ["Tận tâm", "Mỗi PT chỉ nhận tối đa 30 học viên/tháng."]],
+          years: "Năm kinh nghiệm",
+          imgAlt: "Coach Sarah Johnson, huấn luyện viên cá nhân",
+          cta: "Trò chuyện cùng Coach",
+        },
+        results: {
+          eyebrow: "Kết quả học viên",
+          title: 'Thay đổi thật, <span class="text-primary">con số thật</span>',
+          sub: "Kéo thanh trượt trên ảnh để xem hành trình lột xác của các học viên đã đồng hành cùng FitCoach.",
+          before: "Trước", after: "Sau", slider: "Kéo để so sánh ảnh trước và sau",
+          items: [
+            { name: "Emily Carter", info: "32 tuổi • Nhân viên văn phòng", duration: "12 tuần", stats: ["-9kg", "-11cm vòng eo"] },
+            { name: "James Wilson", info: "28 tuổi • Kỹ sư phần mềm", duration: "16 tuần", stats: ["-12kg mỡ", "+3kg cơ"] },
+            { name: "Sophie Martin", info: "36 tuổi • Mẹ bỉm 2 con", duration: "10 tuần", stats: ["-7kg", "Hết mỡ bụng sau sinh"] },
+          ],
+        },
+        stories: {
+          eyebrow: "Câu chuyện",
+          title: "Những câu chuyện thành công",
+          prev: "Câu chuyện trước", next: "Câu chuyện tiếp theo",
+          items: [
+            { name: "Emily Carter", role: "32 tuổi • Nhân viên văn phòng", result: "-9kg sau 12 tuần",
+              p1: "Ngồi văn phòng 10 tiếng mỗi ngày, mình tăng 12kg sau 3 năm và lúc nào cũng mệt mỏi. Đăng ký gym mấy lần nhưng chưa tháng nào đi đủ buổi.",
+              p2: "Coach chia bài tập 30–45 phút vào buổi sáng, các hộp meal prep mang đi làm vẫn ngon miệng. Sau 12 tuần mình giảm 9kg, vòng eo nhỏ đi 11cm và mặc lại được quần jean hồi sinh viên." },
+            { name: "James Wilson", role: "28 tuổi • Kỹ sư phần mềm", result: "-12kg mỡ, +3kg cơ",
+              p1: "Code đến khuya, ăn đêm thường xuyên, mình lên 88kg và bắt đầu đau lưng. Điều mình sợ nhất là phải ăn kiêng khổ sở.",
+              p2: "Thực đơn vẫn có pasta và bánh mì, cuối tuần còn đi ăn pizza với bạn bè. Mỗi tuần Coach xem ảnh và chỉnh giáo án rất kỹ. 16 tuần sau mình giảm 12kg mỡ, tăng 3kg cơ và hết hẳn đau lưng." },
+            { name: "Sophie Martin", role: "36 tuổi • Mẹ bỉm 2 con", result: "-7kg, hết mỡ bụng sau sinh",
+              p1: "Sau khi sinh bé thứ hai, mình mất tự tin vì vòng bụng và gần như không còn thời gian cho bản thân.",
+              p2: "Coach thiết kế bài riêng cho cơ sàn chậu và tách cơ bụng, mình tập 30 phút lúc con ngủ. Sau 10 tuần mình giảm 7kg, bụng phẳng hơn hẳn, chồng mình cũng đăng ký tập theo." },
+            { name: "Michael Brown", role: "41 tuổi • Chủ doanh nghiệp", result: "-10kg sau 4 tháng",
+              p1: "Tiếp khách liên tục, mình bị bác sĩ nhắc nhở vì mỡ máu cao ở tuổi 40 và không biết bắt đầu từ đâu.",
+              p2: "Coach hướng dẫn cách chọn món khi ăn ngoài và lịch tập 4 buổi/tuần linh hoạt theo công việc. Sau 4 tháng mình giảm 10kg, ngủ ngon hơn và lần khám gần nhất kết quả đã khả quan hơn nhiều." },
+          ],
+        },
+        how: {
+          eyebrow: "Quy trình đơn giản",
+          title: "Hoạt động như thế nào?",
+          steps: [
+            { title: "Đăng ký & đánh giá thể trạng", desc: "Để lại thông tin, Coach phân tích chỉ số cơ thể, thói quen và mục tiêu qua buổi tư vấn 1-1 miễn phí." },
+            { title: "Nhận lộ trình riêng", desc: "Nhận giáo án tập và thực đơn thiết kế theo cơ địa, lịch sinh hoạt và món ăn bạn thích." },
+            { title: "Tập luyện & check-in hằng tuần", desc: "Tập theo video tại nhà, gửi số đo và ảnh mỗi tuần, Coach điều chỉnh kịp thời." },
+            { title: "Tận hưởng vóc dáng mới", desc: "Đạt mục tiêu và giữ được thói quen tốt để không tăng cân trở lại." },
+          ],
+        },
+        band: {
+          title: "Tư vấn lộ trình 1-1 hoàn toàn miễn phí",
+          sub: "Sức khoẻ và vóc dáng của bạn là ưu tiên hàng đầu. Đặt lịch tư vấn ngay hôm nay, không ràng buộc.",
+        },
+        pricing: {
+          eyebrow: "Bảng giá",
+          title: "Chọn gói tập phù hợp với bạn",
+          sub: 'Chỉ từ khoảng <strong class="font-semibold text-heading">1,5 USD/ngày</strong>, rẻ hơn một ly cà phê, để có PT riêng kèm sát mỗi ngày.',
+          choose: "Chọn gói này",
+          note: "Thanh toán chuyển khoản hoặc trả góp 0%. Hoàn tiền 100% trong 7 ngày đầu nếu bạn không hài lòng.",
+          plans: [
+            { name: "Gói Khởi Động", tagline: "Trải nghiệm phương pháp, tạo thói quen tập luyện.", features: ["Đánh giá thể trạng ban đầu", "Giáo án tập 4 buổi/tuần", "Thực đơn mẫu theo calo", "Check-in vóc dáng 1 lần/tuần", "Hỗ trợ qua Messenger giờ hành chính"] },
+            { name: "Gói Lột Xác 90 Ngày", badge: "Phổ biến nhất • Tiết kiệm 22%", tagline: "Đủ thời gian để thay đổi rõ rệt và duy trì bền vững.", features: ["Tất cả quyền lợi Gói Khởi Động", "Thực đơn cá nhân hoá 100%", "Điều chỉnh giáo án mỗi 2 tuần", "Video call sửa form 2 lần/tháng", "Hỗ trợ Messenger 7:00–22:00", "Cam kết hoàn 50% học phí nếu không đạt"] },
+            { name: "Gói VIP 1-1", tagline: "Kèm sát như PT riêng tại phòng gym, ngay tại nhà.", features: ["Tất cả quyền lợi Gói Lột Xác", "Tập live qua video call 2 buổi/tuần", "Check-in mỗi ngày", "Tư vấn thực phẩm bổ sung", "Ưu tiên phản hồi trong 15 phút", "Tặng bộ dây kháng lực cao cấp"] },
+          ],
+        },
+        blog: {
+          title: "Tin tức mới nhất từ blog của chúng tôi",
+          eyebrow: "Tin tức & Blog",
+          author: "Coach Sarah Johnson",
+          readMore: "Đọc tiếp",
+          posts: [
+            { title: "5 bài tập đốt mỡ bụng tại nhà chỉ trong 20 phút", excerpt: "Không cần dụng cụ, không cần phòng gym: chuỗi bài HIIT ngắn giúp tăng nhịp tim và siết vòng eo hiệu quả." },
+            { title: "Ăn tinh bột vẫn giảm cân: cách chia khẩu phần đúng", excerpt: "Bí quyết dùng bàn tay để ước lượng tinh bột, đạm và rau cho từng bữa, không cần cân đo phức tạp." },
+            { title: "Giảm cân mãi không xuống? 7 sai lầm thường gặp", excerpt: "Ngủ ít, uống thiếu nước, ăn quá ít… những thói quen khiến cơ thể “chững cân” và cách khắc phục." },
+          ],
+        },
+        lead: {
+          eyebrow: "Ưu đãi tháng này",
+          title: "Nhận tư vấn & lộ trình miễn phí trong 24h",
+          sub: "Để lại thông tin, Coach sẽ liên hệ phân tích thể trạng và gợi ý lộ trình phù hợp, hoàn toàn miễn phí, không ràng buộc.",
+          offers: ["Tặng bộ thực đơn 7 ngày giảm mỡ", "Đo chỉ số BMR/TDEE miễn phí", "Giảm 10% cho 20 bạn đăng ký sớm nhất"],
+          online: "Tư vấn & huấn luyện 100% online",
+        },
+        contact: { follow: "Theo dõi trang", email: "Email", chatNow: "Nhắn tin ngay", telegram: "Nhắn Telegram" },
+        form: {
+          title: "Đăng ký tư vấn",
+          name: "Họ và tên *", namePh: "Nguyễn Văn A",
+          contact: "Email, Facebook hoặc Telegram *", contactPh: "email@gmail.com, facebook.com/ten-ban hoặc @telegram",
+          goal: "Mục tiêu của bạn",
+          goals: ["Giảm mỡ bụng", "Siết cân, giảm cân toàn thân", "Tăng cơ, săn chắc", "Giảm mỡ sau sinh", "Cải thiện sức khoẻ, vóc dáng"],
+          plan: "Gói quan tâm", planNone: "Chưa chọn, cần tư vấn",
+          sex: "Giới tính *", sexOpts: ["Nữ", "Nam"], age: "Tuổi *", height: "Chiều cao (cm) *", weight: "Cân nặng (kg) *",
+          target: "Cân nặng mong muốn (kg)", activity: "Mức vận động hằng ngày",
+          activityOpts: ["Ít vận động (ngồi nhiều)", "Nhẹ (tập 1–3 buổi/tuần)", "Vừa (tập 3–5 buổi/tuần)", "Nhiều (tập 6–7 buổi/tuần)"],
+          errBody: "Vui lòng nhập đúng tuổi (14–90), chiều cao (120–230 cm) và cân nặng (30–250 kg)",
+          note: "Ghi chú thêm (bệnh lý, chấn thương, thói quen ăn uống…)", notePh: "VD: hay ăn khuya, đau gối, đang cho con bú…",
+          submit: "Nhận tư vấn miễn phí", sending: "Đang gửi...",
+          privacy: "🔒 Thông tin của bạn được bảo mật tuyệt đối, chỉ dùng để tư vấn.",
+          errName: "Vui lòng nhập họ tên của bạn",
+          errContact: "Vui lòng nhập email, link Facebook hoặc Telegram (@username) hợp lệ",
+          errSend: "Có lỗi kết nối. Bạn vui lòng thử lại hoặc nhắn tin cho chúng tôi qua Messenger.",
+          successTitle: "Cảm ơn bạn!",
+          successMsg: "Đăng ký thành công! Coach sẽ xem kỹ thông tin và gửi lộ trình gợi ý riêng cho bạn qua kênh bạn đã để lại trong vòng 24 giờ.",
+          again: "Đăng ký cho người khác",
+        },
+        footer: {
+          about: "PT Online 1-1 giúp bạn giảm cân khoa học, độ dáng bền vững ngay tại nhà. Không nhịn đói, không cực đoan.",
+          explore: "Khám phá", contact: "Liên hệ",
+          disclaimer: "Kết quả có thể khác nhau tuỳ cơ địa và mức độ tuân thủ của mỗi người.",
+        },
+        mobile: { chat: "Messenger", cta: "Tư vấn miễn phí" },
+      },
+
+      /* ---------------------------- ENGLISH ---------------------------- */
+      en: {
+        htmlLang: "en",
+        meta: {
+          title: "FitCoach Online | 1-on-1 Personal Training & Weight Loss at Home",
+          desc: "Online personal trainer: 1-on-1 workout plans, weight-loss meal plans without starving, weekly body check-ins. Book a free consultation.",
+        },
+        money: { locale: "en-US", cur: "$", before: true },
+        period: (m) => `/ ${m} ${m > 1 ? "months" : "month"}`,
+        nav: { home: "Home", about: "About", services: "Services", results: "Results", pricing: "Pricing", contact: "Contact", cta: "Sign up now", open: "Open menu", close: "Close menu" },
+        hero: {
+          badge: "1-on-1 Online PT • Train at home",
+          line1: "Lose 5–8kg of body fat",
+          line2: "in 90 days",
+          highlight: "no starving, no gym required",
+          sub: "A 1-on-1 training plan built for your body, a personalized meal plan based on the foods you already love, and a coach checking in with you daily on Messenger. Just 45 minutes a day, right in your living room.",
+          ctaPrimary: "Get a free consultation",
+          ctaSecondary: "See client results",
+          checks: ["Free 1-on-1 consultation", "No expensive equipment", "Start this week"],
+          imgAlt: "Client working out at home with an online personal trainer",
+          slides: [
+            { eyebrow: "Science-based nutrition", title: 'Eat well and still <span class="text-leaf">burn fat</span> every day', sub: "Meal plans built on the foods you love, with calories and macros calculated for your body. No cutting carbs, no extreme detoxes." },
+            { eyebrow: "Support every day", title: 'A coach by your side, <span class="text-leaf">no more quitting</span>', sub: "Weekly body check-ins, daily reminders on Messenger and a program adjusted every 2 weeks so you keep making progress." },
+          ],
+          stats: [["1,200+", "Clients coached"], ["92%", "Reach their goal in 3 months"]],
+        },
+        services: {
+          eyebrow: "Core services",
+          title: 'Three pillars of <span class="text-primary">lasting weight loss</span>',
+          sub: "Train right, eat right, and have someone in your corner. Miss one of the three and it's easy to end up back at square one.",
+          more: "Get started",
+          items: [
+            { title: "Personalized 1-on-1 training plan", short: "A program built around your body metrics and schedule, with a video guide for every move.", desc: "Workouts designed around your body metrics, injury history and daily schedule. Every move comes with a detailed video guide, and resistance bands or light dumbbells are all you need.", points: ["InBody & posture assessment to start", "Program adjusted every 2 weeks", "Video form corrections"] },
+            { title: "Weight-loss meal plan, no starving", short: "Still eat pasta, bread and oats, in portions with the right calories. No starving, no extreme detoxes.", desc: "No cutting carbs, no extreme detoxes. You still eat pasta, bread, oats and the food you love, in portions calculated for the right calories and macros, so you burn fat and still have energy for work.", points: ["Simple, easy-to-cook recipes", "Tips for eating out and parties", "Weekly grocery list"] },
+            { title: "Weekly support & check-ins", short: "Weekly measurements and photos, with daily Messenger reminders so you don't quit halfway.", desc: "Your coach tracks your weight, measurements and progress photos every week, and keeps you motivated on Messenger so you don't quit halfway, which happens to 80% of people training alone.", points: ["Measurements & photos every Sunday", "Messenger support 7:00–22:00", "Clear progress reports"] },
+          ],
+        },
+        about: {
+          eyebrow: "About me",
+          title: 'Hi, I\'m <span class="text-primary">Coach Sarah Johnson</span>',
+          role: "Personal trainer & sports nutrition specialist",
+          intro: "After giving birth I weighed 72kg and tried every quick fix: fasting, slimming teas, two hours of cardio a day… All I got was rebound weight and constant fatigue. That journey led me to study training and nutrition properly, so I can help you take the right shortcut.",
+          credentials: ["ACE-CPT certified personal trainer (USA)", "ISSA sports nutrition certification", "8 years of coaching, 3 years online", "Former head coach at an international gym chain"],
+          method: [["Science-based", "Built on your real body data, not trends."], ["Sustainable", "New habits so the weight stays off."], ["Dedicated", "Max. 30 clients per coach each month."]],
+          years: "Years of experience",
+          imgAlt: "Coach Sarah Johnson, personal trainer",
+          cta: "Talk to the Coach",
+        },
+        results: {
+          eyebrow: "Client results",
+          title: 'Real change, <span class="text-primary">real numbers</span>',
+          sub: "Drag the slider on each photo to see how our clients transformed with FitCoach.",
+          before: "Before", after: "After", slider: "Drag to compare before and after",
+          items: [
+            { name: "Emily Carter", info: "32 • Office worker", duration: "12 weeks", stats: ["-9kg", "-11cm waist"] },
+            { name: "James Wilson", info: "28 • Software engineer", duration: "16 weeks", stats: ["-12kg fat", "+3kg muscle"] },
+            { name: "Sophie Martin", info: "36 • Mom of two", duration: "10 weeks", stats: ["-7kg", "Post-baby belly gone"] },
+          ],
+        },
+        stories: {
+          eyebrow: "Stories",
+          title: "Success stories",
+          prev: "Previous story", next: "Next story",
+          items: [
+            { name: "Emily Carter", role: "32 • Office worker", result: "-9kg in 12 weeks",
+              p1: "Sitting at a desk 10 hours a day, I'd gained 12kg in 3 years and always felt tired. I signed up for the gym several times but never made it through a full month.",
+              p2: "Coach split my workouts into 30–45 minute morning sessions, and my packed lunches were actually tasty. After 12 weeks I'd lost 9kg and 11cm off my waist, and I fit into my college jeans again." },
+            { name: "James Wilson", role: "28 • Software engineer", result: "-12kg fat, +3kg muscle",
+              p1: "Coding late and snacking at night, I reached 88kg and started getting back pain. What I feared most was a miserable diet.",
+              p2: "My meal plan still had pasta and bread, and I even went out for pizza with friends on weekends. Every week Coach reviewed my photos and fine-tuned my program. 16 weeks later I'd lost 12kg of fat, gained 3kg of muscle and my back pain was gone." },
+            { name: "Sophie Martin", role: "36 • Mom of two", result: "-7kg, post-baby belly gone",
+              p1: "After my second baby I'd lost confidence in my belly and had almost no time for myself.",
+              p2: "Coach designed exercises for my pelvic floor and ab separation, and I trained 30 minutes while the kids napped. After 10 weeks I'd lost 7kg with a much flatter stomach, and my husband signed up too." },
+            { name: "Michael Brown", role: "41 • Business owner", result: "-10kg in 4 months",
+              p1: "With constant business dinners, my doctor warned me about high blood fats at 40, and I didn't know where to start.",
+              p2: "Coach showed me how to order when eating out and gave me a flexible 4-day weekly routine around work. After 4 months I'd lost 10kg, sleep better, and my latest check-up looked much better." },
+          ],
+        },
+        how: {
+          eyebrow: "Simple process",
+          title: "How does it work?",
+          steps: [
+            { title: "Sign up & body assessment", desc: "Leave your details and Coach reviews your body metrics, habits and goals in a free 1-on-1 call." },
+            { title: "Get your personal plan", desc: "Receive a workout program and meal plan tailored to your body, schedule and favorite foods." },
+            { title: "Train & check in weekly", desc: "Follow the video workouts at home and send measurements and photos each week, so Coach can adjust in time." },
+            { title: "Enjoy your new shape", desc: "Reach your goal and keep the healthy habits that stop the weight from coming back." },
+          ],
+        },
+        band: {
+          title: "Free 1-on-1 consultation",
+          sub: "Your health and shape come first. Book your consultation today, no strings attached.",
+        },
+        pricing: {
+          eyebrow: "Price & plans",
+          title: "Choose your perfect plan",
+          sub: 'From about <strong class="font-semibold text-heading">$1.50 a day</strong>, less than a cup of coffee, for a personal coach by your side every day.',
+          choose: "Choose this plan",
+          note: "Pay by bank transfer or 0% installments. 100% refund within the first 7 days if you're not satisfied.",
+          plans: [
+            { name: "Starter", tagline: "Try the method and build a training habit.", features: ["Initial fitness assessment", "4 workouts per week", "Calorie-based sample meal plan", "Weekly body check-in", "Messenger support during office hours"] },
+            { name: "90-Day Transformation", badge: "Most popular • Save 22%", tagline: "Enough time for visible change that lasts.", features: ["Everything in Starter", "100% personalized meal plan", "Program adjusted every 2 weeks", "2 video calls a month for form checks", "Messenger support 7:00–22:00", "50% refund if you don't reach your goal"] },
+            { name: "VIP 1-on-1", tagline: "Coached as closely as a gym PT, from home.", features: ["Everything in 90-Day Transformation", "2 live video workouts per week", "Daily check-ins", "Supplement advice", "Priority replies within 15 minutes", "Free premium resistance band set"] },
+          ],
+        },
+        blog: {
+          title: "Latest news from our blog",
+          eyebrow: "News & Blog",
+          author: "Coach Sarah Johnson",
+          readMore: "Read more",
+          posts: [
+            { title: "5 at-home workouts to burn belly fat in 20 minutes", excerpt: "No equipment, no gym: a short HIIT circuit that gets your heart rate up and trims your waist." },
+            { title: "Eat carbs and still lose weight: portion control made easy", excerpt: "Use your hand to estimate carbs, protein and veggies for every meal, with no complicated weighing." },
+            { title: "Stuck on a plateau? 7 common weight-loss mistakes", excerpt: "Too little sleep, not enough water, eating too little… the habits that stall your progress and how to fix them." },
+          ],
+        },
+        lead: {
+          eyebrow: "This month's offer",
+          title: "Free consultation & personal plan within 24h",
+          sub: "Leave your details and Coach will get in touch to assess your body and suggest the right plan. Completely free, no strings attached.",
+          offers: ["Free 7-day fat-loss meal plan", "Free BMR/TDEE calculation", "10% off for the first 20 sign-ups"],
+          online: "100% online coaching",
+        },
+        contact: { follow: "Follow our page", email: "Email", chatNow: "Message us", telegram: "Chat on Telegram" },
+        form: {
+          title: "Book a consultation",
+          name: "Full name *", namePh: "John Smith",
+          contact: "Email, Facebook or Telegram *", contactPh: "you@email.com, facebook.com/yourname or @telegram",
+          goal: "Your goal",
+          goals: ["Lose belly fat", "Overall weight loss", "Build muscle & tone up", "Post-pregnancy fat loss", "Better health & shape"],
+          plan: "Plan of interest", planNone: "Not sure yet, need advice",
+          sex: "Sex *", sexOpts: ["Female", "Male"], age: "Age *", height: "Height (cm) *", weight: "Weight (kg) *",
+          target: "Target weight (kg)", activity: "Daily activity level",
+          activityOpts: ["Sedentary (mostly sitting)", "Light (1–3 workouts/week)", "Moderate (3–5 workouts/week)", "Very active (6–7 workouts/week)"],
+          errBody: "Please enter a valid age (14–90), height (120–230 cm) and weight (30–250 kg)",
+          note: "Anything else (health conditions, injuries, eating habits…)", notePh: "e.g. late-night snacking, knee pain, breastfeeding…",
+          submit: "Get a free consultation", sending: "Sending...",
+          privacy: "🔒 Your information is kept strictly confidential and used only for your consultation.",
+          errName: "Please enter your name",
+          errContact: "Please enter a valid email, Facebook link or Telegram @username",
+          errSend: "Connection error. Please try again or message us on Messenger.",
+          successTitle: "Thank you!",
+          successMsg: "You're signed up! Coach will review your details and send you a personal plan on the channel you left within 24 hours.",
+          again: "Sign up someone else",
+        },
+        footer: {
+          about: "1-on-1 online personal training for science-based weight loss and a lasting shape, right at home. No starving, no extremes.",
+          explore: "Explore", contact: "Contact",
+          disclaimer: "Results vary depending on each person's body and commitment.",
+        },
+        mobile: { chat: "Messenger", cta: "Free consultation" },
+      },
+
+      /* ---------------------------- 中文 (简体) ---------------------------- */
+      zh: {
+        htmlLang: "zh-CN",
+        meta: {
+          title: "FitCoach Online | 一对一线上私教 · 居家科学减脂",
+          desc: "线上私人教练：一对一训练计划、不挨饿的减脂饮食方案、每周身材打卡。立即预约免费咨询。",
+        },
+        money: { locale: "en-US", cur: "$", before: true },
+        period: (m) => `/ ${m}个月`,
+        nav: { home: "首页", about: "关于我", services: "服务", results: "学员成果", pricing: "价格", contact: "联系", cta: "立即报名", open: "打开菜单", close: "关闭菜单" },
+        hero: {
+          badge: "一对一线上私教 • 居家训练",
+          line1: "90天减掉",
+          line2: "5–8公斤脂肪",
+          highlight: "不节食，无需去健身房",
+          sub: "根据你的体质量身定制一对一训练计划，以你喜爱的食物为基础制定个性化饮食方案，教练每天通过Messenger全程跟进。每天只需45分钟，在家客厅就能练。",
+          ctaPrimary: "免费获取咨询",
+          ctaSecondary: "查看学员成果",
+          checks: ["免费一对一咨询", "无需昂贵器材", "本周即可开始"],
+          imgAlt: "学员在家跟随线上私教训练",
+          slides: [
+            { eyebrow: "科学营养", title: '吃得好，也能<span class="text-leaf">每天燃脂</span>', sub: "以你喜爱的食物为基础，按你的体质精确计算热量和宏量营养素。不戒碳水，不极端排毒。" },
+            { eyebrow: "每日陪伴", title: '教练贴身督促，<span class="text-leaf">不再半途而废</span>', sub: "每周身材打卡，每天Messenger提醒，每2周调整训练计划，让你持续进步。" },
+          ],
+          stats: [["1,200+", "已服务学员"], ["92%", "3个月内达成目标"]],
+        },
+        services: {
+          eyebrow: "核心服务",
+          title: '帮你<span class="text-primary">持续减脂</span>的三大支柱',
+          sub: "练得对、吃得对、有人督促。三者缺一，努力就很容易前功尽弃。",
+          more: "立即咨询",
+          items: [
+            { title: "一对一个性化训练计划", short: "根据你的身体数据和作息定制训练计划，每个动作都有视频讲解。", desc: "根据你的身体数据、伤病史和作息量身设计训练。每个动作都有详细视频讲解，只需弹力带或轻哑铃即可。", points: ["初始InBody及体态评估", "每2周调整训练计划", "视频实时纠正动作"] },
+            { title: "不挨饿的减脂饮食方案", short: "照样吃意大利面、面包、燕麦，按正确热量分配分量。不挨饿，不极端排毒。", desc: "不戒碳水，不极端排毒。照样吃意大利面、面包、燕麦……按热量和宏量营养素精确计算分量，既能燃脂，又有充足精力工作。", points: ["简单易做的食谱", "外出就餐、聚餐饮食指导", "每周采购清单"] },
+            { title: "每周陪伴与身材打卡", short: "每周打卡围度与照片，教练每天Messenger提醒，避免半途而废。", desc: "教练每周跟踪你的体重、围度和身材照片，通过Messenger提醒和鼓励，避免半途而废——这是80%自己练的人都会遇到的问题。", points: ["每周日打卡围度与照片", "Messenger答疑 7:00–22:00", "直观的进度报告"] },
+          ],
+        },
+        about: {
+          eyebrow: "关于我",
+          title: '你好，我是<span class="text-primary">Sarah Johnson教练</span>',
+          role: "私人教练 · 运动营养专家",
+          intro: "产后我曾重达72公斤，试过各种速成减肥法：节食、喝减肥茶、每天有氧两小时……结果却是反弹和长期疲惫。正是这段经历让我系统学习了训练与营养，帮你走对捷径。",
+          credentials: ["美国ACE-CPT国际私教认证", "ISSA运动营养认证", "8年训练经验，3年线上私教经验", "曾任国际连锁健身房总教练"],
+          method: [["科学", "基于真实身体数据，不盲目跟风。"], ["持久", "改变习惯，不再反弹。"], ["用心", "每位教练每月最多带30名学员。"]],
+          years: "年教练经验",
+          imgAlt: "Sarah Johnson教练，私人教练",
+          cta: "和教练聊聊",
+        },
+        results: {
+          eyebrow: "学员成果",
+          title: '真实的改变，<span class="text-primary">真实的数据</span>',
+          sub: "拖动照片上的滑块，看看学员们和FitCoach一起的蜕变历程。",
+          before: "之前", after: "之后", slider: "拖动以对比前后照片",
+          items: [
+            { name: "Emily Carter", info: "32岁 • 上班族", duration: "12周", stats: ["-9公斤", "腰围 -11厘米"] },
+            { name: "James Wilson", info: "28岁 • 软件工程师", duration: "16周", stats: ["减脂12公斤", "增肌3公斤"] },
+            { name: "Sophie Martin", info: "36岁 • 两个孩子的妈妈", duration: "10周", stats: ["-7公斤", "告别产后小肚子"] },
+          ],
+        },
+        stories: {
+          eyebrow: "学员故事",
+          title: "成功故事",
+          prev: "上一个故事", next: "下一个故事",
+          items: [
+            { name: "Emily Carter", role: "32岁 • 上班族", result: "12周减重9公斤",
+              p1: "每天在办公室坐10个小时，3年胖了12公斤，总是觉得很累。办了好几次健身卡，却没有一个月坚持下来。",
+              p2: "教练把训练拆成每天早上30–45分钟，带去上班的备餐也很好吃。12周后我减了9公斤，腰围小了11厘米，又穿得下大学时的牛仔裤了。" },
+            { name: "James Wilson", role: "28岁 • 软件工程师", result: "减脂12公斤，增肌3公斤",
+              p1: "经常写代码到深夜、吃宵夜，体重涨到88公斤，还开始腰痛。我最怕的就是痛苦地节食。",
+              p2: "饮食方案里照样有意大利面和面包，周末还能和朋友吃披萨。教练每周都会看照片，认真调整训练计划。16周后我减脂12公斤，增肌3公斤，腰也不痛了。" },
+            { name: "Sophie Martin", role: "36岁 • 两个孩子的妈妈", result: "减重7公斤，告别产后小肚子",
+              p1: "生完二胎后，我对自己的小肚子很没自信，也几乎没有属于自己的时间。",
+              p2: "教练专门设计了盆底肌和腹直肌分离的训练，我趁孩子睡觉时练30分钟。10周后我减了7公斤，肚子平坦多了，我老公也跟着报名了。" },
+            { name: "Michael Brown", role: "41岁 • 企业主", result: "4个月减重10公斤",
+              p1: "经常应酬，40岁时医生提醒我血脂偏高，我却不知道从哪里开始。",
+              p2: "教练教我外出就餐时怎么点菜，并根据工作安排了灵活的每周4次训练。4个月后我减了10公斤，睡得更好，最近一次体检结果也好了很多。" },
+          ],
+        },
+        how: {
+          eyebrow: "简单流程",
+          title: "如何开始？",
+          steps: [
+            { title: "报名并评估体能", desc: "留下信息，教练通过免费一对一咨询分析你的身体数据、习惯和目标。" },
+            { title: "获取专属计划", desc: "根据你的体质、作息和饮食喜好，获得定制训练计划和饮食方案。" },
+            { title: "训练并每周打卡", desc: "在家跟着视频训练，每周提交围度和照片，教练及时调整。" },
+            { title: "享受全新身材", desc: "达成目标，并养成好习惯，体重不再反弹。" },
+          ],
+        },
+        band: {
+          title: "一对一免费咨询",
+          sub: "你的健康与身材是我们的首要任务。今天就预约咨询，没有任何约束。",
+        },
+        pricing: {
+          eyebrow: "价格与套餐",
+          title: "选择最适合你的套餐",
+          sub: '每天只需约<strong class="font-semibold text-heading">1.5美元</strong>，比一杯咖啡还便宜，就能拥有每天贴身指导的私人教练。',
+          choose: "选择此套餐",
+          note: "支持银行转账或0%分期付款。前7天不满意可全额退款。",
+          plans: [
+            { name: "入门套餐", tagline: "体验训练方法，养成运动习惯。", features: ["初始体能评估", "每周4次训练计划", "按热量定制的参考食谱", "每周1次身材打卡", "工作时间Messenger答疑"] },
+            { name: "90天蜕变套餐", badge: "最受欢迎 • 节省22%", tagline: "足够的时间带来明显改变，并长期保持。", features: ["包含入门套餐全部权益", "100%个性化饮食方案", "每2周调整训练计划", "每月2次视频通话纠正动作", "Messenger答疑 7:00–22:00", "未达标退还50%学费"] },
+            { name: "VIP一对一套餐", tagline: "像健身房私教一样贴身指导，就在家中。", features: ["包含90天蜕变套餐全部权益", "每周2次视频直播训练", "每日打卡", "营养补充剂建议", "15分钟内优先回复", "赠送高级弹力带套装"] },
+          ],
+        },
+        blog: {
+          title: "博客最新文章",
+          eyebrow: "资讯与博客",
+          author: "Sarah Johnson教练",
+          readMore: "阅读全文",
+          posts: [
+            { title: "5个居家动作，20分钟燃烧腹部脂肪", excerpt: "无需器材，无需健身房：一组简短的HIIT训练，快速提升心率，有效收紧腰围。" },
+            { title: "吃碳水也能瘦：正确分配每餐分量", excerpt: "用手掌估算每餐的碳水、蛋白质和蔬菜分量，无需复杂称重。" },
+            { title: "体重停滞不降？7个常见减肥误区", excerpt: "睡得少、喝水少、吃得太少……这些习惯会让体重停滞，教你如何改善。" },
+          ],
+        },
+        lead: {
+          eyebrow: "本月优惠",
+          title: "24小时内获取免费咨询与专属计划",
+          sub: "留下你的信息，教练会联系你分析体质并推荐合适的方案，完全免费，没有任何约束。",
+          offers: ["赠送7天减脂食谱", "免费测算BMR/TDEE", "前20名报名者享9折优惠"],
+          online: "100% 线上咨询与指导",
+        },
+        contact: { follow: "关注主页", email: "邮箱", chatNow: "立即留言", telegram: "Telegram联系" },
+        form: {
+          title: "预约咨询",
+          name: "姓名 *", namePh: "王小明",
+          contact: "邮箱、Facebook或Telegram *", contactPh: "you@email.com、facebook.com/你的主页 或 @telegram",
+          goal: "你的目标",
+          goals: ["减腹部脂肪", "全身减重", "增肌塑形", "产后减脂", "改善健康与体态"],
+          plan: "感兴趣的套餐", planNone: "还没选，需要咨询",
+          sex: "性别 *", sexOpts: ["女", "男"], age: "年龄 *", height: "身高（厘米）*", weight: "体重（公斤）*",
+          target: "目标体重（公斤）", activity: "日常活动水平",
+          activityOpts: ["久坐（很少运动）", "轻度（每周运动1–3次）", "中度（每周运动3–5次）", "高度（每周运动6–7次）"],
+          errBody: "请填写正确的年龄（14–90）、身高（120–230厘米）和体重（30–250公斤）",
+          note: "其他补充（疾病、伤病、饮食习惯等）", notePh: "例如：常吃夜宵、膝盖痛、正在哺乳……",
+          submit: "免费获取咨询", sending: "发送中...",
+          privacy: "🔒 你的信息将被严格保密，仅用于咨询。",
+          errName: "请输入你的姓名",
+          errContact: "请输入有效的邮箱、Facebook链接或Telegram用户名（@username）",
+          errSend: "连接出错。请重试，或通过Messenger联系我们。",
+          successTitle: "谢谢你！",
+          successMsg: "报名成功！教练会仔细查看你的信息，并在24小时内通过你留下的方式发送专属建议。",
+          again: "为其他人报名",
+        },
+        footer: {
+          about: "一对一线上私教，帮你在家科学减重、持久塑形。不挨饿，不极端。",
+          explore: "快速导航", contact: "联系方式",
+          disclaimer: "效果因个人体质和执行程度而异。",
+        },
+        mobile: { chat: "Messenger", cta: "免费咨询" },
+      },
+    };
+
+    /* ============================ TIỆN ÍCH ============================ */
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+    const get = (obj, path) => path.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
+
+    const ICONS = {
+      check: '<svg class="ICON" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+      star: '<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>',
+      quote: '<svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24"><path d="M10 7H6a3 3 0 0 0-3 3v4h4v4l3-4v-7Zm11 0h-4a3 3 0 0 0-3 3v4h4v4l3-4v-7Z"/></svg>',
+    };
+    const icon = (name, cls) => ICONS[name].replace("ICON", cls);
+
+    // Giá kiểu Healthcoach: số lớn nét mảnh + đơn vị tiền nhỏ phía trên
+    const money = (n, big = true) => {
+      const m = T.money;
+      const num = n.toLocaleString(m.locale);
+      if (!big) return m.before ? `${m.cur}${num}` : `${num} ${m.cur}`;
+      const cur = `<sup class="relative -top-4 text-sm font-normal text-body">${m.cur}</sup>`;
+      const val = `<span class="text-4xl font-light text-heading md:text-[2.6rem]">${num}</span>`;
+      return m.before ? `${cur} ${val}` : `${val} ${cur}`;
+    };
+
+    let lang = CONFIG.DEFAULT_LANG;
+    let T = I18N[lang];
+
+    /* ============================ RENDER ============================ */
+    function renderLists() {
+      $("#heroChecks").innerHTML = T.hero.checks
+        .map((t) => `<li class="flex items-center gap-2">${icon("check", "h-4 w-4 text-leaf")}${t}</li>`)
+        .join("");
+
+      $("#servicesGrid").innerHTML = T.services.items
+        .map(
+          (s, i) => `
+          <article class="card group flex flex-col p-4">
+            <div class="overflow-hidden">
+              <img src="${SERVICE_IMAGES[i]}" alt="${s.title}" class="h-44 w-full object-cover transition duration-500 group-hover:scale-105" />
+            </div>
+            <div class="flex flex-1 flex-col px-3 pb-4 pt-6 text-center">
+              <h3 class="text-lg font-normal text-heading">${s.title}</h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed">${s.short}</p>
+              <a href="#dang-ky" class="btn-outline-primary mx-auto mt-5 px-5 py-2.5 text-[11px]">${T.services.more}</a>
+            </div>
+          </article>`,
+        )
+        .join("");
+
+      // Slide 2-3 của hero
+      $("#heroExtra").innerHTML = T.hero.slides
+        .map(
+          (s, i) => `
+          <div class="slide relative isolate col-start-1 row-start-1 flex items-center opacity-0 transition-opacity duration-1000" aria-hidden="true">
+            <img src="${HERO_IMAGES[i]}" alt="" class="absolute inset-0 -z-20 h-full w-full object-cover" />
+            <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/75 via-black/45 to-black/10"></div>
+            <div class="container-x pb-44 pt-12 md:pb-52">
+              <div class="max-w-2xl">
+                <span class="eyebrow text-[13px] text-primary">${s.eyebrow}</span>
+                <h2 class="mt-3 text-4xl font-light leading-tight text-white sm:text-5xl lg:text-6xl">${s.title}</h2>
+                <p class="mt-6 max-w-xl text-base text-white/80 sm:text-lg">${s.sub}</p>
+                <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <a href="#dang-ky" class="btn-primary px-8 py-4" tabindex="-1">${T.hero.ctaPrimary}</a>
+                  <a href="#ket-qua" class="btn-outline-white px-8 py-4" tabindex="-1">${T.hero.ctaSecondary}</a>
+                </div>
+              </div>
+            </div>
+          </div>`,
+        )
+        .join("");
+      showSlide(currentSlide);
+
+      $("#footerServices").innerHTML = T.services.items
+        .map((s) => `<li><a href="#dich-vu" class="hover:text-white">${s.title}</a></li>`)
+        .join("");
+
+      $("#credentials").innerHTML = T.about.credentials
+        .map((c) => `<li class="flex items-start gap-2.5">${icon("check", "mt-1 h-4 w-4 shrink-0 text-leaf")}<span>${c}</span></li>`)
+        .join("");
+
+      const counters = [["8+", T.about.years], ...T.hero.stats];
+      $("#counters").innerHTML = counters
+        .map(([v, l]) => `<div><p class="text-3xl font-light text-primary md:text-4xl">${v}</p><p class="mt-1 text-xs leading-snug">${l}</p></div>`)
+        .join("");
+
+      $("#method").innerHTML = T.about.method
+        .map(([t, d]) => `<div class="border-l-2 border-leaf pl-3"><p class="font-medium text-heading">${t}</p><p class="mt-1 text-xs leading-snug">${d}</p></div>`)
+        .join("");
+
+      // Before/After: input range trong suốt phủ lên ảnh, kéo được bằng chuột, cảm ứng, bàn phím
+      $("#resultsGrid").innerHTML = T.results.items
+        .map((r, i) => {
+          const img = RESULT_IMAGES[i];
+          return `
+          <figure class="card overflow-hidden">
+            <div class="ba relative aspect-[4/5] select-none overflow-hidden bg-gray-200">
+              <img src="${img.after}" alt="${r.name} - ${T.results.after}" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
+              <div class="ba-before absolute inset-0" style="clip-path: inset(0 50% 0 0)">
+                <img src="${img.before}" alt="${r.name} - ${T.results.before}" loading="lazy" class="h-full w-full object-cover brightness-90 grayscale" />
+              </div>
+              <span class="absolute left-3 top-3 rounded bg-dark/80 px-2.5 py-1 text-[11px] font-medium uppercase tracking-widest text-white">${T.results.before}</span>
+              <span class="absolute right-3 top-3 rounded bg-primary px-2.5 py-1 text-[11px] font-medium uppercase tracking-widest text-white">${T.results.after}</span>
+              <div class="ba-line pointer-events-none absolute inset-y-0 w-0.5 bg-white" style="left: 50%">
+                <span class="absolute left-1/2 top-1/2 grid h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-sm font-bold text-primary shadow-lg">⇆</span>
+              </div>
+              <input type="range" min="0" max="100" value="50" aria-label="${T.results.slider}" class="absolute inset-0 h-full w-full cursor-ew-resize opacity-0" />
+            </div>
+            <figcaption class="p-6">
+              <div class="flex items-center justify-between gap-2">
+                <p class="text-lg font-medium text-heading">${r.name}</p>
+                <span class="whitespace-nowrap text-xs uppercase tracking-widest text-primary">${r.duration}</span>
+              </div>
+              <p class="text-sm">${r.info}</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                ${r.stats.map((s) => `<span class="rounded bg-leaf-light px-3 py-1 text-sm font-semibold text-leaf-dark">${s}</span>`).join("")}
+              </div>
+            </figcaption>
+          </figure>`;
+        })
+        .join("");
+
+      $$(".ba").forEach((box) => {
+        const range = box.querySelector("input");
+        range.addEventListener("input", () => {
+          box.querySelector(".ba-before").style.clipPath = `inset(0 ${100 - range.value}% 0 0)`;
+          box.querySelector(".ba-line").style.left = `${range.value}%`;
+        });
+      });
+
+      $("#storySlides").innerHTML = T.stories.items
+        .map(
+          (s, i) => `
+          <article class="story col-start-1 row-start-1 grid overflow-hidden bg-white shadow-card transition-opacity duration-700 md:grid-cols-2">
+            <img src="${STORY_IMAGES[i]}" alt="${s.name}" loading="lazy" class="aspect-[4/3] h-full w-full object-cover md:aspect-auto md:min-h-[440px]" />
+            <div class="flex flex-col justify-center p-8 md:p-12">
+              <span class="text-primary/30">${ICONS.quote}</span>
+              <span class="mt-3 inline-flex self-start rounded bg-leaf-light px-3 py-1 text-sm font-semibold text-leaf-dark">${s.result}</span>
+              <p class="mt-5 text-sm leading-relaxed">${s.p1}</p>
+              <p class="mt-3 text-sm leading-relaxed">${s.p2}</p>
+              <div class="mt-8 flex items-center justify-between gap-3">
+                <div>
+                  <p class="font-medium text-heading">${s.name}</p>
+                  <p class="text-sm">${s.role}</p>
+                </div>
+                <span class="flex text-leaf">${ICONS.star.repeat(5)}</span>
+              </div>
+            </div>
+          </article>`,
+        )
+        .join("");
+      showStory(currentStory);
+
+      $("#pricingGrid").innerHTML = PLANS.map((p, i) => {
+        const tp = T.pricing.plans[i];
+        const f = p.featured;
+        return `
+          <article class="card relative flex flex-col px-8 py-10 text-center ${f ? "border-t-4 border-primary lg:-my-4 lg:py-14" : ""}">
+            ${tp.badge ? `<span class="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-leaf px-4 py-1 text-[11px] font-semibold uppercase tracking-widest text-white">${tp.badge}</span>` : ""}
+            <h3 class="text-2xl font-normal text-heading">${tp.name}</h3>
+            <p class="mt-2 text-sm">${tp.tagline}</p>
+            <div class="mt-7">
+              ${p.oldPrice ? `<span class="block text-sm text-gray-400 line-through">${money(p.oldPrice, false)}</span>` : ""}
+              <span class="relative inline-block">${money(p.price)}</span>
+              <span class="block text-sm">${T.period(p.months)}</span>
+            </div>
+            <ul class="mx-auto mb-8 mt-8 flex-1 space-y-3 text-left text-sm">
+              ${tp.features.map((x) => `<li class="flex items-start gap-2.5">${icon("check", "mt-0.5 h-4 w-4 shrink-0 text-leaf")}${x}</li>`).join("")}
+            </ul>
+            <button type="button" data-plan="${p.id}" class="choose-plan ${f ? "btn-primary" : "btn-outline-primary"} mx-auto px-8 py-4">${T.pricing.choose}</button>
+          </article>`;
+      }).join("");
+
+      $$(".choose-plan").forEach((btn) =>
+        btn.addEventListener("click", () => {
+          $("#plan").value = btn.dataset.plan;
+          $("#dang-ky").scrollIntoView({ behavior: "smooth" });
+        }),
+      );
+
+      $("#stepsGrid").innerHTML = T.how.steps
+        .map(
+          (s, i) => `
+          <div class="text-center">
+            <span class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-leaf text-white shadow-[0_10px_25px_-5px_rgba(163,203,76,0.6)]">
+              <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">${STEP_ICONS[i]}</svg>
+            </span>
+            <h3 class="mt-6 text-lg font-normal text-heading">${s.title}</h3>
+            <p class="mx-auto mt-2 max-w-[15rem] text-sm leading-relaxed">${s.desc}</p>
+          </div>`,
+        )
+        .join("");
+
+      renderBlog();
+
+      $("#offerList").innerHTML = T.lead.offers
+        .map((t) => `<li class="flex items-center gap-3"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-leaf text-white">${icon("check", "h-3.5 w-3.5")}</span><span class="text-heading">${t}</span></li>`)
+        .join("");
+
+      // Select: giá trị là chỉ số / id nên giữ nguyên lựa chọn khi đổi ngôn ngữ
+      const goalSel = $("#goal");
+      const planSel = $("#plan");
+      const goalVal = goalSel.value || "0";
+      const planVal = planSel.value;
+      goalSel.innerHTML = T.form.goals.map((g, i) => `<option value="${i}">${g}</option>`).join("");
+      planSel.innerHTML =
+        `<option value="">${T.form.planNone}</option>` +
+        PLANS.map((p, i) => `<option value="${p.id}">${T.pricing.plans[i].name}</option>`).join("");
+      goalSel.value = goalVal;
+      planSel.value = planVal;
+
+      // Giới tính và mức vận động: giá trị cố định (dùng để tính BMR/TDEE trên trang admin)
+      const sexSel = $("#sex");
+      const actSel = $("#activity");
+      const sexVal = sexSel.value || "female";
+      const actVal = actSel.value || "1.375";
+      sexSel.innerHTML = ["female", "male"].map((v, i) => `<option value="${v}">${T.form.sexOpts[i]}</option>`).join("");
+      actSel.innerHTML = ["1.2", "1.375", "1.55", "1.725"].map((v, i) => `<option value="${v}">${T.form.activityOpts[i]}</option>`).join("");
+      sexSel.value = sexVal;
+      actSel.value = actVal;
+    }
+
+    /* ============================ BLOG ============================ */
+    // Bài admin đã đăng (ưu tiên ngôn ngữ đang xem → tiếng Anh → tiếng Việt), không có thì hiện bài mẫu
+    function blogItems() {
+      if (remotePosts && remotePosts.length) {
+        return remotePosts.slice(0, 3).map((p) => {
+          const f = p.i18n[lang] || p.i18n.en || p.i18n.vi || Object.values(p.i18n)[0] || {};
+          return { id: p.id, image: p.image || BLOG_FALLBACK_IMAGE, date: p.publishedAt, title: f.title || "", excerpt: f.excerpt || "", content: f.content || f.excerpt || "" };
+        });
+      }
+      return BLOG_POSTS.map((b, i) => ({ id: `sample-${i}`, image: b.image, date: b.date, title: T.blog.posts[i].title, excerpt: T.blog.posts[i].excerpt, content: T.blog.posts[i].excerpt }));
+    }
+
+    const formatDate = (d) => new Date(d).toLocaleDateString(T.htmlLang, { day: "numeric", month: "long", year: "numeric" });
+
+    function renderBlog() {
+      $("#blogGrid").innerHTML = blogItems()
+        .map(
+          (b) => `
+          <article class="group">
+            <button type="button" data-post="${b.id}" class="open-post block w-full overflow-hidden rounded">
+              <img src="${esc(b.image)}" alt="${esc(b.title)}" loading="lazy" class="aspect-[7/5] w-full object-cover transition duration-500 group-hover:scale-105" />
+            </button>
+            <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px]">
+              <span>${formatDate(b.date)}</span>
+              <span class="text-leaf">${T.blog.author}</span>
+            </div>
+            <h3 class="mt-3 text-lg font-normal leading-snug text-heading transition group-hover:text-primary md:text-xl">
+              <button type="button" data-post="${b.id}" class="open-post text-left">${esc(b.title)}</button>
+            </h3>
+            <p class="mt-2 text-sm">${esc(b.excerpt)}</p>
+            <button type="button" data-post="${b.id}" class="open-post mt-3 inline-block text-xs font-medium uppercase tracking-[0.15em] text-primary hover:text-primary-dark">${T.blog.readMore} →</button>
+          </article>`,
+        )
+        .join("");
+    }
+
+    // Cửa sổ đọc bài đầy đủ
+    function openPostModal(id) {
+      const b = blogItems().find((x) => x.id === id);
+      if (!b) return;
+      $("#postModalImg").src = b.image;
+      $("#postModalImg").alt = b.title;
+      $("#postModalMeta").textContent = `${formatDate(b.date)} · ${T.blog.author}`;
+      $("#postModalTitle").textContent = b.title;
+      $("#postModalBody").innerHTML = b.content
+        .split(/\n\s*\n/)
+        .map((para) => `<p>${esc(para).replace(/\n/g, "<br>")}</p>`)
+        .join("");
+      $("#postModal").classList.remove("hidden");
+      $("#postModal").classList.add("flex");
+      document.body.style.overflow = "hidden";
+      if (!id.startsWith("sample-")) history.replaceState(null, "", `${location.pathname}${location.search}#post-${id}`);
+    }
+
+    function closePostModal() {
+      $("#postModal").classList.add("hidden");
+      $("#postModal").classList.remove("flex");
+      document.body.style.overflow = "";
+      if (location.hash.startsWith("#post-")) history.replaceState(null, "", `${location.pathname}${location.search}#blog`);
+    }
+
+    $("#blogGrid").addEventListener("click", (e) => {
+      const b = e.target.closest(".open-post");
+      if (b) openPostModal(b.dataset.post);
+    });
+    $("#postModalClose").addEventListener("click", closePostModal);
+    $("#postModalCta").addEventListener("click", closePostModal);
+    $("#postModal").addEventListener("click", (e) => {
+      if (e.target.id === "postModal") closePostModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !$("#postModal").classList.contains("hidden")) closePostModal();
+    });
+
+    // Tải bài admin đã đăng; link dạng #post-<id> mở thẳng bài đó
+    async function loadPosts() {
+      if (IS_DEMO) return;
+      try {
+        const res = await fetch(CONFIG.POSTS_API);
+        if (!res.ok) return;
+        remotePosts = (await res.json()).posts || [];
+        renderBlog();
+        const m = location.hash.match(/^#post-(.+)$/);
+        if (m) openPostModal(m[1]);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function setLang(next) {
+      lang = I18N[next] ? next : "vi";
+      T = I18N[lang];
+
+      document.documentElement.lang = T.htmlLang;
+      document.title = T.meta.title;
+      document.querySelector('meta[name="description"]').setAttribute("content", T.meta.desc);
+
+      $$("[data-i18n]").forEach((el) => (el.textContent = get(T, el.dataset.i18n) ?? ""));
+      $$("[data-i18n-html]").forEach((el) => (el.innerHTML = get(T, el.dataset.i18nHtml) ?? ""));
+      $$("[data-i18n-placeholder]").forEach((el) => el.setAttribute("placeholder", get(T, el.dataset.i18nPlaceholder) ?? ""));
+      $$("[data-i18n-alt]").forEach((el) => el.setAttribute("alt", get(T, el.dataset.i18nAlt) ?? ""));
+
+      renderLists();
+      updateMenuLabel();
+      clearErrors();
+
+      $$(".lang-btn").forEach((b) => {
+        const active = b.dataset.lang === lang;
+        b.classList.toggle("active", active);
+        b.setAttribute("aria-pressed", active);
+      });
+
+      try { localStorage.setItem("fitcoach-lang", lang); } catch (e) {}
+      // Ghi ?lang= lên URL để gửi link đúng ngôn ngữ (một số trình duyệt chặn khi mở file trực tiếp)
+      try {
+        const url = new URL(location.href);
+        url.searchParams.set("lang", lang);
+        history.replaceState(null, "", url);
+      } catch (e) {}
+    }
+
+    $$(".lang-btn").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+    /* ============================ NAVBAR ============================ */
+    const navbar = $("#navbar");
+    const menu = $("#mobileMenu");
+    const menuBtn = $("#menuBtn");
+    let menuOpen = false;
+
+    function updateMenuLabel() {
+      menuBtn.setAttribute("aria-label", menuOpen ? T.nav.close : T.nav.open);
+    }
+    const setMenu = (open) => {
+      menuOpen = open;
+      menu.classList.toggle("max-h-0", !open);
+      menu.classList.toggle("max-h-[32rem]", open);
+      menu.classList.toggle("border-gray-100", open);
+      $("#iconMenu").classList.toggle("hidden", open);
+      $("#iconClose").classList.toggle("hidden", !open);
+      menuBtn.setAttribute("aria-expanded", open);
+      updateMenuLabel();
+    };
+
+    menuBtn.addEventListener("click", () => setMenu(!menuOpen));
+    $$(".mobile-link, .close-menu").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+
+    // Đổ bóng khi cuộn
+    const onScroll = () => navbar.classList.toggle("shadow-md", window.scrollY > 44);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Gạch chân xanh dưới mục menu của section đang xem
+    const spyLinks = $$("[data-spy]");
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          if (!en.isIntersecting) return;
+          spyLinks.forEach((a) => a.classList.toggle("active", a.dataset.spy === en.target.id));
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    spyLinks.forEach((a) => {
+      const sec = document.getElementById(a.dataset.spy);
+      if (sec) spy.observe(sec);
+    });
+
+    /* ============================ HERO SLIDER ============================ */
+    let currentSlide = 0;
+    let slideTimer;
+
+    function showSlide(i) {
+      const slides = $$("#heroSlides .slide");
+      if (!slides.length) return;
+      currentSlide = (i + slides.length) % slides.length;
+      slides.forEach((s, k) => {
+        const on = k === currentSlide;
+        s.classList.toggle("opacity-0", !on);
+        s.classList.toggle("pointer-events-none", !on);
+        s.setAttribute("aria-hidden", !on);
+        s.querySelectorAll("a").forEach((a) => (on ? a.removeAttribute("tabindex") : a.setAttribute("tabindex", "-1")));
+      });
+      $("#heroDots").innerHTML = [...slides]
+        .map((_, k) => `<button type="button" data-dot="${k}" aria-label="Slide ${k + 1}" class="h-2.5 w-2.5 rounded-full border border-white transition ${k === currentSlide ? "bg-white" : "bg-white/30 hover:bg-white/60"}"></button>`)
+        .join("");
+    }
+
+    // Tự chuyển slide mỗi 6 giây (tắt nếu người dùng bật "giảm chuyển động")
+    function startSlider() {
+      clearInterval(slideTimer);
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      slideTimer = setInterval(() => showSlide(currentSlide + 1), 6000);
+    }
+
+    $("#heroDots").addEventListener("click", (e) => {
+      const dot = e.target.closest("[data-dot]");
+      if (!dot) return;
+      showSlide(Number(dot.dataset.dot));
+      startSlider();
+    });
+
+    /* ============================ STORY SLIDER ============================ */
+    let currentStory = 0;
+
+    function showStory(i) {
+      const stories = $$("#storySlides .story");
+      if (!stories.length) return;
+      currentStory = (i + stories.length) % stories.length;
+      stories.forEach((s, k) => {
+        const on = k === currentStory;
+        s.classList.toggle("opacity-0", !on);
+        s.classList.toggle("pointer-events-none", !on);
+        s.setAttribute("aria-hidden", !on);
+      });
+      $("#storyDots").innerHTML = [...stories]
+        .map((_, k) => `<button type="button" data-story="${k}" aria-label="${k + 1}" class="h-2.5 w-2.5 rounded-full transition ${k === currentStory ? "bg-primary" : "bg-gray-300 hover:bg-gray-400"}"></button>`)
+        .join("");
+      $("#storyPrev").setAttribute("aria-label", T.stories.prev);
+      $("#storyNext").setAttribute("aria-label", T.stories.next);
+    }
+
+    $("#storyPrev").addEventListener("click", () => showStory(currentStory - 1));
+    $("#storyNext").addEventListener("click", () => showStory(currentStory + 1));
+    $("#storyDots").addEventListener("click", (e) => {
+      const dot = e.target.closest("[data-story]");
+      if (dot) showStory(Number(dot.dataset.story));
+    });
+
+    /* ============================ FORM ============================ */
+    const form = $("#leadForm");
+    // Liên hệ online: email, link Facebook hoặc Telegram (@username / t.me/...)
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const FB_RE = /(facebook\.com|fb\.com|fb\.me|m\.me)\/\S+/i;
+    const TG_RE = /^@[A-Za-z0-9_]{5,32}$|t\.me\/\S+/i;
+
+    const showError = (field, msg) => {
+      const input = form.elements[field];
+      const el = form.querySelector(`[data-error="${field}"]`);
+      input.classList.toggle("invalid", !!msg);
+      input.setAttribute("aria-invalid", !!msg);
+      el.textContent = msg || "";
+      el.classList.toggle("hidden", !msg);
+    };
+    // Tuổi / chiều cao / cân nặng: 1 dòng báo lỗi chung, viền đỏ ô sai
+    function showBodyError(bad = {}) {
+      ["age", "height", "weight"].forEach((k) => {
+        form.elements[k].classList.toggle("invalid", !!bad[k]);
+        form.elements[k].setAttribute("aria-invalid", !!bad[k]);
+      });
+      const any = Object.values(bad).some(Boolean);
+      $("#bodyError").textContent = any ? T.form.errBody : "";
+      $("#bodyError").classList.toggle("hidden", !any);
+    }
+    function clearErrors() {
+      showError("name", "");
+      showError("contact", "");
+      showBodyError();
+      $("#formError").classList.add("hidden");
+    }
+
+    // Gửi đăng ký về api/lead.js -> server báo Telegram cho Coach
+    const sendLead = async (lead) => {
+      if (IS_DEMO) {
+        console.log("[DEMO] Lead nhận được (chưa gửi đi):", lead);
+        await new Promise((r) => setTimeout(r, 600));
+        return;
+      }
+      const res = await fetch(CONFIG.LEAD_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(lead),
+      });
+      if (!res.ok) throw new Error("Lead API " + res.status);
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      if (fd.get("website")) return; // bot
+
+      const planIdx = PLANS.findIndex((p) => p.id === fd.get("plan"));
+      const goalIdx = Number(fd.get("goal"));
+      const num = (k) => parseFloat(String(fd.get(k)).replace(",", "."));
+      const lead = {
+        name: String(fd.get("name")).trim(),
+        contact: String(fd.get("contact")).trim(),
+        sex: fd.get("sex"),
+        age: num("age"),
+        height: num("height"),
+        weight: num("weight"),
+        target: num("target") || null,
+        activity: num("activity"),
+        // Mục tiêu & gói gửi đi bằng tiếng Việt để Coach dễ đọc
+        goalIdx,
+        goal: I18N.vi.form.goals[goalIdx],
+        plan: planIdx >= 0 ? I18N.vi.pricing.plans[planIdx].name : "",
+        note: String(fd.get("note")).trim(),
+        lang,
+      };
+
+      const nameErr = lead.name.length < 2 ? T.form.errName : "";
+      const contactErr = EMAIL_RE.test(lead.contact) || FB_RE.test(lead.contact) || TG_RE.test(lead.contact) ? "" : T.form.errContact;
+      const bodyBad = {
+        age: !(lead.age >= 14 && lead.age <= 90),
+        height: !(lead.height >= 120 && lead.height <= 230),
+        weight: !(lead.weight >= 30 && lead.weight <= 250),
+      };
+      showError("name", nameErr);
+      showError("contact", contactErr);
+      showBodyError(bodyBad);
+      if (nameErr || contactErr || Object.values(bodyBad).some(Boolean)) return;
+
+      const btn = $("#submitBtn");
+      const errBox = $("#formError");
+      btn.disabled = true;
+      btn.textContent = T.form.sending;
+      errBox.classList.add("hidden");
+
+      try {
+        await sendLead(lead);
+        form.reset();
+        form.classList.add("hidden");
+        $("#formSuccess").classList.remove("hidden");
+      } catch (err) {
+        console.error(err);
+        errBox.textContent = T.form.errSend;
+        errBox.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = T.form.submit;
+      }
+    });
+
+    $("#resetForm").addEventListener("click", () => {
+      $("#formSuccess").classList.add("hidden");
+      form.classList.remove("hidden");
+    });
+
+    /* ============================ KHỞI ĐỘNG ============================ */
+    // Ưu tiên: ?lang=en trên URL > lựa chọn lần trước > ngôn ngữ trình duyệt > mặc định
+    function detectLang() {
+      const fromUrl = new URLSearchParams(location.search).get("lang");
+      if (I18N[fromUrl]) return fromUrl;
+      try {
+        const saved = localStorage.getItem("fitcoach-lang");
+        if (I18N[saved]) return saved;
+      } catch (e) {}
+      const nav = (navigator.language || "").toLowerCase();
+      if (nav.startsWith("zh")) return "zh";
+      if (nav.startsWith("en")) return "en";
+      return CONFIG.DEFAULT_LANG;
+    }
+
+    $("#year").textContent = new Date().getFullYear();
+    setLang(detectLang());
+    startSlider();
+    loadPosts();
+  </script>
+</body>
+</html>
