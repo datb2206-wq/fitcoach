@@ -1,0 +1,48 @@
+/* Nguồn CSS của trang chủ. Đừng sửa assets/site.css trực tiếp: sửa file này rồi chạy  npm run build:css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-white font-sans text-[15px] leading-relaxed text-body antialiased; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+  .section { @apply py-14 md:py-24; }
+  .eyebrow { @apply mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-primary; }
+  .heading { @apply text-[1.65rem] font-bold leading-snug text-heading md:text-4xl; text-wrap: balance; }
+
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-[15px] font-semibold transition duration-200 active:scale-[0.98]; }
+  .btn-primary { @apply btn bg-primary text-white shadow-[0_8px_20px_-8px_rgba(16,137,255,0.7)] hover:bg-primary-dark; }
+  .btn-outline { @apply btn border-2 border-primary bg-white text-primary hover:bg-primary-light; }
+  .btn-zalo { @apply btn bg-zalo text-white hover:brightness-110; }
+
+  .card { @apply rounded-2xl bg-white shadow-card ring-1 ring-black/5; }
+  .field { @apply h-12 w-full rounded-lg border border-gray-200 bg-white px-4 text-base text-heading outline-none transition placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-[15px]; }
+  textarea.field { @apply h-auto py-3; }
+  .field.invalid { @apply border-red-400 ring-2 ring-red-100; }
+  .label { @apply mb-1.5 block text-sm font-semibold text-heading; }
+  .req { @apply text-red-500; }
+  .err { @apply mt-1 hidden text-sm text-red-500; }
+
+  .nav-link { @apply relative py-6 text-[15px] font-medium text-gray-600 transition hover:text-primary; }
+  .nav-link.active { @apply text-primary; }
+  .nav-link.active::after { content: ""; @apply absolute inset-x-0 bottom-0 h-0.5 rounded bg-primary; }
+
+  /* Lựa chọn dạng thẻ (nơi tập) trong Phiếu Khám */
+  .choice { @apply flex min-h-[3rem] cursor-pointer items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3 text-[15px] text-heading transition hover:border-primary has-[:checked]:border-primary has-[:checked]:bg-primary-light has-[:checked]:font-semibold has-[:checked]:text-primary-dark; }
+
+  .float-chat { @apply relative grid place-items-center rounded-full text-white shadow-lg ring-4 ring-white transition hover:scale-105; }
+}
+
+/* Nút Zalo nhịp đập nhẹ */
+@keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.55; } 80%, 100% { transform: scale(1.6); opacity: 0; } }
+.pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .pulse-ring { animation: none; } }
+
+/* FAQ: mũi tên xoay khi mở */
+details[open] .faq-icon { transform: rotate(45deg); }
+details summary::-webkit-details-marker { display: none; }

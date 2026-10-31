@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>FitCoach Admin | Khách đăng ký</title>
+  <title>Trang quản lý | Khách đăng ký</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23131719'/%3E%3Cpath d='M6 18c0-7 4-11 12-12-.5 8-4.5 12-12 12Zm0 0 6-6' fill='%23a3cb4c' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -45,8 +45,8 @@
   <section id="loginView" class="grid min-h-screen place-items-center p-4">
     <form id="loginForm" class="card w-full max-w-sm space-y-4 p-8">
       <div>
-        <p class="text-2xl font-bold text-heading">Fit<span class="text-leaf">Coach</span> <span class="text-base font-medium text-gray-400">Admin</span></p>
-        <p class="mt-1">Trang quản lý khách đăng ký, chỉ dành cho admin.</p>
+        <p class="text-2xl font-bold text-heading">Fit<span class="text-leaf">Coach</span> <span class="text-base font-medium text-gray-400">Quản lý</span></p>
+        <p class="mt-1">Trang quản lý khách đăng ký, chỉ dành cho chủ web.</p>
       </div>
       <div>
         <label for="email" class="mb-1 block font-medium text-heading">Email</label>
@@ -59,7 +59,7 @@
       <p id="loginError" class="hidden rounded-md bg-red-50 px-3 py-2 text-red-600"></p>
       <button id="loginBtn" type="submit" class="btn-primary w-full py-2.5">Đăng nhập</button>
       <p id="demoNote" class="hidden rounded-md bg-primary-light px-3 py-2 text-xs text-primary-dark">
-        Đang mở file trực tiếp: chế độ DEMO với dữ liệu mẫu, nhập email và mật khẩu bất kỳ để xem.
+        Đang mở file trực tiếp: chế độ THỬ với dữ liệu mẫu, nhập email và mật khẩu bất kỳ để xem.
       </p>
     </form>
   </section>
@@ -68,8 +68,8 @@
   <div id="appView" class="hidden min-h-screen">
     <header class="sticky top-0 z-20 bg-dark text-white">
       <div class="mx-auto flex min-h-14 max-w-7xl flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2">
-        <p class="text-lg font-bold">Fit<span class="text-leaf">Coach</span> <span class="text-sm font-medium text-white/50">Admin</span></p>
-        <span id="demoBadge" class="badge hidden bg-leaf text-dark">DEMO</span>
+        <p class="text-lg font-bold">Fit<span class="text-leaf">Coach</span> <span class="text-sm font-medium text-white/50">Quản lý</span></p>
+        <span id="demoBadge" class="badge hidden bg-leaf text-dark">CHẾ ĐỘ THỬ</span>
         <nav class="order-last flex w-full gap-1 md:order-none md:ml-2 md:w-auto" aria-label="Mục quản lý">
           <button type="button" data-tab="leads" class="tab btn px-3 py-1.5 text-white/70 hover:text-white">👥 Khách đăng ký</button>
           <button type="button" data-tab="posts" class="tab btn px-3 py-1.5 text-white/70 hover:text-white">📝 Bài đăng</button>
@@ -84,8 +84,8 @@
 
     <!-- Cảnh báo chế độ DEMO: mọi thao tác chỉ lưu tạm trong trình duyệt -->
     <div id="demoBanner" class="hidden border-b border-amber-200 bg-amber-50 px-4 py-2.5 text-center text-amber-800">
-      ⚠️ <b>Đang ở chế độ DEMO</b> (mở file trên máy): khách và bài đăng ở đây là dữ liệu thử, <b>không lưu và không lên web thật</b>.
-      Muốn đăng thật, hãy mở trang admin trên Vercel: <span class="font-semibold">https://tên-trang-của-bạn.vercel.app/admin.html</span>
+      ⚠️ <b>Đang ở chế độ THỬ</b> (mở file trên máy): khách và bài đăng ở đây là dữ liệu thử, <b>không lưu và không lên web thật</b>.
+      Muốn đăng thật, hãy mở trang quản lý trên web: <span class="font-semibold">https://fitcoach-azure.vercel.app/admin.html</span>
     </div>
 
     <main id="leadsView" class="mx-auto grid max-w-7xl gap-4 p-4 lg:grid-cols-[320px_1fr]">
@@ -96,7 +96,7 @@
             <p class="font-semibold text-heading">Khách đăng ký</p>
             <span id="countBadge" class="badge bg-primary-light text-primary-dark">0</span>
           </div>
-          <input id="search" type="search" placeholder="Tìm tên, email, Facebook…" class="field" />
+          <input id="search" type="search" placeholder="Tìm tên, số Zalo…" class="field" />
           <div id="filters" class="flex gap-1">
             <button type="button" data-filter="all" class="filter btn flex-1 px-2 py-1 text-xs">Tất cả</button>
             <button type="button" data-filter="new" class="filter btn flex-1 px-2 py-1 text-xs">Chưa gửi</button>
@@ -155,8 +155,7 @@
         <!-- Nội dung theo ngôn ngữ -->
         <div>
           <div class="flex flex-wrap items-end justify-between gap-2 border-b border-gray-100">
-            <div id="postLangTabs" class="flex gap-1"></div>
-            <button id="translateBtn" type="button" class="btn-ghost mb-1.5 px-2.5 py-1 text-xs">🌐 Dịch tiếng Việt → English &amp; 中文</button>
+            <div id="postLangTabs" class="hidden"></div>
           </div>
           <div class="space-y-3 pt-4">
             <div>
@@ -171,7 +170,7 @@
               <label for="postContent" class="mb-1 block font-medium text-heading">Nội dung đầy đủ <span class="font-normal text-gray-400">(hiện khi khách bấm “Đọc tiếp”; cách 1 dòng trống để xuống đoạn)</span></label>
               <textarea id="postContent" rows="12" class="field leading-relaxed"></textarea>
             </div>
-            <p class="text-xs text-gray-400">Chỉ cần viết <b>tiếng Việt</b>. Khi bấm “Đăng lên web”, bài tự dịch sang English và 中文 (nếu 2 tab đó còn trống). Muốn xem và sửa bản dịch trước khi đăng: bấm “🌐 Dịch…” rồi mở tab English / 中文.</p>
+            <p class="text-xs text-gray-400">Viết bằng tiếng Việt. Bấm “🚀 Đăng lên web” là bài hiện ở mục Blog trên trang chủ sau khoảng 30 giây.</p>
           </div>
         </div>
 
@@ -206,11 +205,14 @@
     const $$ = (s) => document.querySelectorAll(s);
     const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
-    const state = { email: "", password: "", leads: [], selectedId: null, filter: "new", query: "", aiEnabled: false, adviceLang: null };
+    const state = { email: "", password: "", leads: [], selectedId: null, filter: "new", query: "", aiEnabled: false, adviceLang: "vi" };
 
-    const LANG_LABEL = { vi: "🇻🇳 Tiếng Việt", en: "🇬🇧 English", zh: "🇨🇳 中文" };
     const ACTIVITY_LABEL = { 1.2: "Ít vận động (ngồi nhiều)", 1.375: "Nhẹ (1–3 buổi/tuần)", 1.55: "Vừa (3–5 buổi/tuần)", 1.725: "Nhiều (6–7 buổi/tuần)" };
     const GOAL_LABEL = ["Giảm mỡ bụng", "Siết cân, giảm cân toàn thân", "Tăng cơ, săn chắc", "Giảm mỡ sau sinh", "Cải thiện sức khoẻ, vóc dáng"];
+    const PLACE_LABEL = { home: "🏠 Tại nhà (không dụng cụ)", home_gear: "🏠 Tại nhà (tạ đơn / dây kháng lực)", gym: "🏋️ Phòng Gym", unsure: "🤔 Chưa biết" };
+    const SESSIONS_LABEL = { 3: "3 buổi/tuần", 4: "4 buổi/tuần", "5-6": "5–6 buổi/tuần" };
+    // ⚠️ Tên ký cuối lời khuyên gửi khách: đổi thành tên PT
+    const COACH_NAME = "PT Minh Anh";
 
     /* ============================ TÍNH CHỈ SỐ ============================ */
     // BMI, BMR (Mifflin-St Jeor), TDEE, calo mục tiêu, đạm/béo/tinh bột, nước, thời gian dự kiến
@@ -227,7 +229,7 @@
       let kcal;
       let mode; // "loss" | "gentle" | "maintain" | "gain" | "recomp"
       if (l.goalIdx === 2) {
-        mode = bmi < 25 ? "gain" : "recomp";
+        mode = bmi < 23 ? "gain" : "recomp";
         kcal = mode === "gain" ? tdee + 250 : tdee - 250;
       } else if (underweight) {
         mode = "maintain";
@@ -236,8 +238,8 @@
         mode = "gentle"; // sau sinh: thâm hụt nhẹ, có thể đang cho con bú
         kcal = tdee * 0.85;
       } else if (l.goalIdx === 4) {
-        mode = bmi >= 25 ? "gentle" : "maintain";
-        kcal = bmi >= 25 ? tdee * 0.85 : tdee;
+        mode = bmi >= 23 ? "gentle" : "maintain";
+        kcal = bmi >= 23 ? tdee * 0.85 : tdee;
       } else {
         mode = "loss";
         kcal = tdee * 0.8;
@@ -271,8 +273,9 @@
       return { bmi, bmr, tdee, kcal, mode, protein, fat, carbs, weeklyLoss, toLose, weeks, targetBmi, water, warnings };
     }
 
+    // Chuẩn BMI châu Á (giống công cụ tính calo trên trang chủ): <18.5, 18.5–22.9, 23–24.9, ≥25
     const bmiCategory = (bmi, lang) => {
-      const i = bmi < 18.5 ? 0 : bmi < 25 ? 1 : bmi < 30 ? 2 : 3;
+      const i = bmi < 18.5 ? 0 : bmi < 23 ? 1 : bmi < 25 ? 2 : 3;
       return { vi: ["thiếu cân", "bình thường", "thừa cân", "béo phì"], en: ["underweight", "healthy range", "overweight", "obesity"], zh: ["偏瘦", "正常", "超重", "肥胖"] }[lang][i];
     };
 
@@ -289,7 +292,7 @@
 
     const ADVICE = {
       vi(l, m, f) {
-        const lines = [`Chào ${f.first}! Cảm ơn bạn đã đăng ký FitCoach. Dựa trên thông tin bạn gửi, mình gợi ý lộ trình khởi đầu như sau:`, ""];
+        const lines = [`Chào ${f.first}! Cảm ơn bạn đã gửi Phiếu Khám. Dựa trên thông tin bạn gửi, mình gợi ý lộ trình khởi đầu như sau:`, ""];
         lines.push("📊 Chỉ số hiện tại", `- BMI: ${f.d1(m.bmi)} (${f.cat})`, `- Năng lượng cơ thể tiêu hao mỗi ngày (TDEE): khoảng ${f.n(m.tdee)} kcal`, "");
         lines.push("🎯 Mục tiêu");
         if (m.mode === "loss" || m.mode === "gentle") {
@@ -304,13 +307,14 @@
         }
         lines.push("");
         lines.push("🍽 Ăn uống",
-          `- Đạm: khoảng ${m.protein} g/ngày (ức gà, cá, trứng, sữa chua Hy Lạp, đậu phụ)`,
-          `- Chất béo: khoảng ${m.fat} g, tinh bột: khoảng ${m.carbs} g/ngày (ưu tiên yến mạch, gạo lứt, khoai, bánh mì nguyên cám)`,
-          "- Mỗi bữa: 1/2 đĩa rau, 1/4 đạm, 1/4 tinh bột",
+          `- Đạm: khoảng ${m.protein} g/ngày (thịt nạc, cá, trứng, đậu phụ, tôm, sữa chua không đường)`,
+          `- Chất béo: khoảng ${m.fat} g, tinh bột: khoảng ${m.carbs} g/ngày (cơm đúng lượng, khoai lang, ngô, bún/phở phần vừa)`,
+          "- Mỗi bữa: 1/2 đĩa rau, 1/4 đạm (thịt, cá, trứng), 1/4 cơm (khoảng 1 bát vừa)",
           `- Uống khoảng ${f.d1(m.water)} lít nước/ngày, hạn chế đồ uống có đường và rượu bia`, "");
-        lines.push("🏋️ Tập luyện", ...TRAINING.vi[l.goalIdx], "- Đi bộ 8.000–10.000 bước mỗi ngày", "");
+        lines.push(...habitLines(l, "vi", "🥢 Sửa thói quen ăn uống"));
+        lines.push(`🏋️ Tập luyện (${{ home: "tại nhà", home_gear: "tại nhà", gym: "phòng Gym", unsure: "tại nhà hoặc phòng Gym" }[placeOf(l)]})`, ...trainingLines(l, "vi"), "- Đi bộ 8.000–10.000 bước mỗi ngày", "");
         lines.push("😴 Thói quen", "- Ngủ 7–8 tiếng mỗi đêm", "- Cân vào buổi sáng 1–2 lần/tuần, đo vòng eo mỗi 2 tuần", "");
-        lines.push("Đây là gợi ý khởi đầu, Coach sẽ điều chỉnh chi tiết theo lịch sinh hoạt và cơ địa của bạn. Có câu hỏi gì bạn cứ nhắn mình nhé! 💪", "— Coach Sarah Johnson");
+        lines.push("Đây là giáo án khởi đầu cho 3 ngày dùng thử miễn phí, PT sẽ điều chỉnh chi tiết theo lịch sinh hoạt và cơ địa của bạn. Việc của bạn là giữ kỷ luật và báo cáo mỗi ngày qua Zalo nhé! 💪", "— " + COACH_NAME);
         return lines.join("\n");
       },
       en(l, m, f) {
@@ -329,13 +333,14 @@
         }
         lines.push("");
         lines.push("🍽 Nutrition",
-          `- Protein: about ${m.protein} g a day (chicken breast, fish, eggs, Greek yogurt, tofu)`,
-          `- Fat: about ${m.fat} g, carbs: about ${m.carbs} g a day (oats, brown rice, potatoes, whole-grain bread)`,
-          "- Each meal: 1/2 plate vegetables, 1/4 protein, 1/4 carbs",
+          `- Protein: about ${m.protein} g a day (lean meat, fish, eggs, tofu, shrimp, plain yogurt)`,
+          `- Fat: about ${m.fat} g, carbs: about ${m.carbs} g a day (measured rice, sweet potato, corn, pho or bun in moderate portions)`,
+          "- Each meal: 1/2 plate vegetables, 1/4 protein (meat, fish, eggs), 1/4 rice (about one medium bowl)",
           `- Drink about ${f.d1(m.water)} liters of water a day; limit sugary drinks and alcohol`, "");
-        lines.push("🏋️ Training", ...TRAINING.en[l.goalIdx], "- Walk 8,000–10,000 steps a day", "");
+        lines.push(...habitLines(l, "en", "🥢 Fixing your eating habits"));
+        lines.push(`🏋️ Training (${{ home: "at home", home_gear: "at home", gym: "at the gym", unsure: "at home or at the gym" }[placeOf(l)]})`, ...trainingLines(l, "en"), "- Walk 8,000–10,000 steps a day", "");
         lines.push("😴 Habits", "- Sleep 7–8 hours a night", "- Weigh yourself in the morning 1–2 times a week and measure your waist every 2 weeks", "");
-        lines.push("This is a starting point. Coach will fine-tune the details to your schedule and body. Message me anytime with questions! 💪", "— Coach Sarah Johnson");
+        lines.push("This is a starting point. Coach will fine-tune the details to your schedule and body. Your job is to stay disciplined and report in every day on Zalo! 💪", "— " + COACH_NAME);
         return lines.join("\n");
       },
       zh(l, m, f) {
@@ -354,13 +359,14 @@
         }
         lines.push("");
         lines.push("🍽 饮食",
-          `- 蛋白质：每天约${m.protein}克（鸡胸肉、鱼、鸡蛋、希腊酸奶、豆腐）`,
-          `- 脂肪：约${m.fat}克，碳水：每天约${m.carbs}克（燕麦、糙米、土豆、全麦面包）`,
-          "- 每餐：1/2盘蔬菜、1/4蛋白质、1/4主食",
+          `- 蛋白质：每天约${m.protein}克（瘦肉、鱼、鸡蛋、豆腐、虾、无糖酸奶）`,
+          `- 脂肪：约${m.fat}克，碳水：每天约${m.carbs}克（定量米饭、红薯、玉米、适量米粉/河粉）`,
+          "- 每餐：1/2盘蔬菜、1/4蛋白质（肉、鱼、蛋）、1/4米饭（约一中碗）",
           `- 每天喝约${f.d1(m.water)}升水，少喝含糖饮料和酒`, "");
-        lines.push("🏋️ 训练", ...TRAINING.zh[l.goalIdx], "- 每天步行8,000–10,000步", "");
+        lines.push(...habitLines(l, "zh", "🥢 改善饮食习惯"));
+        lines.push(`🏋️ 训练（${{ home: "在家", home_gear: "在家", gym: "健身房", unsure: "在家或健身房" }[placeOf(l)]}）`, ...trainingLines(l, "zh"), "- 每天步行8,000–10,000步", "");
         lines.push("😴 习惯", "- 每晚睡7–8小时", "- 每周早晨称重1–2次，每2周量一次腰围", "");
-        lines.push("这是入门建议，教练会根据你的作息和体质进一步调整细节。有任何问题随时联系我！💪", "— Sarah Johnson教练");
+        lines.push("这是入门建议，教练会根据你的作息和体质进一步调整细节。你要做的是保持自律，每天通过Zalo汇报！💪", "— " + COACH_NAME);
         return lines.join("\n");
       },
     };
@@ -368,27 +374,91 @@
     // Gợi ý tập theo mục tiêu (thứ tự giống danh sách mục tiêu trên form)
     const TRAINING = {
       vi: [
-        ["- 3 buổi tập sức mạnh toàn thân/tuần (squat, đẩy, kéo, plank), mỗi buổi 40–45 phút", "- 1–2 buổi cardio hoặc HIIT 20 phút", "- Lưu ý: không thể giảm mỡ riêng ở bụng, mỡ bụng giảm khi tổng lượng mỡ cơ thể giảm"],
-        ["- 3 buổi tập sức mạnh toàn thân/tuần, mỗi buổi 40–45 phút", "- 2 buổi cardio vừa sức 30–40 phút (đi nhanh, đạp xe, bơi)"],
+        ["- 3 buổi tập sức mạnh toàn thân/tuần (squat, đẩy, kéo, plank)", "- 1–2 buổi cardio hoặc HIIT 20 phút", "- Lưu ý: không thể giảm mỡ riêng ở bụng, mỡ bụng giảm khi tổng lượng mỡ cơ thể giảm"],
+        ["- 3 buổi tập sức mạnh toàn thân/tuần", "- 2 buổi cardio vừa sức 30–40 phút (đi nhanh, đạp xe, bơi)"],
         ["- 4 buổi tập sức mạnh/tuần (chia thân trên/thân dưới)", "- Tăng dần mức tạ hoặc số lần mỗi tuần", "- 1–2 buổi cardio nhẹ để hỗ trợ tim mạch"],
         ["- Bắt đầu bằng bài thở, cơ sàn chậu và phục hồi tách cơ bụng; tránh gập bụng (crunch) giai đoạn đầu", "- 3 buổi tập nhẹ toàn thân 20–30 phút/tuần, tăng dần", "- Nên được bác sĩ đồng ý trước khi tập (thường sau 6–8 tuần sau sinh)"],
         ["- 2–3 buổi tập sức mạnh toàn thân/tuần", "- Khoảng 150 phút cardio vừa sức mỗi tuần", "- Thêm 10 phút giãn cơ hoặc yoga sau mỗi buổi"],
       ],
       en: [
-        ["- 3 full-body strength sessions a week (squats, pushes, pulls, planks), 40–45 minutes each", "- 1–2 cardio or 20-minute HIIT sessions", "- Note: you can't spot-reduce belly fat; it shrinks as your overall body fat drops"],
-        ["- 3 full-body strength sessions a week, 40–45 minutes each", "- 2 moderate cardio sessions of 30–40 minutes (brisk walking, cycling, swimming)"],
+        ["- 3 full-body strength sessions a week (squats, pushes, pulls, planks)", "- 1–2 cardio or 20-minute HIIT sessions", "- Note: you can't spot-reduce belly fat; it shrinks as your overall body fat drops"],
+        ["- 3 full-body strength sessions a week", "- 2 moderate cardio sessions of 30–40 minutes (brisk walking, cycling, swimming)"],
         ["- 4 strength sessions a week (upper/lower body split)", "- Gradually increase weight or reps every week", "- 1–2 light cardio sessions for heart health"],
         ["- Start with breathing, pelvic floor and ab-separation recovery exercises; avoid crunches early on", "- 3 gentle full-body sessions of 20–30 minutes a week, building up gradually", "- Get your doctor's clearance before training (usually 6–8 weeks after birth)"],
         ["- 2–3 full-body strength sessions a week", "- About 150 minutes of moderate cardio a week", "- Add 10 minutes of stretching or yoga after each session"],
       ],
       zh: [
-        ["- 每周3次全身力量训练（深蹲、推、拉、平板支撑），每次40–45分钟", "- 1–2次有氧或20分钟HIIT", "- 注意：无法只减腹部脂肪，全身脂肪下降时腹部自然会变小"],
-        ["- 每周3次全身力量训练，每次40–45分钟", "- 2次30–40分钟中等强度有氧（快走、骑车、游泳）"],
+        ["- 每周3次全身力量训练（深蹲、推、拉、平板支撑）", "- 1–2次有氧或20分钟HIIT", "- 注意：无法只减腹部脂肪，全身脂肪下降时腹部自然会变小"],
+        ["- 每周3次全身力量训练", "- 2次30–40分钟中等强度有氧（快走、骑车、游泳）"],
         ["- 每周4次力量训练（上下肢分化）", "- 每周逐步增加重量或次数", "- 1–2次轻度有氧，保持心肺健康"],
         ["- 从呼吸、盆底肌和腹直肌分离修复训练开始，初期避免卷腹", "- 每周3次20–30分钟的轻度全身训练，逐步加量", "- 训练前需医生同意（通常在产后6–8周）"],
         ["- 每周2–3次全身力量训练", "- 每周约150分钟中等强度有氧", "- 每次训练后做10分钟拉伸或瑜伽"],
       ],
     };
+
+    // Bài tập theo nơi tập (khách chọn trong Phiếu Khám)
+    const placeOf = (l) => (PLACE_LABEL[l.place] ? l.place : "unsure");
+    const PLACE_TRAINING = {
+      vi: {
+        home: ["- Tập tại nhà 30–40 phút/buổi, không cần dụng cụ: squat, lunge, chống đẩy (tựa tường hoặc chống gối), plank, cầu mông, leo núi tại chỗ (mountain climber)", "- Mỗi bài 3 hiệp × 12–15 lần, nghỉ 30–45 giây; chỉ cần 1 tấm thảm"],
+        home_gear: ["- Tập tại nhà 30–40 phút/buổi với tạ đơn / dây kháng lực: squat cầm tạ, lunge, chống đẩy, kéo dây (row), đẩy vai, cầu mông với dây", "- Mỗi bài 3 hiệp × 10–15 lần, nghỉ 45–60 giây; tăng dần mức tạ hoặc độ căng dây mỗi 1–2 tuần"],
+        gym: ["- Tại phòng Gym (45–60 phút/buổi): đạp đùi (leg press), kéo xô (lat pulldown), đẩy ngực bằng máy, kéo cáp ngồi, cầu mông; 3 hiệp × 10–12 lần, nghỉ 60–90 giây", "- Tập đúng kỹ thuật với mức tạ vừa sức, tăng dần mỗi tuần: săn gọn chứ không to thô", "- Cuối buổi đi bộ dốc trên máy chạy 15–20 phút"],
+        unsure: ["- Tập tại nhà (30 phút, thảm + dây kháng lực) hay phòng Gym (máy + tạ, giáo án ghi rõ số hiệp, số lần) đều được; PT sẽ tư vấn thêm theo lịch của bạn"],
+      },
+      en: {
+        home: ["- 30–40 minute home sessions, no equipment: squats, lunges, push-ups (against a wall or on your knees), planks, glute bridges, mountain climbers", "- 3 sets × 12–15 reps per exercise, 30–45 seconds rest; all you need is a mat"],
+        home_gear: ["- 30–40 minute home sessions with dumbbells / resistance bands: goblet squats, lunges, push-ups, band rows, shoulder presses, banded glute bridges", "- 3 sets × 10–15 reps, 45–60 seconds rest; increase the weight or band tension every 1–2 weeks"],
+        gym: ["- At the gym (45–60 minutes a session): leg press, lat pulldown, machine chest press, seated cable row, glute bridges; 3 sets × 10–12 reps, 60–90 seconds rest", "- Focus on good technique with a manageable weight and add a little each week: lean and toned, not bulky", "- Finish with 15–20 minutes of incline walking on the treadmill"],
+        unsure: ["- Home training (30 minutes, mat + bands) or the gym (machines + weights, with sets and reps written out) both work; Coach will help you choose based on your schedule"],
+      },
+      zh: {
+        home: ["- 在家每次30–40分钟，无需器材：深蹲、弓步蹲、俯卧撑（扶墙或跪姿）、平板支撑、臀桥、登山跑", "- 每个动作3组×12–15次，组间休息30–45秒；只需一张瑜伽垫"],
+        home_gear: ["- 在家每次30–40分钟，用哑铃/弹力带：高脚杯深蹲、弓步蹲、俯卧撑、弹力带划船、肩推、弹力带臀桥", "- 每个动作3组×10–15次，休息45–60秒；每1–2周逐步加重或加大弹力"],
+        gym: ["- 健身房（每次45–60分钟）：腿举、高位下拉、器械推胸、坐姿绳索划船、臀桥；每个动作3组×10–12次，组间休息60–90秒", "- 用适合的重量做好标准动作，每周逐步加重：练得紧致而不粗壮", "- 训练结束后在跑步机上坡度快走15–20分钟"],
+        unsure: ["- 在家（30分钟，瑜伽垫+弹力带）或健身房（器械+自由重量，写清组数次数）都可以，教练会根据你的作息给建议"],
+      },
+    };
+
+    // Lịch tập theo số buổi/tuần khách đăng ký (khách cũ không có thì dùng gợi ý theo mục tiêu)
+    const SCHEDULE = {
+      vi: {
+        3: ["- 3 buổi/tuần (VD: Thứ 2 – 4 – 6), mỗi buổi tập toàn thân", "- Cuối mỗi buổi thêm 10–15 phút cardio nhẹ (đi bộ nhanh, đạp xe)"],
+        4: ["- 4 buổi/tuần: 2 buổi thân dưới + 2 buổi thân trên, xen kẽ ngày nghỉ", "- Cuối mỗi buổi thêm 10–15 phút cardio nhẹ"],
+        "5-6": ["- 5–6 buổi/tuần: 3 buổi sức mạnh toàn thân + 2–3 buổi cardio nhẹ 30 phút (đi bộ nhanh, đạp xe)", "- Nghỉ hẳn ít nhất 1 ngày/tuần để cơ thể phục hồi"],
+      },
+      en: {
+        3: ["- 3 sessions a week (e.g. Mon – Wed – Fri), full-body each time", "- Add 10–15 minutes of light cardio (brisk walking, cycling) at the end"],
+        4: ["- 4 sessions a week: 2 lower-body + 2 upper-body days, with rest days in between", "- Add 10–15 minutes of light cardio at the end of each session"],
+        "5-6": ["- 5–6 sessions a week: 3 full-body strength days + 2–3 light 30-minute cardio days (brisk walking, cycling)", "- Take at least 1 full rest day a week"],
+      },
+      zh: {
+        3: ["- 每周3次（如周一、三、五），每次全身训练", "- 每次结束后加10–15分钟轻度有氧（快走、骑车）"],
+        4: ["- 每周4次：2次下肢 + 2次上肢，中间安排休息日", "- 每次结束后加10–15分钟轻度有氧"],
+        "5-6": ["- 每周5–6次：3次全身力量训练 + 2–3次30分钟轻度有氧（快走、骑车）", "- 每周至少完全休息1天"],
+      },
+    };
+    function trainingLines(l, lang) {
+      const plan = SCHEDULE[lang][l.sessions] || TRAINING[lang][l.goalIdx] || TRAINING[lang][1];
+      return [...plan, ...PLACE_TRAINING[lang][placeOf(l)]];
+    }
+
+    // Mẹo sửa thói quen ăn uống (khóa = nhãn tiếng Việt khách chọn trong Phiếu Khám)
+    const HABIT_TIPS = {
+      "Ăn cơm cùng gia đình": { vi: "Ăn cơm cùng gia đình: vẫn ăn chung mâm, chỉ cần dùng bát riêng đong đúng lượng cơm, gắp rau và đạm trước, hạn chế món chiên và nước chấm", en: "Eating with family: keep sharing family meals, just use your own bowl to measure the rice, take vegetables and protein first, and go easy on fried dishes and dipping sauces", zh: "和家人一起吃饭：照常同桌吃饭，用自己的碗定量盛饭，先夹蔬菜和蛋白质，少吃油炸菜和蘸酱" },
+      "Tự nấu riêng được": { vi: "Tự nấu riêng: ưu tiên luộc, hấp, áp chảo ít dầu; nấu sẵn đạm (ức gà, trứng, thịt nạc) 2–3 ngày để không bị lỡ bữa", en: "Cooking for yourself: boil, steam or pan-fry with little oil, and prep protein (chicken breast, eggs, lean meat) for 2–3 days so you never miss a meal", zh: "自己做饭：多用水煮、清蒸、少油煎；提前备好2–3天的蛋白质（鸡胸肉、鸡蛋、瘦肉），避免错过正餐" },
+      "Thường xuyên ăn quán/cơm văn phòng": { vi: "Ăn quán / cơm văn phòng: chọn món luộc, nướng, canh; xin thêm rau, bớt cơm còn 2/3 và bớt nước sốt, nước béo", en: "Eating out / office lunches: choose boiled, grilled or soup dishes, ask for extra vegetables, two-thirds of the rice and less sauce", zh: "常在外吃/工作餐：选水煮、烧烤、汤类；多要蔬菜，米饭吃三分之二，少放酱汁和油汤" },
+      "Hay ăn khuya": { vi: "Ăn khuya: ăn tối đủ đạm và rau trước 20h; nếu đói, dùng sữa chua không đường hoặc 1 quả trứng luộc", en: "Late-night snacking: eat a dinner with enough protein and vegetables before 8 pm; if hungry later, have plain yogurt or a boiled egg", zh: "常吃夜宵：晚上8点前吃含足够蛋白质和蔬菜的晚餐；饿了就喝无糖酸奶或吃一个水煮蛋" },
+      "Ăn ngoài, cơm văn phòng": { vi: "Ăn ngoài: chọn gà/cá luộc, nướng, xin thêm rau, bớt nước sốt, ăn 2/3 phần cơm", en: "Eating out: pick boiled or grilled chicken or fish, ask for extra vegetables and less sauce, and eat two-thirds of the rice", zh: "常在外吃：选白切或烤的鸡肉、鱼，多要蔬菜、少放酱汁，米饭吃三分之二" },
+      "Thích đồ ngọt, trà sữa": { vi: "Trà sữa, đồ ngọt: giảm còn 1–2 lần/tuần, chọn size nhỏ, 30% đường, bỏ trân châu", en: "Bubble tea & sweets: cut down to 1–2 times a week, small size, 30% sugar, skip the pearls", zh: "奶茶甜食：减少到每周1–2次，选小杯、三分糖、不加珍珠" },
+      "Ăn nhiều cơm, tinh bột": { vi: "Ăn nhiều cơm: đổi sang bát nhỏ, ăn rau và đạm trước, cơm sau", en: "Lots of rice: switch to a smaller bowl and eat vegetables and protein first, rice last", zh: "米饭吃得多：换小碗，先吃蔬菜和蛋白质，最后吃米饭" },
+      "Hay bỏ bữa sáng": { vi: "Bỏ bữa sáng: chuẩn bị sẵn bữa sáng nhanh (trứng + bánh mì, hoặc phở/xôi phần nhỏ) để trưa không ăn quá đà", en: "Skipping breakfast: keep a quick breakfast ready (eggs and bread, or a small bowl of pho) so you don't overeat at lunch", zh: "常不吃早餐：准备简单早餐（鸡蛋配面包或一小碗河粉），避免午餐吃太多" },
+      "Uống bia rượu": { vi: "Bia rượu: tối đa 1–2 lon/lần, xen kẽ nước lọc, chọn mồi luộc/nướng thay đồ chiên", en: "Beer/alcohol: max 1–2 cans per occasion, alternate with water, choose boiled or grilled snacks over fried ones", zh: "啤酒/酒：每次最多1–2罐，间隔喝水，下酒菜选水煮或烧烤，不选油炸" },
+      "Ăn uống thất thường": { vi: "Ăn thất thường: cố định 3 bữa chính cùng giờ mỗi ngày, đặt nhắc giờ ăn trên điện thoại", en: "Irregular meals: set 3 main meals at fixed times every day and add meal reminders on your phone", zh: "饮食不规律：每天固定时间吃三餐，在手机上设吃饭提醒" },
+    };
+    function habitLines(l, lang, heading) {
+      const tips = [l.eating, ...(l.habits || [])].map((h) => HABIT_TIPS[h]?.[lang]).filter(Boolean);
+      return tips.length ? [heading, ...tips.map((t) => "- " + t), ""] : [];
+    }
 
     /* ============================ GỌI API ============================ */
     async function api(method, body) {
@@ -468,7 +538,7 @@
     });
 
     $("#refreshBtn").addEventListener("click", async () => {
-      if (IS_DEMO) return toast("Chế độ demo: không có dữ liệu mới");
+      if (IS_DEMO) return toast("Chế độ thử: không có dữ liệu mới");
       try {
         const data = await api("GET");
         state.leads = data.leads;
@@ -515,8 +585,8 @@
                 <span class="truncate font-semibold text-heading">${esc(l.name)}</span>
                 ${l.status === "sent" ? '<span class="badge bg-leaf-light text-leaf-dark">Đã gửi</span>' : '<span class="badge bg-red-50 text-red-500">Mới</span>'}
               </div>
-              <div class="mt-0.5 truncate text-xs">${esc(GOAL_LABEL[l.goalIdx] || l.goal)} · ${l.weight} kg${l.target ? " → " + l.target + " kg" : ""}</div>
-              <div class="mt-0.5 flex justify-between text-[11px] text-gray-400"><span>${LANG_LABEL[l.lang] || ""}</span><span>${timeAgo(l.createdAt)}</span></div>
+              <div class="mt-0.5 truncate text-xs">${l.place ? PLACE_LABEL[placeOf(l)].split(" ")[0] + " " : ""}${esc(l.goalText || GOAL_LABEL[l.goalIdx] || l.goal)} · ${l.weight} kg${l.target ? " → " + l.target + " kg" : ""}</div>
+              <div class="mt-0.5 flex justify-between text-[11px] text-gray-400"><span>${l.plan ? esc(l.plan) : ""}</span><span>${timeAgo(l.createdAt)}</span></div>
             </button>
           </li>`,
             )
@@ -540,7 +610,13 @@
     });
 
     /* ============================ CHI TIẾT KHÁCH ============================ */
+    // Số Zalo -> link chat Zalo; khách cũ (email, Facebook, Telegram) vẫn mở được
+    const isPhone = (c) => /^(0\d{9}|\+?84\d{9}|\+\d{8,15})$/.test(String(c).replace(/[\s.\-()]/g, ""));
     const contactLink = (c) => {
+      if (isPhone(c)) {
+        const d = String(c).replace(/\D/g, "");
+        return `https://zalo.me/${d.startsWith("84") && d.length === 11 ? "0" + d.slice(2) : d}`;
+      }
       if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c)) return `mailto:${c}`;
       if (/^@[A-Za-z0-9_]{5,}$/.test(c)) return `https://t.me/${c.slice(1)}`;
       if (/^(https?:\/\/)?(www\.)?(facebook\.com|fb\.com|fb\.me|m\.me|t\.me)\//i.test(c)) return c.startsWith("http") ? c : `https://${c}`;
@@ -555,7 +631,7 @@
       if (!l) return;
       const editorWas = keepEditor && $("#finalText") ? $("#finalText").value : null;
       state.selectedId = id;
-      if (!keepEditor) state.adviceLang = l.lang;
+      state.adviceLang = "vi"; // web chỉ dùng tiếng Việt
       history.replaceState(null, "", `${location.pathname}${location.search}#${id}`);
       renderList();
 
@@ -571,24 +647,28 @@
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div>
               <p class="text-xl font-semibold text-heading">${esc(l.name)}</p>
-              <p class="mt-0.5 text-xs">Đăng ký ${new Date(l.createdAt).toLocaleString("vi-VN")} · ${LANG_LABEL[l.lang] || ""}</p>
+              <p class="mt-0.5 text-xs">Đăng ký ${new Date(l.createdAt).toLocaleString("vi-VN")}</p>
             </div>
             <div class="flex flex-wrap gap-2">
               ${l.status === "sent"
                 ? `<span class="badge bg-leaf-light px-3 py-1.5 text-leaf-dark">✅ Đã gửi${l.sentAt ? " " + new Date(l.sentAt).toLocaleDateString("vi-VN") : ""}</span>`
                 : '<span class="badge bg-red-50 px-3 py-1.5 text-red-500">Chưa gửi lời khuyên</span>'}
+              <button id="copyProfileBtn" type="button" class="btn-primary px-2.5 py-1 text-xs" title="Sao chép khối tóm tắt hồ sơ để dán vào công cụ lập lộ trình / AI">📋 Sao chép hồ sơ</button>
               <button id="deleteBtn" type="button" class="btn-ghost px-2.5 py-1 text-xs text-red-500 hover:border-red-400 hover:text-red-600">Xoá</button>
             </div>
           </div>
           <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            ${row("Liên hệ", `${esc(l.contact)} <button type="button" data-copy="${esc(l.contact)}" class="ml-1 text-xs text-primary">copy</button>${link ? ` <a href="${esc(link)}" target="_blank" rel="noopener noreferrer" class="text-xs text-primary">mở ↗</a>` : ""}`)}
+            ${row(isPhone(l.contact) ? "Số Zalo" : "Liên hệ", `${esc(l.contact)} <button type="button" data-copy="${esc(l.contact)}" class="ml-1 text-xs text-primary">sao chép</button>${link ? ` <a href="${esc(link)}" target="_blank" rel="noopener noreferrer" class="text-xs text-primary">${isPhone(l.contact) ? "chat Zalo ↗" : "mở ↗"}</a>` : ""}`)}
+            ${row("Nơi tập", l.place ? PLACE_LABEL[placeOf(l)] : "—")}
             ${row("Giới tính / tuổi", `${l.sex === "male" ? "Nam" : "Nữ"}, ${l.age} tuổi`)}
             ${row("Chiều cao / cân nặng", `${l.height} cm · ${l.weight} kg`)}
             ${row("Cân nặng mong muốn", l.target ? `${l.target} kg (${l.target < l.weight ? "-" + (Math.round((l.weight - l.target) * 10) / 10) + " kg" : "giữ / tăng"})` : "—")}
-            ${row("Mục tiêu", esc(GOAL_LABEL[l.goalIdx] || l.goal))}
+            ${row("Mục tiêu", esc(l.goalText || GOAL_LABEL[l.goalIdx] || l.goal))}
+            ${row("Số buổi tập", SESSIONS_LABEL[l.sessions] || "—")}
             ${row("Gói quan tâm", esc(l.plan || "Chưa chọn"))}
-            ${row("Mức vận động", ACTIVITY_LABEL[l.activity] || "—")}
-            ${row("Ghi chú", esc(l.note || "—"))}
+            ${row("Mức vận động", l.activityFromCalc === false ? "Chưa rõ (tạm tính: nhẹ)" : ACTIVITY_LABEL[l.activity] || "—")}
+            ${row("Thói quen ăn uống", esc([l.eating, ...(l.habits || [])].filter(Boolean).join(", ") || "—"))}
+            ${row("Sức khỏe / ghi chú", esc(l.note || "—"))}
           </div>
         </div>
 
@@ -610,12 +690,7 @@
         <div class="card">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <p class="font-semibold text-heading">💬 Lời khuyên gửi khách</p>
-            <div class="flex items-center gap-2 text-xs">
-              <span>Ngôn ngữ gợi ý:</span>
-              <select id="adviceLang" class="field w-auto py-1 text-xs">
-                ${Object.keys(LANG_LABEL).map((k) => `<option value="${k}" ${k === state.adviceLang ? "selected" : ""}>${LANG_LABEL[k]}</option>`).join("")}
-              </select>
-            </div>
+
           </div>
           <div class="mt-3 grid gap-4 xl:grid-cols-2">
             <div class="flex flex-col">
@@ -638,7 +713,7 @@
           </div>
           <div class="mt-4 flex flex-wrap justify-end gap-2">
             <button id="saveBtn" type="button" class="btn-ghost">💾 Lưu nháp</button>
-            <button id="copyBtn" type="button" class="btn-primary">📋 Copy để gửi khách</button>
+            <button id="copyBtn" type="button" class="btn-primary">📋 Sao chép để gửi khách</button>
             <button id="sentBtn" type="button" class="${l.status === "sent" ? "btn-ghost" : "btn-leaf"}">${l.status === "sent" ? "↺ Đánh dấu chưa gửi" : "✅ Đánh dấu đã gửi"}</button>
           </div>
         </div>`;
@@ -651,11 +726,6 @@
     }
 
     function bindDetail(l) {
-      $("#adviceLang").addEventListener("change", (e) => {
-        state.adviceLang = e.target.value;
-        $("#suggestText").value = buildAdvice(l, state.adviceLang);
-        $("#suggestSource").textContent = "tự động (công thức)";
-      });
 
       $("#useSuggestBtn").addEventListener("click", () => {
         const fin = $("#finalText");
@@ -674,7 +744,7 @@
           let text;
           if (IS_DEMO) {
             await new Promise((r) => setTimeout(r, 900));
-            text = "(Demo) Khi chạy trên Vercel có ANTHROPIC_API_KEY, AI sẽ viết lại bản gợi ý thành một tin nhắn tự nhiên, cá nhân hoá theo ghi chú của khách.\n\n" + $("#suggestText").value;
+            text = "(Chế độ thử) Khi chạy trên web thật có ANTHROPIC_API_KEY, AI sẽ viết lại bản gợi ý thành một tin nhắn tự nhiên, cá nhân hoá theo ghi chú của khách.\n\n" + $("#suggestText").value;
           } else {
             text = (await api("POST", { action: "ai", id: l.id, lang: state.adviceLang, draft: buildAdvice(l, state.adviceLang) })).text;
           }
@@ -695,7 +765,7 @@
         const text = $("#finalText").value.trim();
         if (!text) return toast("Ô “Bản gửi khách” đang trống");
         await copy(text);
-        toast("Đã copy, dán vào Messenger / Telegram / email để gửi khách");
+        toast("Đã sao chép, dán vào Zalo để gửi khách");
         if (text !== (l.advice || "")) saveLead(l, { advice: text }, null);
       });
 
@@ -718,10 +788,35 @@
         }
       });
 
+      $("#copyProfileBtn").addEventListener("click", async () => {
+        await copy(profileSummary(l));
+        toast("Đã sao chép hồ sơ, dán vào công cụ lập lộ trình");
+      });
+
       $$("[data-copy]").forEach((b) => b.addEventListener("click", async () => {
         await copy(b.dataset.copy);
-        toast("Đã copy thông tin liên hệ");
+        toast("Đã sao chép số Zalo");
       }));
+    }
+
+    // Khối tóm tắt hồ sơ (server tạo sẵn khi khách gửi form; khách cũ thì tạo tại đây)
+    function profileSummary(l) {
+      if (l.summary) return l.summary;
+      const m = metrics(l);
+      return [
+        "HỒ SƠ KHÁM KHÁCH HÀNG",
+        `- Họ tên: ${l.name}`,
+        `- Liên hệ: ${l.contact}`,
+        `- Giới tính / tuổi: ${l.sex === "male" ? "Nam" : "Nữ"}, ${l.age} tuổi`,
+        `- Chiều cao / cân nặng: ${l.height} cm / ${l.weight} kg (BMI ${m.bmi.toFixed(1)} – ${bmiCategory(m.bmi, "vi")})`,
+        `- Mục tiêu: ${l.goalText || GOAL_LABEL[l.goalIdx] || l.goal || "—"}${l.target ? ` (cân nặng mục tiêu ${l.target} kg)` : ""}`,
+        `- Nơi tập: ${PLACE_LABEL[l.place] || "—"}`,
+        `- Số buổi tập/tuần: ${SESSIONS_LABEL[l.sessions] || "—"}`,
+        `- Thói quen ăn uống: ${[l.eating, ...(l.habits || [])].filter(Boolean).join(", ") || "—"}`,
+        `- Sức khỏe / chấn thương / dị ứng: ${l.note || "Không ghi"}`,
+        `- Gói quan tâm: ${l.plan || "Cần tư vấn thêm"}`,
+        `- Ước tính: TDEE ~${Math.round(m.tdee)} kcal/ngày`,
+      ].join("\n");
     }
 
     async function saveLead(l, changes, okMessage) {
@@ -776,7 +871,7 @@
 
     /* ============================ BÀI ĐĂNG (BLOG) ============================ */
     // Admin viết bài -> "Đăng lên web" -> trang chủ tự hiện ở mục Blog (qua /api/posts)
-    const POST_LANGS = { vi: "🇻🇳 Tiếng Việt", en: "🇬🇧 English", zh: "🇨🇳 中文" };
+    const POST_LANGS = { vi: "Tiếng Việt" }; // web chỉ dùng tiếng Việt
     const emptyPost = () => ({ id: null, status: "draft", pinned: false, image: "", i18n: { vi: {}, en: {}, zh: {} } });
     state.posts = [];
     state.editing = emptyPost();
@@ -795,7 +890,7 @@
                 <span class="line-clamp-2 font-semibold text-heading">${p.pinned ? "📌 " : ""}${esc(postTitle(p))}</span>
                 ${p.status === "published" ? '<span class="badge shrink-0 bg-leaf-light text-leaf-dark">Đã đăng</span>' : '<span class="badge shrink-0 bg-gray-100 text-gray-500">Nháp</span>'}
               </div>
-              <div class="mt-0.5 text-[11px] text-gray-400">${new Date(p.publishedAt || p.updatedAt || p.createdAt).toLocaleString("vi-VN")} · ${Object.keys(p.i18n || {}).map((k) => k.toUpperCase()).join(" / ")}</div>
+              <div class="mt-0.5 text-[11px] text-gray-400">${new Date(p.publishedAt || p.updatedAt || p.createdAt).toLocaleString("vi-VN")}</div>
             </button>
           </li>`,
             )
@@ -918,112 +1013,12 @@
       });
     }
 
-    /* ----- Tự dịch tiếng Việt -> English / 中文 (dịch vụ miễn phí, không cần API key) ----- */
-    const TRANSLATE_TARGETS = { en: "en", zh: "zh-CN" };
-
-    // Chia văn bản dài thành nhiều phần theo đoạn văn
-    function chunkText(text, max) {
-      const parts = [];
-      let cur = "";
-      for (const para of text.split(/(\n\s*\n)/)) {
-        if ((cur + para).length > max && cur) {
-          parts.push(cur);
-          cur = "";
-        }
-        cur += para;
-      }
-      if (cur) parts.push(cur);
-      return parts;
-    }
-
-    async function translateText(text, target) {
-      if (!text) return "";
-      let out = "";
-      for (const part of chunkText(text, 1500)) {
-        try {
-          // Google Translate (bản miễn phí)
-          const res = await fetch("https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=vi&tl=" + target, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-            body: "q=" + encodeURIComponent(part),
-          });
-          if (!res.ok) throw new Error("google " + res.status);
-          const data = await res.json();
-          out += data[0].map((s) => s[0]).join("");
-        } catch (err) {
-          // Dự phòng: MyMemory (giới hạn ~450 ký tự mỗi lần)
-          for (const small of chunkText(part, 450)) {
-            const res = await fetch(`https://api.mymemory.translated.net/get?langpair=vi|${target}&q=${encodeURIComponent(small)}`);
-            const data = await res.json();
-            if (data.responseStatus !== 200) throw new Error("mymemory " + data.responseStatus);
-            out += data.responseData.translatedText;
-          }
-        }
-      }
-      return out;
-    }
-
-    // Dịch bản tiếng Việt sang các ngôn ngữ trong `langs`, ghi vào bài đang soạn
-    async function translatePost(langs) {
-      const vi = state.editing.i18n.vi;
-      if (!vi || !vi.title) throw new Error("no_vi");
-      for (const lang of langs) {
-        const target = TRANSLATE_TARGETS[lang];
-        state.editing.i18n[lang] = {
-          title: await translateText(vi.title, target),
-          excerpt: await translateText(vi.excerpt || "", target),
-          content: await translateText(vi.content || "", target),
-        };
-      }
-      fillLangFields(); // cập nhật cả ô đang mở nếu là tab English / 中文
-    }
-
-    $("#translateBtn").addEventListener("click", async () => {
-      captureLangFields();
-      if (!state.editing.i18n.vi?.title) return toast("Viết tiêu đề tiếng Việt trước rồi mới dịch");
-      const filled = Object.keys(TRANSLATE_TARGETS).filter((k) => state.editing.i18n[k]?.title);
-      if (filled.length && !confirm("Tab English / 中文 đã có nội dung. Dịch lại và ghi đè?")) return;
-      const btn = $("#translateBtn");
-      btn.disabled = true;
-      btn.textContent = "Đang dịch…";
-      try {
-        await translatePost(Object.keys(TRANSLATE_TARGETS));
-        toast("Đã dịch xong, mở tab English / 中文 để xem và sửa");
-      } catch (err) {
-        console.error(err);
-        toast("Chưa dịch được, thử lại sau hoặc tự viết bản dịch");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "🌐 Dịch tiếng Việt → English & 中文";
-      }
-    });
-
     async function submitPost(status) {
       captureLangFields();
       state.editing.pinned = $("#postPinned").checked;
 
-      // Đăng bài: tự dịch các ngôn ngữ còn trống từ bản tiếng Việt
-      if (status === "published" && state.editing.i18n.vi?.title) {
-        const missing = Object.keys(TRANSLATE_TARGETS).filter((k) => !state.editing.i18n[k]?.title);
-        if (missing.length) {
-          $("#postPublishBtn").textContent = "Đang dịch…";
-          try {
-            await translatePost(missing);
-          } catch (err) {
-            console.error(err);
-            if (!confirm("Chưa tự dịch được sang English / 中文. Vẫn đăng bài chỉ có tiếng Việt?")) {
-              $("#postPublishBtn").textContent = "🚀 Đăng lên web";
-              return;
-            }
-          }
-          $("#postPublishBtn").textContent = state.editing.status === "published" ? "🚀 Cập nhật bài trên web" : "🚀 Đăng lên web";
-        }
-      }
-      const hasTitle = Object.values(state.editing.i18n).some((f) => f && f.title);
-      if (!hasTitle) return toast("Bài cần có tiêu đề ở ít nhất 1 ngôn ngữ");
-      // Bỏ các ngôn ngữ để trống
-      const i18n = {};
-      Object.entries(state.editing.i18n).forEach(([k, f]) => f && f.title && (i18n[k] = f));
+      if (!state.editing.i18n.vi?.title) return toast("Bài cần có tiêu đề");
+      const i18n = { vi: state.editing.i18n.vi };
       const payload = { ...state.editing, i18n, status };
 
       const btns = [$("#postPublishBtn"), $("#postDraftBtn")];
@@ -1040,7 +1035,7 @@
         state.posts = exists ? state.posts.map((p) => (p.id === saved.id ? saved : p)) : [saved, ...state.posts];
         state.posts.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || new Date(b.publishedAt || b.createdAt) - new Date(a.publishedAt || a.createdAt));
         openPost(saved);
-        if (IS_DEMO) toast("DEMO: bài chỉ lưu tạm trong trình duyệt, KHÔNG lên web thật");
+        if (IS_DEMO) toast("Chế độ thử: bài chỉ lưu tạm trong trình duyệt, KHÔNG lên web thật");
         else toast(status === "published" ? "Đã đăng! Bài sẽ hiện trên trang chủ sau khoảng 30 giây" : "Đã lưu nháp (chưa hiện trên web)");
       } catch (err) {
         toast(err.message === "invalid_image" ? "Ảnh quá lớn hoặc link ảnh không hợp lệ" : "Lưu bài thất bại, thử lại nhé");
@@ -1073,7 +1068,6 @@
           image: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=900&q=75",
           i18n: {
             vi: { title: "5 bài tập đốt mỡ bụng tại nhà chỉ trong 20 phút", excerpt: "Không cần dụng cụ, không cần phòng gym: chuỗi bài HIIT ngắn giúp tăng nhịp tim và siết vòng eo.", content: "Bài mẫu (demo). Nội dung đầy đủ sẽ hiện khi khách bấm Đọc tiếp." },
-            en: { title: "5 at-home workouts to burn belly fat in 20 minutes", excerpt: "No equipment, no gym: a short HIIT circuit that gets your heart rate up.", content: "Sample post (demo)." },
           },
         },
         {
@@ -1086,10 +1080,11 @@
     /* ============================ DỮ LIỆU MẪU (DEMO) – KHÁCH ============================ */
     function demoLeads() {
       const ago = (h) => new Date(Date.now() - h * 3600e3).toISOString();
+      const lead = (o) => ({ status: "new", lang: "vi", goalIdx: 1, advice: "", activityFromCalc: true, ...o, goal: o.goalText });
       return [
-        { id: "11111111-1111-1111-1111-111111111111", createdAt: ago(0.3), status: "new", lang: "vi", name: "Emily Carter", contact: "emily.carter@gmail.com", sex: "female", age: 32, height: 162, weight: 68, target: 58, activity: 1.375, goalIdx: 0, goal: GOAL_LABEL[0], plan: "Gói Lột Xác 90 Ngày", note: "Hay ăn khuya, ngồi văn phòng cả ngày", advice: "" },
-        { id: "22222222-2222-2222-2222-222222222222", createdAt: ago(3), status: "new", lang: "en", name: "James Wilson", contact: "facebook.com/james.wilson", sex: "male", age: 28, height: 178, weight: 88, target: 78, activity: 1.2, goalIdx: 1, goal: GOAL_LABEL[1], plan: "", note: "Lower back pain sometimes", advice: "" },
-        { id: "33333333-3333-3333-3333-333333333333", createdAt: ago(26), status: "sent", sentAt: ago(20), lang: "zh", name: "Sophie Martin", contact: "@sophie_martin", sex: "female", age: 36, height: 158, weight: 63, target: 55, activity: 1.375, goalIdx: 3, goal: GOAL_LABEL[3], plan: "Gói VIP 1-1", note: "产后8个月，还在哺乳", advice: "(Đã gửi trước đó)" },
+        lead({ id: "11111111-1111-1111-1111-111111111111", createdAt: ago(0.3), name: "Nguyễn Thị Lan", contact: "0912345678", sex: "female", age: 32, height: 158, weight: 66, target: 61, activity: 1.375, goalText: "Muốn giảm 5kg trong 2 tháng", place: "home_gear", sessions: "4", eating: "Ăn cơm cùng gia đình", note: "Hơi đau gối khi leo cầu thang", plan: "Dùng Thử 3 Ngày" }),
+        lead({ id: "22222222-2222-2222-2222-222222222222", createdAt: ago(3), name: "Trần Minh Tuấn", contact: "0987654321", sex: "male", age: 28, height: 172, weight: 82, target: 75, activity: 1.375, activityFromCalc: false, goalText: "Giảm 7kg, gọn bụng trước Tết", place: "gym", sessions: "5-6", eating: "Thường xuyên ăn quán/cơm văn phòng", note: "", plan: "Gói Đồng Hành 30 Ngày" }),
+        lead({ id: "33333333-3333-3333-3333-333333333333", createdAt: ago(26), status: "sent", sentAt: ago(20), name: "Phạm Thu Hà", contact: "0901222333", sex: "female", age: 35, height: 155, weight: 60, target: 54, activity: 1.2, goalText: "Giảm 6kg sau sinh trong 3 tháng", place: "home", sessions: "3", eating: "Tự nấu riêng được", note: "Sinh bé được 8 tháng, đang cho con bú", plan: "Cần tư vấn thêm", advice: "(Đã gửi trước đó)" }),
       ];
     }
 

@@ -32,8 +32,8 @@ async function pipeline(commands) {
 
 /**
  * Một khách đăng ký:
- * { id, createdAt, status: "new" | "sent", lang, name, contact, sex, age, height, weight, target,
- *   activity, goalIdx, goal, plan, note, advice, adviceUpdatedAt, sentAt }
+ * { id, createdAt, status: "new" | "sent", lang, name, contact (số Zalo), place ("home"|"gym"|"unsure"), habits: [...],
+ *   sex, age, height, weight, target, activity, goalIdx, goal, plan, note, advice, adviceUpdatedAt, sentAt }
  */
 export async function addLead(lead) {
   await pipeline([
